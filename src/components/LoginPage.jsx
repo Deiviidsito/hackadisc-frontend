@@ -55,12 +55,12 @@ export default function LoginPage() {
   const isFormValid = formData.email && formData.password
 
   return (
-    <div className="min-h-screen bg-white flex">
+    <div className="min-h-screen bg-white dark:bg-[#0A0B0F] flex">
       {/* Botón de volver - posición absoluta con fondo adaptativo */}
       <div className="absolute top-6 left-6 z-20">
         <Link 
           to="/"
-          className="inline-flex items-center space-x-2 px-3 py-2 rounded-lg backdrop-blur-sm transition-colors text-sm lg:text-white/80 lg:hover:text-white lg:bg-black/10 lg:hover:bg-black/20 text-[#003057] hover:text-[#003057]/70 bg-white/80 hover:bg-white shadow-sm lg:shadow-none"
+          className="inline-flex items-center space-x-2 px-3 py-2 rounded-lg backdrop-blur-sm transition-colors text-sm lg:text-white/80 lg:hover:text-white lg:bg-black/10 lg:hover:bg-black/20 text-[#003057] dark:text-gray-300 hover:text-[#003057]/70 dark:hover:text-white bg-white/80 dark:bg-gray-800/80 hover:bg-white dark:hover:bg-gray-700/80 shadow-sm lg:shadow-none"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>Volver al inicio</span>
@@ -113,21 +113,21 @@ export default function LoginPage() {
               <img 
                 src="/Insecap_Logo-01.png" 
                 alt="INSECAP Logo" 
-                className="h-16 w-auto"
+                className="h-16 w-auto dark:brightness-0 dark:invert"
               />
               <div className="flex items-center space-x-2">
-                <Code2 className="w-6 h-6 text-[#003057]" />
-                <span className="text-2xl font-bold text-[#003057]">.env.idia</span>
+                <Code2 className="w-6 h-6 text-[#003057] dark:text-[#00B2E3]" />
+                <span className="text-2xl font-bold text-[#003057] dark:text-white">.env.idia</span>
               </div>
             </div>
           </div>
 
           {/* Header del formulario */}
           <div className="text-center space-y-2">
-            <h2 className="text-3xl font-bold text-[#003057]">
+            <h2 className="text-3xl font-bold text-[#003057] dark:text-white">
               Iniciar Sesión
             </h2>
-            <p className="text-[#003057]/70">
+            <p className="text-[#003057]/70 dark:text-gray-400">
               Ingresa tus credenciales para acceder al sistema
             </p>
           </div>
@@ -136,11 +136,11 @@ export default function LoginPage() {
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Email */}
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-[#003057] font-medium">
+              <Label htmlFor="email" className="text-[#003057] dark:text-gray-200 font-medium">
                 Correo Electrónico
               </Label>
               <div className="relative">
-                <Mail className="absolute left-3 top-3 h-5 w-5 text-[#003057]/50" />
+                <Mail className="absolute left-3 top-3 h-5 w-5 text-[#003057]/50 dark:text-gray-400" />
                 <Input
                   id="email"
                   name="email"
@@ -148,7 +148,7 @@ export default function LoginPage() {
                   placeholder="tu.email@insecap.cl"
                   value={formData.email}
                   onChange={handleChange}
-                  className="pl-12 h-12 border-gray-300 focus:border-[#00B2E3] focus:ring-[#00B2E3] rounded-lg"
+                  className="pl-12 h-12 border-gray-300 dark:border-gray-600 focus:border-[#00B2E3] focus:ring-[#00B2E3] rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400"
                   disabled={isLoading}
                   required
                 />
@@ -157,11 +157,11 @@ export default function LoginPage() {
 
             {/* Password */}
             <div className="space-y-2">
-              <Label htmlFor="password" className="text-[#003057] font-medium">
+              <Label htmlFor="password" className="text-[#003057] dark:text-gray-200 font-medium">
                 Contraseña
               </Label>
               <div className="relative">
-                <Lock className="absolute left-3 top-3 h-5 w-5 text-[#003057]/50" />
+                <Lock className="absolute left-3 top-3 h-5 w-5 text-[#003057]/50 dark:text-gray-400" />
                 <Input
                   id="password"
                   name="password"
@@ -169,7 +169,7 @@ export default function LoginPage() {
                   placeholder="••••••••"
                   value={formData.password}
                   onChange={handleChange}
-                  className="pl-12 h-12 border-gray-300 focus:border-[#00B2E3] focus:ring-[#00B2E3] rounded-lg"
+                  className="pl-12 h-12 border-gray-300 dark:border-gray-600 focus:border-[#00B2E3] focus:ring-[#00B2E3] rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400"
                   disabled={isLoading}
                   required
                 />
@@ -178,7 +178,7 @@ export default function LoginPage() {
 
             {/* Error message */}
             {error && (
-              <div className="flex items-center space-x-2 text-sm text-red-600 bg-red-50 p-4 rounded-lg border border-red-200">
+              <div className="flex items-center space-x-2 text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 p-4 rounded-lg border border-red-200 dark:border-red-800/50">
                 <AlertCircle className="h-4 w-4" />
                 <span>{error}</span>
               </div>
@@ -202,7 +202,7 @@ export default function LoginPage() {
           </form>
 
           {/* Footer */}
-          <div className="text-center text-sm text-[#003057]/50 pt-4">
+          <div className="text-center text-sm text-[#003057]/50 dark:text-gray-500 pt-4">
             <p>HACKADISC 2025 - Desarrollado por .env.idia</p>
           </div>
         </div>

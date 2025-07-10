@@ -18,37 +18,37 @@ export default function LandingPage() {
   const navigate = useNavigate()
 
   return (
-    <div className="min-h-screen bg-[#0A0B0F] relative overflow-hidden">
+    <div className="min-h-screen relative overflow-hidden">
       {/* Subtle Grid Background */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(0,178,227,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,178,227,0.03)_1px,transparent_1px)] bg-[size:40px_40px]"></div>
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(0,48,87,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,48,87,0.02)_1px,transparent_1px)] dark:bg-[linear-gradient(rgba(0,178,227,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,178,227,0.03)_1px,transparent_1px)] bg-[size:40px_40px]"></div>
       
       {/* Gradient Orbs */}
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#00B2E3]/10 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#003057]/20 rounded-full blur-3xl"></div>
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#00B2E3]/5 dark:bg-[#00B2E3]/10 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#003057]/10 dark:bg-[#003057]/20 rounded-full blur-3xl"></div>
 
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 px-6">
         <div className="max-w-7xl mx-auto text-center">
           
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 bg-[#003057]/20 border border-[#00B2E3]/20 rounded-full px-4 py-2 mb-8">
+          <div className="inline-flex items-center gap-2 bg-[#003057]/10 dark:bg-[#003057]/20 border border-[#00B2E3]/20 rounded-full px-4 py-2 mb-8">
             <div className="w-2 h-2 bg-[#00B2E3] rounded-full animate-pulse"></div>
             <span className="text-[#00B2E3] text-sm font-medium">Próximamente en INSECAP</span>
           </div>
 
           {/* Main Heading */}
           <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold mb-6 tracking-tight">
-            <span className="text-white">Eleva tu</span>
+            <span className="text-gray-900 dark:text-white">Eleva tu</span>
             <br />
-            <span className="text-white">Flujo de Trabajo con</span>
+            <span className="text-gray-900 dark:text-white">Flujo de Trabajo con</span>
             <br />
-            <span className="bg-gradient-to-r from-[#00B2E3] via-[#00B2E3] to-white bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[#00B2E3] via-[#00B2E3] to-[#003057] dark:to-white bg-clip-text text-transparent">
               Analíticas
             </span>
           </h1>
 
           {/* Subtitle */}
-          <p className="text-xl text-gray-400 max-w-3xl mx-auto mb-12 leading-relaxed">
+          <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto mb-12 leading-relaxed">
             La plataforma todo-en-uno que ayuda a los equipos a colaborar, automatizar y 
             entregar resultados excepcionales. Optimiza tus procesos y enfócate en lo que realmente importa.
           </p>
@@ -57,7 +57,7 @@ export default function LandingPage() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
             <Button 
               size="lg"
-              className="bg-white text-black hover:bg-gray-100 px-8 py-4 text-lg font-medium rounded-xl h-auto"
+              className="bg-[#003057] dark:bg-white text-white dark:text-black hover:bg-[#003057]/90 dark:hover:bg-gray-100 px-8 py-4 text-lg font-medium rounded-xl h-auto"
               onClick={() => navigate('/login')}
             >
               Comenzar Prueba Gratuita
@@ -66,14 +66,14 @@ export default function LandingPage() {
             <Button 
               variant="outline"
               size="lg"
-              className="border-[#003057] text-white hover:bg-[#003057]/20 px-8 py-4 text-lg font-medium rounded-xl h-auto"
+              className="border-[#003057] dark:border-white text-gray-900 dark:text-white hover:bg-[#003057]/10 dark:hover:bg-white/20 px-8 py-4 text-lg font-medium rounded-xl h-auto"
             >
               Agendar Demo
             </Button>
           </div>
 
           {/* Trust Indicators */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-8 text-sm text-gray-500">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-8 text-sm text-gray-500 dark:text-gray-500">
             <div className="flex items-center gap-2">
               <CheckCircle className="w-4 h-4 text-[#00B2E3]" />
               <span>Sin tarjeta de crédito</span>
@@ -95,22 +95,22 @@ export default function LandingPage() {
         <div className="max-w-6xl mx-auto">
           <div className="relative">
             {/* Browser Frame */}
-            <div className="bg-gradient-to-b from-white/10 to-white/5 rounded-2xl p-1 backdrop-blur-xl border border-white/10">
-              <div className="bg-gradient-to-b from-white/5 to-transparent rounded-xl overflow-hidden">
+            <div className="bg-gradient-to-b from-white/90 dark:from-white/10 to-white/70 dark:to-white/5 rounded-2xl p-1 backdrop-blur-xl border border-gray-200 dark:border-white/10">
+              <div className="bg-gradient-to-b from-white/80 dark:from-white/5 to-transparent rounded-xl overflow-hidden">
                 {/* Browser Header */}
-                <div className="flex items-center justify-between p-4 border-b border-white/10">
+                <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-white/10">
                   <div className="flex items-center gap-3">
                     <div className="flex gap-2">
                       <div className="w-3 h-3 bg-red-400 rounded-full"></div>
                       <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
                       <div className="w-3 h-3 bg-green-400 rounded-full"></div>
                     </div>
-                    <div className="flex items-center gap-2 text-white">
+                    <div className="flex items-center gap-2 text-gray-900 dark:text-white">
                       <BarChart3 className="w-4 h-4 text-[#00B2E3]" />
                       <span className="text-sm font-medium">Analytics</span>
                     </div>
                   </div>
-                  <div className="text-xs text-gray-400">app.insecap.cl</div>
+                  <div className="text-xs text-gray-500 dark:text-gray-400">app.insecap.cl</div>
                 </div>
 
                 {/* Dashboard Content */}
@@ -119,21 +119,21 @@ export default function LandingPage() {
                   <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                     {[
                       { label: "Total overview", value: "+ 24%", color: "text-[#00B2E3]" },
-                      { label: "Active Users", value: "8,420", color: "text-white" },
+                      { label: "Active Users", value: "8,420", color: "text-gray-900 dark:text-white" },
                       { label: "Revenue", value: "$142K", color: "text-green-400" },
                       { label: "Growth", value: "+18.2%", color: "text-[#00B2E3]" }
                     ].map((stat, i) => (
-                      <div key={i} className="bg-white/5 rounded-lg p-4 backdrop-blur-sm">
-                        <div className="text-xs text-gray-400 mb-1">{stat.label}</div>
+                      <div key={i} className="bg-gray-100/80 dark:bg-white/5 rounded-lg p-4 backdrop-blur-sm">
+                        <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">{stat.label}</div>
                         <div className={`text-lg font-bold ${stat.color}`}>{stat.value}</div>
                       </div>
                     ))}
                   </div>
 
                   {/* Chart Area */}
-                  <div className="bg-white/5 rounded-lg p-6 backdrop-blur-sm">
+                  <div className="bg-gray-100/80 dark:bg-white/5 rounded-lg p-6 backdrop-blur-sm">
                     <div className="flex items-center justify-between mb-4">
-                      <h3 className="text-white font-medium">Análisis de Rendimiento</h3>
+                      <h3 className="text-gray-900 dark:text-white font-medium">Análisis de Rendimiento</h3>
                       <div className="flex gap-2">
                         <Badge className="bg-[#00B2E3]/20 text-[#00B2E3] border-[#00B2E3]/30 text-xs">
                           Semanal
@@ -167,10 +167,10 @@ export default function LandingPage() {
       <section className="relative py-20 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
               Capacidades Avanzadas
             </h2>
-            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+            <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
               Herramientas poderosas diseñadas para equipos modernos
             </p>
           </div>
@@ -193,13 +193,13 @@ export default function LandingPage() {
                 description: "Workflows automáticos que reducen tareas repetitivas y errores humanos."
               }
             ].map((feature, i) => (
-              <Card key={i} className="bg-white/5 border-white/10 backdrop-blur-xl hover:bg-white/10 transition-all duration-300">
+              <Card key={i} className="bg-white/90 dark:bg-white/5 border-gray-200 dark:border-white/10 backdrop-blur-xl hover:bg-white dark:hover:bg-white/10 transition-all duration-300">
                 <CardContent className="p-8">
                   <div className="w-16 h-16 bg-[#00B2E3]/20 rounded-2xl flex items-center justify-center text-[#00B2E3] mb-6">
                     {feature.icon}
                   </div>
-                  <h3 className="text-xl font-bold text-white mb-3">{feature.title}</h3>
-                  <p className="text-gray-400 leading-relaxed">{feature.description}</p>
+                  <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">{feature.title}</h3>
+                  <p className="text-gray-600 dark:text-gray-400 leading-relaxed">{feature.description}</p>
                 </CardContent>
               </Card>
             ))}
@@ -208,7 +208,7 @@ export default function LandingPage() {
       </section>
 
       {/* Stats Section */}
-      <section className="relative py-20 px-6 border-t border-white/10">
+      <section className="relative py-20 px-6 border-t border-gray-200 dark:border-white/10">
         <div className="max-w-4xl mx-auto text-center">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {[
@@ -222,7 +222,7 @@ export default function LandingPage() {
                   <span className="text-3xl md:text-4xl font-bold text-[#00B2E3]">{stat.number}</span>
                   {stat.icon && <div className="text-[#00B2E3]">{stat.icon}</div>}
                 </div>
-                <div className="text-sm text-gray-400">{stat.label}</div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">{stat.label}</div>
               </div>
             ))}
           </div>

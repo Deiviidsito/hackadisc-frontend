@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import { useAuthStore } from '@/store/authStore'
+import '@/store/themeStore' // Import theme store to initialize theme
 import Layout from '@/components/Layout'
 import DashboardLayout from '@/components/DashboardLayout'
 import LandingPageModern from '@/components/LandingPageModern'
