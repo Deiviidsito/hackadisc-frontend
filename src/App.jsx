@@ -1,4 +1,3 @@
-
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import { useAuthStore } from '@/store/authStore'
 import Layout from '@/components/Layout'
@@ -8,6 +7,7 @@ import LoginPage from '@/components/LoginPage'
 import DashboardPage from '@/components/DashboardPage'
 import CompaniesPage from '@/components/CompaniesPage'
 import CompanyAnalyticsPage from '@/components/CompanyAnalyticsPage'
+import ReportesPage from '@/components/ReportesPage'
 import './App.css'
 
 // Componente para proteger rutas privadas
@@ -79,6 +79,18 @@ function App() {
             <PrivateRoute>
               <DashboardLayout>
                 <CompanyAnalyticsPage />
+              </DashboardLayout>
+            </PrivateRoute>
+          } 
+        />
+        
+        {/* Ruta privada - Reportes */}
+        <Route 
+          path="/dashboard/reports" 
+          element={
+            <PrivateRoute>
+              <DashboardLayout>
+                <ReportesPage />
               </DashboardLayout>
             </PrivateRoute>
           } 
