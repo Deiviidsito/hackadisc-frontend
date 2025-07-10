@@ -6,6 +6,8 @@ import DashboardLayout from '@/components/DashboardLayout'
 import LandingPage from '@/components/LandingPage'
 import LoginPage from '@/components/LoginPage'
 import DashboardPage from '@/components/DashboardPage'
+import CompaniesPage from '@/components/CompaniesPage'
+import CompanyAnalyticsPage from '@/components/CompanyAnalyticsPage'
 import './App.css'
 
 // Componente para proteger rutas privadas
@@ -53,6 +55,30 @@ function App() {
             <PrivateRoute>
               <DashboardLayout>
                 <DashboardPage />
+              </DashboardLayout>
+            </PrivateRoute>
+          } 
+        />
+        
+        {/* Ruta privada - Empresas */}
+        <Route 
+          path="/dashboard/companies" 
+          element={
+            <PrivateRoute>
+              <DashboardLayout>
+                <CompaniesPage />
+              </DashboardLayout>
+            </PrivateRoute>
+          } 
+        />
+        
+        {/* Ruta privada - Analíticas de Empresa */}
+        <Route 
+          path="/dashboard/company/:companyId/analytics" 
+          element={
+            <PrivateRoute>
+              <DashboardLayout>
+                <CompanyAnalyticsPage />
               </DashboardLayout>
             </PrivateRoute>
           } 

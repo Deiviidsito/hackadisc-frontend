@@ -13,7 +13,8 @@ import {
   FileText,
   Settings,
   ChevronLeft,
-  Menu
+  Menu,
+  Building2
 } from 'lucide-react'
 import { useState } from 'react'
 
@@ -45,6 +46,11 @@ export default function Sidebar() {
       icon: <BarChart3 className="w-5 h-5" />,
       label: "Dashboard",
       path: "/dashboard"
+    },
+    {
+      icon: <Building2 className="w-5 h-5" />,
+      label: "Empresas",
+      path: "/dashboard/companies"
     },
     {
       icon: <Users className="w-5 h-5" />,
