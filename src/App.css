@@ -1,0 +1,14 @@
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* Reset de estilos que puedan interferir */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
