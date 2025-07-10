@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { useAuthStore } from '@/store/authStore'
 import Layout from '@/components/Layout'
 import DashboardLayout from '@/components/DashboardLayout'
-import LandingPage from '@/components/LandingPage'
+import LandingPageModern from '@/components/LandingPageModern'
 import LoginPage from '@/components/LoginPage'
 import DashboardPage from '@/components/DashboardPage'
 import CompaniesPage from '@/components/CompaniesPage'
@@ -32,7 +32,7 @@ function App() {
           path="/" 
           element={
             <Layout>
-              <LandingPage />
+              <LandingPageModern />
             </Layout>
           } 
         />

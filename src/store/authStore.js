@@ -5,8 +5,8 @@ export const useAuthStore = create(
   persist(
     (set, get) => ({
       // Estado
-      user: null,
-      isAuthenticated: false,
+      user: { id: 1, name: 'Usuario Demo', role: 'admin' },  // Usuario demo para desarrollo
+      isAuthenticated: true,  // Pre-autenticado para desarrollo
       isLoading: false,
       
       // Acciones
