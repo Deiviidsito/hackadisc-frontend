@@ -46,12 +46,90 @@ Para arrancar el proyecto en tu entorno local, ejecuta los siguientes comandos:
 
 Una vez ejecutados estos comandos, puedes acceder al proyecto a través de la URL `http://localhost:5173/` (o el puerto que Vite asigne automáticamente).
 
+## 🧭 Navegación y Rutas
+
+El proyecto incluye un sistema de navegación completo con las siguientes rutas:
+
+- **`/`** - Landing Page (pública)
+- **`/login`** - Página de inicio de sesión (pública, redirige al dashboard si ya estás logueado)
+- **`/dashboard`** - Panel de control principal (privada, requiere autenticación)
+
+### Características de Navegación:
+- **Rutas Protegidas**: El dashboard requiere autenticación
+- **Redirección Automática**: Login redirige al dashboard después del acceso exitoso
+- **Navegación Contextual**: Barra de navegación adaptativa según el estado de autenticación
+- **Sesión Persistente**: El estado de login se mantiene entre sesiones
+
+## 📋 Conventional Commits
+
+Este proyecto sigue el estándar de [Conventional Commits](https://www.conventionalcommits.org/) para mensajes de commit claros y consistentes:
+
+```bash
+# Ejemplo de commits para las funcionalidades actuales:
+feat: add React Router navigation system with protected routes
+feat: implement Navigation component with responsive design
+feat: create Layout wrapper for consistent page structure  
+fix: remove duplicate headers from pages after adding global navigation
+docs: update README with navigation routes and hackathon configuration
+style: improve responsive design for mobile navigation
+```
+
+### Tipos de Commit:
+- `feat`: Nueva funcionalidad
+- `fix`: Corrección de errores
+- `docs`: Cambios en documentación
+- `style`: Cambios de formato (sin afectar el código)
+- `refactor`: Refactorización de código
+- `test`: Agregar o modificar tests
+- `chore`: Tareas de mantenimiento
+
 ## ⚙️ Comandos útiles
 
 1. 🚀 **Desarrollo**: `npm run dev` - Inicia el servidor de desarrollo con hot reload.
 2. 🏗️ **Build**: `npm run build` - Construye la aplicación para producción.
 3. 👀 **Preview**: `npm run preview` - Previsualiza el build de producción.
 4. 🧹 **Lint**: `npm run lint` - Ejecuta ESLint para verificar el código.
+
+## 🌐 Configuración de API
+
+Para conectar con el backend de Laravel:
+
+1. **Configurar variables de entorno**:
+   ```bash
+   # Copiar el archivo de ejemplo
+   cp .env.example .env
+   ```
+
+2. **Ajustar la URL de la API** en el archivo `.env`:
+   ```env
+   VITE_API_URL=http://localhost:8000/api
+   ```
+
+3. **Asegurarse de que el backend de Laravel esté corriendo**:
+   - El backend debe estar ejecutándose en `http://localhost:8000`
+   - Verificar que las rutas de API estén configuradas en Laravel
+   - Configurar CORS en Laravel para permitir peticiones desde `http://localhost:5173`
+
+### 🏆 Configuración Especial Hackathon
+
+Para simplificar el desarrollo durante el hackathon, la aplicación está configurada con:
+- **Sin middleware de autenticación**: Las rutas de API son públicas
+- **Sin tokens JWT**: Login simplificado sin complejidad de tokens
+- **Enfoque en Analytics**: Prioridad en reportes y visualización de datos
+- **Prototipado Rápido**: Configuración mínima para desarrollo ágil
+
+### Servicios de API Disponibles
+
+- **Auth Service**: Login simplificado, obtener usuario, logout, listado de usuarios
+- **User Service**: CRUD básico de usuarios (en desarrollo)
+- **API Client**: Cliente HTTP con Axios para peticiones al backend
+
+### Prueba de Conexión
+
+La landing page incluye un componente de prueba de API que te permite:
+- Verificar la conexión con el backend
+- Probar endpoints de autenticación
+- Ver información de configuración en tiempo real
 
 ## 👥 Integrantes del Equipo .env.idia
 
