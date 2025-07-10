@@ -2,6 +2,8 @@ import { useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
+import { Spotlight } from '@/components/ui/spotlight'
+import { useTranslation } from '@/hooks/useTranslation'
 import { 
   BarChart3, 
   TrendingUp, 
@@ -11,11 +13,62 @@ import {
   ArrowRight,
   CheckCircle,
   Star,
-  Zap
+  Zap,
+  LineChart,
+  Building2,
+  Target
 } from 'lucide-react'
 
 export default function LandingPage() {
+  const { t, isLoading } = useTranslation()
   const navigate = useNavigate()
+
+  // Mostrar loading mientras se cargan las traducciones
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-[#0A0B0F] flex items-center justify-center">
+        <div className="text-white text-lg">Cargando...</div>
+      </div>
+    )
+  }
+
+  const dashboardStats = [
+    { label: t('landing.preview.stats.totalOverview'), value: "+ 24%", color: "text-[#00B2E3]" },
+    { label: t('landing.preview.stats.activeUsers'), value: "8,420", color: "text-white" },
+    { label: t('landing.preview.stats.revenue'), value: "$142K", color: "text-green-400" },
+    { label: t('landing.preview.stats.growth'), value: "+18.2%", color: "text-[#00B2E3]" }
+  ]
+
+  const features = [
+    {
+      icon: <Brain className="w-8 h-8" />,
+      title: t('landing.features.items.ai.title'),
+      description: t('landing.features.items.ai.description')
+    },
+    {
+      icon: <Database className="w-8 h-8" />,
+      title: t('landing.features.items.bigData.title'),
+      description: t('landing.features.items.bigData.description')
+    },
+    {
+      icon: <Zap className="w-8 h-8" />,
+      title: t('landing.features.items.automation.title'),
+      description: t('landing.features.items.automation.description')
+    }
+  ]
+
+  const stats = [
+    { number: "99.9%", label: t('landing.stats.uptime') },
+    { number: "500+", label: t('landing.stats.companies') },
+    { number: "2M+", label: t('landing.stats.dataProcessed') },
+    { number: "4.9", label: t('landing.stats.rating'), icon: <Star className="w-4 h-4 fill-current" /> }
+  ]
+
+  const analyticsFeatures = [
+    'React 19', 'Vite', 'TypeScript', 'Tailwind CSS', 'Node.js', 'Python',
+    'Machine Learning', 'Big Data', 'Real-time Analytics', 'Cloud Computing',
+    'API Rest', 'PostgreSQL', 'Redis', 'Docker', 'Kubernetes'
+  ]
 
   return (
     <div className="min-h-screen bg-[#0A0B0F] relative overflow-hidden">
@@ -27,30 +80,43 @@ export default function LandingPage() {
       <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#003057]/20 rounded-full blur-3xl"></div>
 
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 px-6">
-        <div className="max-w-7xl mx-auto text-center">
+      <section className="relative pt-32 pb-20 px-6 overflow-hidden">
+        {/* Spotlight Effects */}
+        <Spotlight
+          className="-top-40 left-0 md:-top-20 md:left-60"
+          fill="white"
+        />
+        <Spotlight
+          className="-top-10 left-full md:-top-5 md:left-80"
+          fill="#00B2E3"
+        />
+        <Spotlight
+          className="top-28 left-20 md:top-40 md:left-40"
+          fill="#003057"
+        />
+        
+        <div className="max-w-7xl mx-auto text-center relative z-10">
           
           {/* Badge */}
           <div className="inline-flex items-center gap-2 bg-[#003057]/20 border border-[#00B2E3]/20 rounded-full px-4 py-2 mb-8">
             <div className="w-2 h-2 bg-[#00B2E3] rounded-full animate-pulse"></div>
-            <span className="text-[#00B2E3] text-sm font-medium">Próximamente en INSECAP</span>
+            <span className="text-[#00B2E3] text-sm font-medium">{t('landing.hero.badge')}</span>
           </div>
 
           {/* Main Heading */}
           <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold mb-6 tracking-tight">
-            <span className="text-white">Eleva tu</span>
+            <span className="text-white">{t('landing.hero.title.line1')}</span>
             <br />
-            <span className="text-white">Flujo de Trabajo con</span>
+            <span className="text-white">{t('landing.hero.title.line2')}</span>
             <br />
             <span className="bg-gradient-to-r from-[#00B2E3] via-[#00B2E3] to-white bg-clip-text text-transparent">
-              Analíticas
+              {t('landing.hero.title.line3')}
             </span>
           </h1>
 
           {/* Subtitle */}
           <p className="text-xl text-gray-400 max-w-3xl mx-auto mb-12 leading-relaxed">
-            La plataforma todo-en-uno que ayuda a los equipos a colaborar, automatizar y 
-            entregar resultados excepcionales. Optimiza tus procesos y enfócate en lo que realmente importa.
+            {t('landing.hero.subtitle')}
           </p>
 
           {/* CTA Buttons */}
@@ -60,7 +126,7 @@ export default function LandingPage() {
               className="bg-white text-black hover:bg-gray-100 px-8 py-4 text-lg font-medium rounded-xl h-auto"
               onClick={() => navigate('/login')}
             >
-              Comenzar Prueba Gratuita
+              {t('landing.hero.cta.primary')}
               <ArrowRight className="w-5 h-5 ml-2" />
             </Button>
             <Button 
@@ -68,7 +134,7 @@ export default function LandingPage() {
               size="lg"
               className="border-[#003057] text-white hover:bg-[#003057]/20 px-8 py-4 text-lg font-medium rounded-xl h-auto"
             >
-              Agendar Demo
+              {t('landing.hero.cta.secondary')}
             </Button>
           </div>
 
@@ -76,15 +142,15 @@ export default function LandingPage() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-8 text-sm text-gray-500">
             <div className="flex items-center gap-2">
               <CheckCircle className="w-4 h-4 text-[#00B2E3]" />
-              <span>Sin tarjeta de crédito</span>
+              <span>{t('landing.hero.trustIndicators.noCard')}</span>
             </div>
             <div className="flex items-center gap-2">
               <CheckCircle className="w-4 h-4 text-[#00B2E3]" />
-              <span>Prueba de 14 días</span>
+              <span>{t('landing.hero.trustIndicators.trial')}</span>
             </div>
             <div className="flex items-center gap-2">
               <CheckCircle className="w-4 h-4 text-[#00B2E3]" />
-              <span>Cancelar en cualquier momento</span>
+              <span>{t('landing.hero.trustIndicators.cancel')}</span>
             </div>
           </div>
         </div>
@@ -107,22 +173,17 @@ export default function LandingPage() {
                     </div>
                     <div className="flex items-center gap-2 text-white">
                       <BarChart3 className="w-4 h-4 text-[#00B2E3]" />
-                      <span className="text-sm font-medium">Analytics</span>
+                      <span className="text-sm font-medium">{t('landing.preview.title')}</span>
                     </div>
                   </div>
-                  <div className="text-xs text-gray-400">app.insecap.cl</div>
+                  <div className="text-xs text-gray-400">{t('landing.preview.url')}</div>
                 </div>
 
                 {/* Dashboard Content */}
                 <div className="p-6 space-y-6">
                   {/* Stats Cards */}
                   <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                    {[
-                      { label: "Total overview", value: "+ 24%", color: "text-[#00B2E3]" },
-                      { label: "Active Users", value: "8,420", color: "text-white" },
-                      { label: "Revenue", value: "$142K", color: "text-green-400" },
-                      { label: "Growth", value: "+18.2%", color: "text-[#00B2E3]" }
-                    ].map((stat, i) => (
+                    {dashboardStats.map((stat, i) => (
                       <div key={i} className="bg-white/5 rounded-lg p-4 backdrop-blur-sm">
                         <div className="text-xs text-gray-400 mb-1">{stat.label}</div>
                         <div className={`text-lg font-bold ${stat.color}`}>{stat.value}</div>
@@ -133,10 +194,10 @@ export default function LandingPage() {
                   {/* Chart Area */}
                   <div className="bg-white/5 rounded-lg p-6 backdrop-blur-sm">
                     <div className="flex items-center justify-between mb-4">
-                      <h3 className="text-white font-medium">Análisis de Rendimiento</h3>
+                      <h3 className="text-white font-medium">{t('landing.preview.chart.title')}</h3>
                       <div className="flex gap-2">
                         <Badge className="bg-[#00B2E3]/20 text-[#00B2E3] border-[#00B2E3]/30 text-xs">
-                          Semanal
+                          {t('landing.preview.chart.badge')}
                         </Badge>
                       </div>
                     </div>
@@ -168,31 +229,15 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-              Capacidades Avanzadas
+              {t('landing.features.title')}
             </h2>
             <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-              Herramientas poderosas diseñadas para equipos modernos
+              {t('landing.features.subtitle')}
             </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                icon: <Brain className="w-8 h-8" />,
-                title: "IA Integrada",
-                description: "Análisis predictivo y automatización inteligente para optimizar decisiones."
-              },
-              {
-                icon: <Database className="w-8 h-8" />,
-                title: "Big Data Analytics",
-                description: "Procesa y visualiza grandes volúmenes de datos en tiempo real."
-              },
-              {
-                icon: <Zap className="w-8 h-8" />,
-                title: "Automatización",
-                description: "Workflows automáticos que reducen tareas repetitivas y errores humanos."
-              }
-            ].map((feature, i) => (
+            {features.map((feature, i) => (
               <Card key={i} className="bg-white/5 border-white/10 backdrop-blur-xl hover:bg-white/10 transition-all duration-300">
                 <CardContent className="p-8">
                   <div className="w-16 h-16 bg-[#00B2E3]/20 rounded-2xl flex items-center justify-center text-[#00B2E3] mb-6">
@@ -211,12 +256,7 @@ export default function LandingPage() {
       <section className="relative py-20 px-6 border-t border-white/10">
         <div className="max-w-4xl mx-auto text-center">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {[
-              { number: "99.9%", label: "Tiempo de actividad" },
-              { number: "500+", label: "Empresas activas" },
-              { number: "2M+", label: "Datos procesados" },
-              { number: "4.9", label: "Calificación", icon: <Star className="w-4 h-4 fill-current" /> }
-            ].map((stat, i) => (
+            {stats.map((stat, i) => (
               <div key={i} className="space-y-2">
                 <div className="flex items-center justify-center gap-1">
                   <span className="text-3xl md:text-4xl font-bold text-[#00B2E3]">{stat.number}</span>
@@ -228,57 +268,17 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
-    </div>
-  )
-}
 
-      {/* Features Section */}
+      {/* Analytics Features */}
       <section id="analytics" className="relative z-10 py-20 bg-gradient-to-b from-[#003057] to-[#003057]/90">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center space-y-12">
             <div className="space-y-4">
               <h2 className="text-4xl lg:text-5xl font-bold text-white">
-                Capacidades Analíticas
+                {t('landing.analytics.title')}
               </h2>
               <p className="text-xl text-white/80 max-w-3xl mx-auto">
-                Herramientas avanzadas para convertir datos complejos en insights claros y accionables
-              </p>
-            </div>
-
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-              {features.map((feature, index) => (
-                <Card 
-                  key={index} 
-                  className="bg-white/10 backdrop-blur-lg border-white/20 hover:bg-white/15 transition-all duration-300 group"
-                >
-                  <CardContent className="p-8 text-center space-y-4">
-                    <div className="w-16 h-16 mx-auto bg-[#00B2E3]/20 rounded-2xl flex items-center justify-center text-[#00B2E3] group-hover:bg-[#00B2E3]/30 transition-colors">
-                      {feature.icon}
-                    </div>
-                    <h3 className="font-bold text-white text-lg">
-                      {feature.title}
-                    </h3>
-                    <p className="text-white/70 text-sm">
-                      {feature.description}
-                    </p>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Analytics Features */}
-      <section id="reports" className="relative z-10 py-20 bg-[#003057]/95">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="text-center space-y-12">
-            <div className="space-y-4">
-              <h2 className="text-4xl lg:text-5xl font-bold text-white">
-                Tecnologías Avanzadas
-              </h2>
-              <p className="text-xl text-white/80 max-w-3xl mx-auto">
-                Stack tecnológico de última generación para análisis de datos empresariales
+                {t('landing.analytics.subtitle')}
               </p>
             </div>
 
@@ -299,10 +299,10 @@ export default function LandingPage() {
                 <CardContent className="p-6 space-y-4">
                   <div className="flex items-center space-x-3">
                     <LineChart className="w-6 h-6 text-[#00B2E3]" />
-                    <h3 className="text-white font-semibold">Dashboards Interactivos</h3>
+                    <h3 className="text-white font-semibold">{t('landing.demoCards.interactive.title')}</h3>
                   </div>
                   <p className="text-white/70 text-sm">
-                    Visualizaciones dinámicas que se actualizan en tiempo real
+                    {t('landing.demoCards.interactive.description')}
                   </p>
                   <div className="bg-white/5 rounded p-3 h-24 flex items-end space-x-1">
                     {[30, 70, 45, 80, 60, 90].map((h, i) => (
@@ -316,14 +316,14 @@ export default function LandingPage() {
                 <CardContent className="p-6 space-y-4">
                   <div className="flex items-center space-x-3">
                     <Building2 className="w-6 h-6 text-[#00B2E3]" />
-                    <h3 className="text-white font-semibold">Análisis Empresarial</h3>
+                    <h3 className="text-white font-semibold">{t('landing.demoCards.business.title')}</h3>
                   </div>
                   <p className="text-white/70 text-sm">
-                    Métricas específicas por empresa y segmentación avanzada
+                    {t('landing.demoCards.business.description')}
                   </p>
                   <div className="space-y-2">
                     <div className="flex justify-between text-xs">
-                      <span className="text-white/60">Rendimiento</span>
+                      <span className="text-white/60">{t('landing.demoCards.business.performanceLabel')}</span>
                       <span className="text-[#00B2E3]">87%</span>
                     </div>
                     <div className="bg-white/10 rounded-full h-2">
@@ -337,10 +337,10 @@ export default function LandingPage() {
                 <CardContent className="p-6 space-y-4">
                   <div className="flex items-center space-x-3">
                     <Target className="w-6 h-6 text-[#00B2E3]" />
-                    <h3 className="text-white font-semibold">Predicciones IA</h3>
+                    <h3 className="text-white font-semibold">{t('landing.demoCards.ai.title')}</h3>
                   </div>
                   <p className="text-white/70 text-sm">
-                    Machine Learning para pronósticos y tendencias futuras
+                    {t('landing.demoCards.ai.description')}
                   </p>
                   <div className="flex items-center justify-center py-4">
                     <div className="relative w-16 h-16">
@@ -371,12 +371,12 @@ export default function LandingPage() {
               <div className="w-px h-6 bg-white/20"></div>
               <div className="flex items-center space-x-2">
                 <BarChart3 className="w-5 h-5 text-[#00B2E3]" />
-                <span className="font-bold text-lg text-white">Analytics Platform</span>
+                <span className="font-bold text-lg text-white">{t('landing.footer.platform')}</span>
               </div>
             </div>
             
             <div className="text-white/60 text-sm">
-              © 2025 INSECAP Analytics Platform • Desarrollado por Equipo .env.idia
+              {t('landing.footer.copyright')}
             </div>
           </div>
         </div>

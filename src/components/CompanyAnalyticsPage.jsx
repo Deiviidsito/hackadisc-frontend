@@ -2,6 +2,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import { useChartTheme, getChartProps } from '@/utils/chartTheme'
 import { 
   ArrowLeft, 
   Building2, 
@@ -28,6 +29,8 @@ import {
 export default function CompanyAnalyticsPage() {
   const { companyId } = useParams()
   const navigate = useNavigate()
+  const { isDark } = useChartTheme()
+  const chartProps = getChartProps(isDark)
 
   // Mock data - en un caso real vendría de la API
   const company = {
@@ -202,7 +205,7 @@ export default function CompanyAnalyticsPage() {
   }
 
   return (
-    <div className="min-h-screen p-6 lg:p-8">
+    <div className="min-h-screen p-6 lg:p-8 bg-gray-50 dark:bg-gray-900 transition-colors">
       <div className="max-w-7xl mx-auto space-y-8">
         
         {/* Header */}
@@ -212,7 +215,7 @@ export default function CompanyAnalyticsPage() {
               variant="outline"
               size="sm"
               onClick={() => navigate('/dashboard/companies')}
-              className="border-[#003057] text-[#003057] hover:bg-[#003057] hover:text-white"
+              className="border-[#003057] dark:border-gray-600 text-[#003057] dark:text-gray-300 hover:bg-[#003057] dark:hover:bg-gray-700 hover:text-white dark:hover:text-white"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
               Volver a Empresas
@@ -220,20 +223,20 @@ export default function CompanyAnalyticsPage() {
           </div>
 
           <div className="flex items-center space-x-6">
-            <div className="w-20 h-20 bg-gradient-to-br from-[#00B2E3]/20 to-[#003057]/10 rounded-2xl flex items-center justify-center shadow-lg">
-              <Building2 className="w-10 h-10 text-[#003057]" />
+            <div className="w-20 h-20 bg-gradient-to-br from-[#00B2E3]/20 to-[#003057]/10 dark:from-[#00B2E3]/30 dark:to-[#003057]/20 rounded-2xl flex items-center justify-center shadow-lg dark:shadow-gray-900/50">
+              <Building2 className="w-10 h-10 text-[#003057] dark:text-[#00B2E3]" />
             </div>
             
             <div className="flex-1">
               <div className="flex items-center space-x-3 mb-2">
-                <h1 className="text-3xl font-bold text-[#003057]">
+                <h1 className="text-3xl font-bold text-[#003057] dark:text-white">
                   {company.name}
                 </h1>
-                <Badge className="bg-green-100 text-green-800 border-green-300">
+                <Badge className="bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 border-green-300 dark:border-green-700">
                   Activo
                 </Badge>
               </div>
-              <p className="text-lg text-[#003057]/70">
+              <p className="text-lg text-[#003057]/70 dark:text-gray-300">
                 {company.industry} • {company.employees} empleados
               </p>
             </div>
@@ -245,28 +248,28 @@ export default function CompanyAnalyticsPage() {
           {metrics.map((metric, index) => (
             <Card 
               key={index}
-              className="border-[#00B2E3]/20 hover:border-[#00B2E3]/40 transition-all duration-300 hover:shadow-lg hover:shadow-[#00B2E3]/10"
+              className="border-[#00B2E3]/20 dark:border-gray-700 hover:border-[#00B2E3]/40 dark:hover:border-[#00B2E3]/60 transition-all duration-300 hover:shadow-lg hover:shadow-[#00B2E3]/10 dark:hover:shadow-[#00B2E3]/20 bg-white dark:bg-gray-800 shadow-md dark:shadow-gray-900/50"
             >
               <CardContent className="p-6">
                 <div className="flex items-center justify-between mb-4">
-                  <div className={`w-12 h-12 ${metric.bgColor} rounded-lg flex items-center justify-center`}>
+                  <div className={`w-12 h-12 ${metric.bgColor} dark:bg-opacity-20 rounded-lg flex items-center justify-center`}>
                     <div className={metric.color}>
                       {metric.icon}
                     </div>
                   </div>
                   <span className={`text-sm font-medium ${
                     metric.change.startsWith('+') || metric.change.startsWith('-') && metric.change.includes('.') 
-                      ? metric.change.startsWith('+') ? 'text-green-600' : 'text-red-600'
-                      : 'text-blue-600'
+                      ? metric.change.startsWith('+') ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
+                      : 'text-blue-600 dark:text-blue-400'
                   }`}>
                     {metric.change}
                   </span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-2xl font-bold text-[#003057]">
+                  <h3 className="text-2xl font-bold text-[#003057] dark:text-white">
                     {metric.value}
                   </h3>
-                  <p className="text-sm text-[#003057]/70">
+                  <p className="text-sm text-[#003057]/70 dark:text-gray-300">
                     {metric.title}
                   </p>
                 </div>
@@ -280,28 +283,28 @@ export default function CompanyAnalyticsPage() {
           {secondaryMetrics.map((metric, index) => (
             <Card 
               key={index}
-              className="border-[#00B2E3]/10 hover:border-[#00B2E3]/30 transition-all duration-300 hover:shadow-md"
+              className="border-[#00B2E3]/10 dark:border-gray-700 hover:border-[#00B2E3]/30 dark:hover:border-[#00B2E3]/50 transition-all duration-300 hover:shadow-md dark:hover:shadow-gray-900/50 bg-white dark:bg-gray-800 shadow-sm dark:shadow-gray-900/30"
             >
               <CardContent className="p-6">
                 <div className="flex items-center justify-between mb-4">
-                  <div className={`w-10 h-10 ${metric.bgColor} rounded-lg flex items-center justify-center`}>
+                  <div className={`w-10 h-10 ${metric.bgColor} dark:bg-opacity-20 rounded-lg flex items-center justify-center`}>
                     <div className={metric.color}>
                       {metric.icon}
                     </div>
                   </div>
                   <span className={`text-xs font-medium ${
-                    metric.change.startsWith('+') ? 'text-green-600' : 
-                    metric.change.startsWith('-') ? 'text-red-600' : 
-                    'text-blue-600'
+                    metric.change.startsWith('+') ? 'text-green-600 dark:text-green-400' : 
+                    metric.change.startsWith('-') ? 'text-red-600 dark:text-red-400' : 
+                    'text-blue-600 dark:text-blue-400'
                   }`}>
                     {metric.change}
                   </span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-xl font-bold text-[#003057]">
+                  <h3 className="text-xl font-bold text-[#003057] dark:text-white">
                     {metric.value}
                   </h3>
-                  <p className="text-xs text-[#003057]/70">
+                  <p className="text-xs text-[#003057]/70 dark:text-gray-300">
                     {metric.title}
                   </p>
                 </div>
@@ -314,9 +317,9 @@ export default function CompanyAnalyticsPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           
           {/* Línea de Tiempo por Comercialización */}
-          <Card className="border-[#00B2E3]/20">
-            <CardHeader className="border-b border-[#00B2E3]/10">
-              <CardTitle className="text-[#003057] flex items-center gap-2">
+          <Card className="border-[#00B2E3]/20 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-lg dark:shadow-gray-900/50">
+            <CardHeader className="border-b border-[#00B2E3]/10 dark:border-gray-700">
+              <CardTitle className="text-[#003057] dark:text-white flex items-center gap-2">
                 <Clock className="w-5 h-5 text-[#00B2E3]" />
                 Línea de Tiempo por Comercialización
               </CardTitle>
@@ -336,13 +339,13 @@ export default function CompanyAnalyticsPage() {
                     }))}
                     margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
                   >
-                    <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                    <CartesianGrid {...chartProps.cartesianGrid} />
                     <XAxis 
                       dataKey="name" 
-                      tick={{ fill: '#003057', fontSize: 12 }}
+                      {...chartProps.xAxis}
                     />
                     <YAxis 
-                      tick={{ fill: '#003057', fontSize: 12 }} 
+                      {...chartProps.yAxis}
                       domain={['auto', 'auto']}
                       tickFormatter={(value) => {
                         const date = new Date(value);
@@ -350,6 +353,7 @@ export default function CompanyAnalyticsPage() {
                       }}
                     />
                     <Tooltip 
+                      {...chartProps.tooltip}
                       formatter={(value) => {
                         const date = new Date(value);
                         return date.toLocaleDateString('es-ES', {year: 'numeric', month: 'short', day: 'numeric'});
@@ -374,9 +378,9 @@ export default function CompanyAnalyticsPage() {
           </Card>
 
           {/* Recent Activity */}
-          <Card className="border-[#00B2E3]/20">
-            <CardHeader className="border-b border-[#00B2E3]/10">
-              <CardTitle className="text-[#003057] flex items-center gap-2">
+          <Card className="border-[#00B2E3]/20 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-lg dark:shadow-gray-900/50">
+            <CardHeader className="border-b border-[#00B2E3]/10 dark:border-gray-700">
+              <CardTitle className="text-[#003057] dark:text-white flex items-center gap-2">
                 <Activity className="w-5 h-5 text-[#00B2E3]" />
                 Actividad Reciente
               </CardTitle>
@@ -386,16 +390,16 @@ export default function CompanyAnalyticsPage() {
                 {recentActivities.map((activity) => (
                   <div
                     key={activity.id}
-                    className="flex items-start space-x-3 p-3 bg-gradient-to-r from-[#00B2E3]/5 to-transparent rounded-lg hover:shadow-sm transition-all"
+                    className="flex items-start space-x-3 p-3 bg-gradient-to-r from-[#00B2E3]/5 to-transparent dark:from-[#00B2E3]/10 dark:to-transparent rounded-lg hover:shadow-sm transition-all"
                   >
-                    <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-sm">
+                    <div className="w-8 h-8 bg-white dark:bg-gray-700 rounded-full flex items-center justify-center shadow-sm dark:shadow-gray-900/30">
                       {getActivityIcon(activity.type)}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-[#003057]">
+                      <p className="text-sm font-medium text-[#003057] dark:text-white">
                         {activity.action}
                       </p>
-                      <p className="text-xs text-[#003057]/60">
+                      <p className="text-xs text-[#003057]/60 dark:text-gray-400">
                         {activity.user}
                       </p>
                       <p className="text-xs text-[#003057]/50 mt-1">
@@ -412,9 +416,9 @@ export default function CompanyAnalyticsPage() {
         {/* Visualizaciones adicionales */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Gráfico de Dispersión: Días de Conversión vs Monto */}
-          <Card className="border-[#00B2E3]/20">
-            <CardHeader className="border-b border-[#00B2E3]/10">
-              <CardTitle className="text-[#003057] flex items-center gap-2">
+          <Card className="border-[#00B2E3]/20 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-lg dark:shadow-gray-900/50">
+            <CardHeader className="border-b border-[#00B2E3]/10 dark:border-gray-700">
+              <CardTitle className="text-[#003057] dark:text-white flex items-center gap-2">
                 <TrendingUp className="w-5 h-5 text-[#0037FF]" />
                 Días de Conversión vs Monto
               </CardTitle>
@@ -425,7 +429,7 @@ export default function CompanyAnalyticsPage() {
                   <ScatterChart
                     margin={{ top: 5, right: 20, bottom: 20, left: 30 }}
                   >
-                    <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                    <CartesianGrid {...chartProps.cartesianGrid} />
                     <XAxis 
                       type="number" 
                       dataKey="diasConversion" 
@@ -436,9 +440,9 @@ export default function CompanyAnalyticsPage() {
                         value: 'Días de Proceso', 
                         position: 'bottom', 
                         offset: 0,
-                        style: { fill: '#003057', fontSize: 12 }
+                        style: { fill: isDark ? '#D1D5DB' : '#003057', fontSize: 12 }
                       }}
-                      tick={{ fill: '#003057' }}
+                      {...chartProps.xAxis}
                     />
                     <YAxis 
                       type="number" 
@@ -450,9 +454,9 @@ export default function CompanyAnalyticsPage() {
                         value: 'Monto ($)', 
                         angle: -90, 
                         position: 'left',
-                        style: { fill: '#003057', fontSize: 12 }
+                        style: { fill: isDark ? '#D1D5DB' : '#003057', fontSize: 12 }
                       }}
-                      tick={{ fill: '#003057' }}
+                      {...chartProps.yAxis}
                     />
                     <Tooltip 
                       cursor={{ strokeDasharray: '3 3' }}
@@ -462,10 +466,10 @@ export default function CompanyAnalyticsPage() {
                         return value;
                       }}
                       labelFormatter={(value) => `ID: ${value}`}
-                      contentStyle={{ 
-                        backgroundColor: 'white', 
-                        borderRadius: '8px', 
-                        border: '1px solid #00B2E3' 
+                      {...chartProps.tooltip}
+                      contentStyle={{
+                        borderRadius: '8px',
+                        border: '1px solid #00B2E3'
                       }}
                     />
                     <Scatter 
@@ -478,16 +482,16 @@ export default function CompanyAnalyticsPage() {
                   </ScatterChart>
                 </ResponsiveContainer>
               </div>
-              <p className="text-xs text-[#003057]/70 mt-2 text-center">
+              <p className="text-xs text-[#003057]/70 dark:text-gray-300 mt-2 text-center">
                 Cada punto representa una comercialización. Correlación entre tiempo de proceso y monto.
               </p>
             </CardContent>
           </Card>
 
           {/* Heatmap mensual (visualizado como barras) */}
-          <Card className="border-[#00B2E3]/20">
-            <CardHeader className="border-b border-[#00B2E3]/10">
-              <CardTitle className="text-[#003057] flex items-center gap-2">
+          <Card className="border-[#00B2E3]/20 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-lg dark:shadow-gray-900/50">
+            <CardHeader className="border-b border-[#00B2E3]/10 dark:border-gray-700">
+              <CardTitle className="text-[#003057] dark:text-white flex items-center gap-2">
                 <BarChart3 className="w-5 h-5 text-[#00B2E3]" />
                 Tendencias Mensuales
               </CardTitle>
@@ -499,31 +503,31 @@ export default function CompanyAnalyticsPage() {
                     data={monthlyData}
                     margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
                   >
-                    <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" vertical={false} />
+                    <CartesianGrid {...chartProps.cartesianGrid} vertical={false} />
                     <XAxis 
                       dataKey="month" 
-                      tick={{ fill: '#003057', fontSize: 12 }}
+                      {...chartProps.xAxis}
                     />
                     <YAxis 
                       yAxisId="left"
                       orientation="left"
-                      tick={{ fill: '#003057', fontSize: 12 }}
+                      {...chartProps.yAxis}
                       label={{ 
                         value: 'Ventas', 
                         angle: -90, 
                         position: 'left',
-                        style: { fill: '#003057', fontSize: 12, textAnchor: 'middle' }
+                        style: { fill: isDark ? '#D1D5DB' : '#003057', fontSize: 12, textAnchor: 'middle' }
                       }}
                     />
                     <YAxis 
                       yAxisId="right"
                       orientation="right"
-                      tick={{ fill: '#0037FF', fontSize: 12 }}
+                      tick={{ fill: isDark ? '#60A5FA' : '#0037FF', fontSize: 12 }}
                       label={{ 
                         value: 'Días a Pago', 
                         angle: 90, 
                         position: 'right',
-                        style: { fill: '#0037FF', fontSize: 12, textAnchor: 'middle' }
+                        style: { fill: isDark ? '#60A5FA' : '#0037FF', fontSize: 12, textAnchor: 'middle' }
                       }}
                     />
                     <Tooltip 
@@ -532,11 +536,7 @@ export default function CompanyAnalyticsPage() {
                         if (name === 'Días a Pago') return [`${value} días`, name];
                         return [value, name];
                       }}
-                      contentStyle={{ 
-                        backgroundColor: 'white', 
-                        borderRadius: '8px', 
-                        border: '1px solid #00B2E3' 
-                      }}
+                      {...chartProps.tooltip}
                     />
                     <Legend />
                     <Bar 
@@ -559,7 +559,7 @@ export default function CompanyAnalyticsPage() {
                   </BarChart>
                 </ResponsiveContainer>
               </div>
-              <p className="text-xs text-[#003057]/70 mt-2 text-center">
+              <p className="text-xs text-[#003057]/70 dark:text-gray-300 mt-2 text-center">
                 Relación entre ventas mensuales (barras) y tiempo promedio de pago (línea)
               </p>
             </CardContent>
@@ -567,9 +567,9 @@ export default function CompanyAnalyticsPage() {
         </div>
 
         {/* Evolución del Cliente */}
-        <Card className="border-[#00B2E3]/20">
-          <CardHeader className="border-b border-[#00B2E3]/10">
-            <CardTitle className="text-[#003057] flex items-center gap-2">
+        <Card className="border-[#00B2E3]/20 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-lg dark:shadow-gray-900/50">
+          <CardHeader className="border-b border-[#00B2E3]/10 dark:border-gray-700">
+            <CardTitle className="text-[#003057] dark:text-white flex items-center gap-2">
               <Calendar className="w-5 h-5 text-[#003057]" />
               Evolución del Cliente
             </CardTitle>
@@ -652,16 +652,16 @@ export default function CompanyAnalyticsPage() {
             </div>
             <div className="flex justify-between items-center mt-4">
               <div className="text-center">
-                <h4 className="text-sm font-medium text-[#003057]">Comercializaciones YTD</h4>
-                <p className="text-xl font-bold text-[#003057]">106</p>
+                <h4 className="text-sm font-medium text-[#003057] dark:text-white">Comercializaciones YTD</h4>
+                <p className="text-xl font-bold text-[#003057] dark:text-white">106</p>
               </div>
               <div className="text-center">
                 <h4 className="text-sm font-medium text-[#00B2E3]">Facturación Anual</h4>
                 <p className="text-xl font-bold text-[#00B2E3]">$428,000</p>
               </div>
               <div className="text-center">
-                <h4 className="text-sm font-medium text-[#0037FF]">Pagos Recibidos</h4>
-                <p className="text-xl font-bold text-[#0037FF]">$401,000</p>
+                <h4 className="text-sm font-medium text-[#0037FF] dark:text-blue-400">Pagos Recibidos</h4>
+                <p className="text-xl font-bold text-[#0037FF] dark:text-blue-400">$401,000</p>
               </div>
             </div>
           </CardContent>

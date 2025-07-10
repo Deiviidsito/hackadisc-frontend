@@ -6,9 +6,11 @@ import { Label } from '@/components/ui/label'
 import { Badge } from '@/components/ui/badge'
 import { authService } from '@/services/api'
 import { useAuthStore } from '@/store/authStore'
+import { useTranslation } from '@/hooks/useTranslation'
 import { Loader2, Mail, Lock, AlertCircle, Code2, ArrowLeft } from 'lucide-react'
 
 export default function LoginPage() {
+  const { t } = useTranslation()
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -44,7 +46,7 @@ export default function LoginPage() {
     } catch (err) {
       setError(
         err.response?.data?.message || 
-        'Error de autenticación. Verifica tus credenciales.'
+        t('auth.errors.generic')
       )
       console.error('Login error:', err)
     } finally {
@@ -63,7 +65,7 @@ export default function LoginPage() {
           className="inline-flex items-center space-x-2 px-3 py-2 rounded-lg backdrop-blur-sm transition-colors text-sm lg:text-white/80 lg:hover:text-white lg:bg-black/10 lg:hover:bg-black/20 text-[#003057] dark:text-gray-300 hover:text-[#003057]/70 dark:hover:text-white bg-white/80 dark:bg-gray-800/80 hover:bg-white dark:hover:bg-gray-700/80 shadow-sm lg:shadow-none"
         >
           <ArrowLeft className="w-4 h-4" />
-          <span>Volver al inicio</span>
+          <span>{t('auth.buttons.backHome')}</span>
         </Link>
       </div>
 
@@ -93,10 +95,10 @@ export default function LoginPage() {
             
             <div className="space-y-4">
               <h1 className="text-4xl font-bold">
-                Bienvenido de vuelta
+                {t('auth.welcomeBack')}
               </h1>
               <p className="text-lg text-white/80">
-                Accede a la plataforma HACKADISC y explora las herramientas de analíticas más avanzadas
+                {t('auth.welcomeSubtitle')}
               </p>
             </div>
           </div>
@@ -125,10 +127,10 @@ export default function LoginPage() {
           {/* Header del formulario */}
           <div className="text-center space-y-2">
             <h2 className="text-3xl font-bold text-[#003057] dark:text-white">
-              Iniciar Sesión
+              {t('auth.title')}
             </h2>
             <p className="text-[#003057]/70 dark:text-gray-400">
-              Ingresa tus credenciales para acceder al sistema
+              {t('auth.subtitle')}
             </p>
           </div>
 
@@ -137,7 +139,7 @@ export default function LoginPage() {
             {/* Email */}
             <div className="space-y-2">
               <Label htmlFor="email" className="text-[#003057] dark:text-gray-200 font-medium">
-                Correo Electrónico
+                {t('auth.fields.email')}
               </Label>
               <div className="relative">
                 <Mail className="absolute left-3 top-3 h-5 w-5 text-[#003057]/50 dark:text-gray-400" />
@@ -145,7 +147,7 @@ export default function LoginPage() {
                   id="email"
                   name="email"
                   type="email"
-                  placeholder="tu.email@insecap.cl"
+                  placeholder={t('auth.fields.emailPlaceholder')}
                   value={formData.email}
                   onChange={handleChange}
                   className="pl-12 h-12 border-gray-300 dark:border-gray-600 focus:border-[#00B2E3] focus:ring-[#00B2E3] rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400"
@@ -158,7 +160,7 @@ export default function LoginPage() {
             {/* Password */}
             <div className="space-y-2">
               <Label htmlFor="password" className="text-[#003057] dark:text-gray-200 font-medium">
-                Contraseña
+                {t('auth.fields.password')}
               </Label>
               <div className="relative">
                 <Lock className="absolute left-3 top-3 h-5 w-5 text-[#003057]/50 dark:text-gray-400" />
@@ -166,7 +168,7 @@ export default function LoginPage() {
                   id="password"
                   name="password"
                   type="password"
-                  placeholder="••••••••"
+                  placeholder={t('auth.fields.passwordPlaceholder')}
                   value={formData.password}
                   onChange={handleChange}
                   className="pl-12 h-12 border-gray-300 dark:border-gray-600 focus:border-[#00B2E3] focus:ring-[#00B2E3] rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400"
@@ -193,17 +195,17 @@ export default function LoginPage() {
               {isLoading ? (
                 <>
                   <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                  Iniciando sesión...
+                  {t('auth.buttons.submitting')}
                 </>
               ) : (
-                'ACCEDER'
+                t('auth.buttons.submit')
               )}
             </Button>
           </form>
 
           {/* Footer */}
           <div className="text-center text-sm text-[#003057]/50 dark:text-gray-500 pt-4">
-            <p>HACKADISC 2025 - Desarrollado por .env.idia</p>
+            <p>{t('auth.footer')}</p>
           </div>
         </div>
       </div>

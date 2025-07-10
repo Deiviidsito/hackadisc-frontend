@@ -2,6 +2,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { useAuthStore } from '@/store/authStore'
+import { useTranslation } from '@/hooks/useTranslation'
 import { authService } from '@/services/api'
 import { 
   Code2, 
@@ -20,6 +21,7 @@ import {
 import { useState } from 'react'
 
 export default function Sidebar() {
+  const { t } = useTranslation()
   const location = useLocation()
   const { user, logout } = useAuthStore()
   const [isCollapsed, setIsCollapsed] = useState(false)
@@ -39,18 +41,18 @@ export default function Sidebar() {
   const navigationItems = [
     {
       icon: <Home className="w-5 h-5" />,
-      label: "Inicio",
+      label: t('common.navigation.home'),
       path: "/",
       external: true
     },
     {
       icon: <BarChart3 className="w-5 h-5" />,
-      label: "Dashboard",
+      label: t('common.navigation.dashboard'),
       path: "/dashboard"
     },
     {
       icon: <Building2 className="w-5 h-5" />,
-      label: "Empresas",
+      label: t('common.navigation.companies'),
       path: "/dashboard/companies"
     },
     {
@@ -60,7 +62,7 @@ export default function Sidebar() {
     },
     {
       icon: <FileText className="w-5 h-5" />,
-      label: "Reportes",
+      label: t('common.navigation.reports'),
       path: "/dashboard/reports"
     },
     {
@@ -70,7 +72,7 @@ export default function Sidebar() {
     },
     {
       icon: <Bot className="w-5 h-5" />,
-      label: "Capi IA",
+      label: t('common.navigation.capi'),
       path: "/dashboard/capi",
       highlight: true
     }
@@ -155,7 +157,7 @@ export default function Sidebar() {
             )}
             {item.highlight && !isCollapsed && (
               <span className="ml-2 text-xs bg-white text-[#003057] px-1.5 py-0.5 rounded-full">
-                Nuevo
+                {t('common.status.new')}
               </span>
             )}
           </Link>
@@ -172,7 +174,7 @@ export default function Sidebar() {
           }`}
         >
           <LogOut className="w-4 h-4" />
-          {!isCollapsed && <span className="ml-3">Cerrar Sesión</span>}
+          {!isCollapsed && <span className="ml-3">{t('common.navigation.logout')}</span>}
         </Button>
         
         {!isCollapsed && (

@@ -4,6 +4,7 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { capiService } from '@/services/api'
+import CapiAvatar from './CapiAvatar'
 import { 
   Send, 
   Mic, 
@@ -11,7 +12,9 @@ import {
   Volume2, 
   Bot, 
   CornerDownLeft,
-  Loader2
+  Loader2,
+  Sparkles,
+  Heart
 } from 'lucide-react'
 
 export default function CapiPage() {
@@ -215,43 +218,55 @@ export default function CapiPage() {
   }
 
   return (
-    <div className="min-h-screen p-6 lg:p-8">
+    <div className="min-h-screen p-6 lg:p-8 bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
       <div className="max-w-5xl mx-auto space-y-8">
         
         {/* Header */}
-        <div className="space-y-4 text-center">
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-[#003057] to-[#00B2E3] bg-clip-text text-transparent">
-            Conversa con Capi
-          </h1>
-          <p className="text-lg text-[#003057]/70 max-w-2xl mx-auto">
-            Tu asistente virtual de INSECAP. Pregúntame por texto o por voz sobre la plataforma.
-          </p>
+        <div className="space-y-6 text-center">
+          {/* Avatar de Capi prominente */}
+          <div className="flex justify-center">
+            <CapiAvatar size="hero" variant="hero" className="mx-auto" />
+          </div>
+          
+          <div className="space-y-3">
+            <h1 className="text-5xl font-bold bg-gradient-to-r from-[#003057] via-[#00B2E3] to-[#003057] bg-clip-text text-transparent dark:text-white">
+              ¡Hola! Soy Capi
+              <Sparkles className="inline-block w-8 h-8 ml-2 text-[#00B2E3] dark:text-[#00B2E3] animate-pulse" />
+            </h1>
+            <p className="text-xl text-[#003057]/80 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
+              Tu asistente virtual de <strong>INSECAP</strong>. Pregúntame por texto o por voz sobre la plataforma, 
+              procedimientos, o cualquier duda que tengas. ¡Estoy aquí para ayudarte!
+              <Heart className="inline-block w-5 h-5 ml-1 text-red-500 animate-pulse" />
+            </p>
+          </div>
           
           {capiInfo && (
-            <div className="flex justify-center gap-2">
-              <Badge className="bg-[#003057] hover:bg-[#003057]/90">
+            <div className="flex justify-center gap-3">
+              <Badge className="bg-gradient-to-r from-[#003057] to-[#002040] hover:from-[#002040] hover:to-[#001530] text-white px-3 py-1 dark:bg-gradient-to-r dark:from-[#00B2E3] dark:to-[#003057]">
                 {capiInfo.version}
               </Badge>
-              <Badge className="bg-[#00B2E3] hover:bg-[#00B2E3]/90">
-                {capiInfo.mode === 'demo' ? 'Modo Demo' : 'OpenAI'}
+              <Badge className="bg-gradient-to-r from-[#00B2E3] to-[#0089B8] hover:from-[#0089B8] hover:to-[#006D8E] text-white px-3 py-1 dark:bg-gradient-to-r dark:from-[#003057] dark:to-[#00B2E3]">
+                {capiInfo.mode === 'demo' ? 'Modo Demo' : 'IA Avanzada'}
+              </Badge>
+              <Badge variant="outline" className="border-[#00B2E3]/50 text-[#003057] px-3 py-1 dark:border-[#00B2E3]/70 dark:text-gray-300">
+                En línea
               </Badge>
             </div>
           )}
         </div>
         
         {/* Chat Card */}
-        <Card className="border-[#00B2E3]/30 shadow-md">
-          <CardHeader className="border-b border-[#00B2E3]/10 bg-gradient-to-r from-[#003057]/5 to-[#00B2E3]/5">
-            <CardTitle className="flex items-center gap-2 text-[#003057]">
-              <Bot className="w-5 h-5 text-[#00B2E3]" />
+        <Card className="border-[#00B2E3]/30 shadow-md dark:bg-gray-800 dark:border-gray-700 dark:shadow-gray-900/50">
+          <CardHeader className="border-b border-[#00B2E3]/10 bg-gradient-to-r from-[#003057]/5 to-[#00B2E3]/5 dark:from-gray-700/50 dark:to-gray-600/50 dark:border-gray-700">
+            <CardTitle className="flex items-center gap-2 text-[#003057] dark:text-white">
+              <Bot className="w-5 h-5 text-[#00B2E3] dark:text-[#00B2E3]" />
               Chat con Capi
             </CardTitle>
           </CardHeader>
-          
           <CardContent className="p-0">
             {/* Mensajes */}
             <div 
-              className="h-[500px] overflow-y-auto p-6 space-y-6"
+              className="h-[500px] overflow-y-auto p-6 space-y-6 bg-white dark:bg-gray-800 transition-colors duration-300"
               ref={messageContainerRef}
             >
               {messages.map((message, index) => (
@@ -264,8 +279,8 @@ export default function CapiPage() {
                       message.role === 'user'
                         ? 'bg-gradient-to-r from-[#003057] to-[#003057]/90 text-white'
                         : message.error 
-                          ? 'bg-red-100 text-red-800'
-                          : 'bg-gradient-to-r from-[#00B2E3]/10 to-[#0037FF]/5 text-[#003057]'
+                          ? 'bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-200'
+                          : 'bg-gradient-to-r from-[#00B2E3]/10 to-[#0037FF]/5 text-[#003057] dark:bg-gray-700 dark:text-gray-100'
                     }`}
                   >
                     <div className="whitespace-pre-wrap">{message.content}</div>
@@ -275,14 +290,14 @@ export default function CapiPage() {
                         <Button 
                           variant="ghost" 
                           size="sm" 
-                          className="text-[#003057]/70 hover:text-[#00B2E3] p-1 h-6"
+                          className="text-[#003057]/70 hover:text-[#00B2E3] p-1 h-6 dark:text-gray-300 dark:hover:text-[#00B2E3]"
                           onClick={() => handleTextToSpeech(message.content)}
                           disabled={isLoading}
                         >
                           <Volume2 className="w-4 h-4" />
                         </Button>
                         {message.mode && (
-                          <span className="text-xs text-[#003057]/50">
+                          <span className="text-xs text-[#003057]/50 dark:text-gray-400">
                             {message.mode === 'demo' ? 'demo' : 'ai'}
                           </span>
                         )}
@@ -294,7 +309,7 @@ export default function CapiPage() {
               
               {isLoading && (
                 <div className="flex justify-start">
-                  <div className="bg-gradient-to-r from-[#00B2E3]/10 to-[#0037FF]/5 text-[#003057] rounded-2xl max-w-[85%] px-4 py-3">
+                  <div className="bg-gradient-to-r from-[#00B2E3]/10 to-[#0037FF]/5 text-[#003057] rounded-2xl max-w-[85%] px-4 py-3 dark:bg-gray-700 dark:text-gray-100">
                     <div className="flex items-center space-x-2">
                       <Loader2 className="w-4 h-4 animate-spin text-[#00B2E3]" />
                       <span>Capi está pensando...</span>
@@ -305,7 +320,7 @@ export default function CapiPage() {
               
               {error && !isLoading && messages.length === 0 && (
                 <div className="flex justify-center p-4">
-                  <div className="bg-red-100 text-red-800 p-3 rounded-lg text-center">
+                  <div className="bg-red-100 text-red-800 p-3 rounded-lg text-center dark:bg-red-900/50 dark:text-red-200">
                     <p>{error}</p>
                     <Button 
                       variant="outline" 
@@ -321,7 +336,7 @@ export default function CapiPage() {
             </div>
             
             {/* Form */}
-            <div className="border-t border-[#00B2E3]/10 p-4">
+            <div className="border-t border-[#00B2E3]/10 p-4 dark:border-gray-700 bg-white dark:bg-gray-800 transition-colors duration-300">
               <form onSubmit={handleSubmit} className="flex space-x-2">
                 <Input
                   value={question}
@@ -351,14 +366,14 @@ export default function CapiPage() {
                 </Button>
               </form>
               
-              <div className="text-xs text-center mt-3 text-[#003057]/50">
+              <div className="text-xs text-center mt-3 text-[#003057]/50 dark:text-gray-400">
                 {isRecording ? (
                   <div className="text-red-500 flex items-center justify-center gap-2">
                     <span className="animate-pulse">●</span> Grabando... (Haz clic en el micrófono para detener)
                   </div>
                 ) : (
                   <>
-                    Presiona <kbd className="rounded border border-[#00B2E3]/30 bg-[#00B2E3]/5 px-1.5 py-0.5 text-[#003057]/70">Enter</kbd> para enviar o usa el micrófono <Mic className="w-3 h-3 inline" /> para hablar
+                    Presiona <kbd className="rounded border border-[#00B2E3]/30 bg-[#00B2E3]/5 px-1.5 py-0.5 text-[#003057]/70 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300">Enter</kbd> para enviar o usa el micrófono <Mic className="w-3 h-3 inline" /> para hablar
                   </>
                 )}
               </div>
@@ -368,37 +383,37 @@ export default function CapiPage() {
         
         {/* Características de Capi */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
-          <Card className="border-[#00B2E3]/20 hover:shadow-md transition-all duration-300">
+          <Card className="border-[#00B2E3]/20 hover:shadow-md transition-all duration-300 bg-white dark:bg-gray-800 dark:border-gray-700 dark:hover:border-[#00B2E3]/50">
             <CardContent className="p-4 text-center">
-              <div className="w-10 h-10 mx-auto bg-[#00B2E3]/10 rounded-full flex items-center justify-center mb-3">
-                <Bot className="w-5 h-5 text-[#00B2E3]" />
+              <div className="w-10 h-10 mx-auto bg-[#00B2E3]/10 rounded-full flex items-center justify-center mb-3 dark:bg-[#00B2E3]/20">
+                <Bot className="w-5 h-5 text-[#00B2E3] dark:text-[#00B2E3]" />
               </div>
-              <h3 className="font-medium text-[#003057]">Chat de Texto</h3>
-              <p className="text-sm text-[#003057]/70">
+              <h3 className="font-medium text-[#003057] dark:text-white">Chat de Texto</h3>
+              <p className="text-sm text-[#003057]/70 dark:text-gray-300">
                 Escribe tus preguntas y recibe respuestas al instante
               </p>
             </CardContent>
           </Card>
           
-          <Card className="border-[#00B2E3]/20 hover:shadow-md transition-all duration-300">
+          <Card className="border-[#00B2E3]/20 hover:shadow-md transition-all duration-300 bg-white dark:bg-gray-800 dark:border-gray-700 dark:hover:border-[#00B2E3]/50">
             <CardContent className="p-4 text-center">
-              <div className="w-10 h-10 mx-auto bg-[#003057]/10 rounded-full flex items-center justify-center mb-3">
-                <Mic className="w-5 h-5 text-[#003057]" />
+              <div className="w-10 h-10 mx-auto bg-[#003057]/10 rounded-full flex items-center justify-center mb-3 dark:bg-[#003057]/20">
+                <Mic className="w-5 h-5 text-[#003057] dark:text-[#00B2E3]" />
               </div>
-              <h3 className="font-medium text-[#003057]">Reconocimiento de Voz</h3>
-              <p className="text-sm text-[#003057]/70">
+              <h3 className="font-medium text-[#003057] dark:text-white">Reconocimiento de Voz</h3>
+              <p className="text-sm text-[#003057]/70 dark:text-gray-300">
                 Habla directamente con Capi usando tu micrófono
               </p>
             </CardContent>
           </Card>
           
-          <Card className="border-[#00B2E3]/20 hover:shadow-md transition-all duration-300">
+          <Card className="border-[#00B2E3]/20 hover:shadow-md transition-all duration-300 bg-white dark:bg-gray-800 dark:border-gray-700 dark:hover:border-[#00B2E3]/50">
             <CardContent className="p-4 text-center">
-              <div className="w-10 h-10 mx-auto bg-[#0037FF]/10 rounded-full flex items-center justify-center mb-3">
-                <Volume2 className="w-5 h-5 text-[#0037FF]" />
+              <div className="w-10 h-10 mx-auto bg-[#0037FF]/10 rounded-full flex items-center justify-center mb-3 dark:bg-[#0037FF]/20">
+                <Volume2 className="w-5 h-5 text-[#0037FF] dark:text-[#00B2E3]" />
               </div>
-              <h3 className="font-medium text-[#003057]">Síntesis de Voz</h3>
-              <p className="text-sm text-[#003057]/70">
+              <h3 className="font-medium text-[#003057] dark:text-white">Síntesis de Voz</h3>
+              <p className="text-sm text-[#003057]/70 dark:text-gray-300">
                 Escucha las respuestas con voz natural
               </p>
             </CardContent>

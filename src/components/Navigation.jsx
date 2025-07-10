@@ -2,6 +2,8 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { useAuthStore } from '@/store/authStore'
 import { useThemeStore } from '@/store/themeStore'
+import { useTranslation } from '@/hooks/useTranslation'
+import LanguageSelector from '@/components/LanguageSelector'
 import { authService } from '@/services/api'
 import { 
   Code2, 
@@ -18,7 +20,8 @@ export default function Navigation() {
   const location = useLocation()
   const navigate = useNavigate()
   const { user, logout } = useAuthStore()
-  const { theme, toggleTheme, isDark } = useThemeStore()
+  const { toggleTheme, isDark } = useThemeStore()
+  const { t } = useTranslation()
 
   const handleLogout = async () => {
     try {
@@ -56,7 +59,10 @@ export default function Navigation() {
           </Link>
 
           {/* Navigation links y acciones */}
-          <div className="flex items-center space-x-3 md:space-x-6">
+          <div className="flex items-center space-x-2 md:space-x-4">
+            
+            {/* Language Selector */}
+            <LanguageSelector />
             
             {/* Theme Toggle Button */}
             <Button
@@ -81,7 +87,7 @@ export default function Navigation() {
                     }
                   >
                     <Home className="w-4 h-4 mr-2" />
-                    Inicio
+                    {t('navigation.home')}
                   </Button>
                 </Link>
                 <Link to="/dashboard">
@@ -94,7 +100,7 @@ export default function Navigation() {
                     }
                   >
                     <BarChart3 className="w-4 h-4 mr-2" />
-                    Dashboard
+                    {t('navigation.dashboard')}
                   </Button>
                 </Link>
               </div>
@@ -105,7 +111,7 @@ export default function Navigation() {
               <div className="flex items-center space-x-3 md:space-x-4">
                 <div className="hidden md:flex items-center space-x-3 text-sm text-gray-600 dark:text-white/80">
                   <User className="w-4 h-4" />
-                  <span className="font-medium">{user.name || user.email || 'Usuario'}</span>
+                  <span className="font-medium">{user.name || user.email || t('navigation.user')}</span>
                 </div>
                 <Button
                   variant="outline"
@@ -114,7 +120,7 @@ export default function Navigation() {
                   className="border-gray-300 dark:border-white/20 text-gray-600 dark:text-white/80 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/10 hover:border-gray-400 dark:hover:border-white/30 bg-transparent font-medium"
                 >
                   <LogOut className="w-4 h-4 md:mr-2" />
-                  <span className="hidden md:inline">Cerrar Sesión</span>
+                  <span className="hidden md:inline">{t('navigation.logout')}</span>
                 </Button>
               </div>
             ) : (
@@ -125,7 +131,7 @@ export default function Navigation() {
                   className="border-[#00B2E3] text-[#00B2E3] hover:bg-[#00B2E3] hover:text-white hover:border-[#00B2E3] bg-transparent font-medium transition-all duration-300"
                 >
                   <LogIn className="w-4 h-4 md:mr-2" />
-                  <span className="hidden md:inline">Acceder</span>
+                  <span className="hidden md:inline">{t('navigation.login')}</span>
                 </Button>
               </Link>
             )}
