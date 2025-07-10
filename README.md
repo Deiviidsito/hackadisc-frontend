@@ -50,15 +50,25 @@ Una vez ejecutados estos comandos, puedes acceder al proyecto a través de la UR
 
 El proyecto incluye un sistema de navegación completo con las siguientes rutas:
 
-- **`/`** - Landing Page (pública)
-- **`/login`** - Página de inicio de sesión (pública, redirige al dashboard si ya estás logueado)
-- **`/dashboard`** - Panel de control principal (privada, requiere autenticación)
+- **`/`** - Landing Page (pública) con navegación top
+- **`/login`** - Página de inicio de sesión (pública, sin navegación)
+- **`/dashboard`** - Panel de control principal (privada, con sidebar)
 
 ### Características de Navegación:
 - **Rutas Protegidas**: El dashboard requiere autenticación
 - **Redirección Automática**: Login redirige al dashboard después del acceso exitoso
-- **Navegación Contextual**: Barra de navegación adaptativa según el estado de autenticación
+- **Navegación Adaptativa**: 
+  - **Landing/Públicas**: Barra de navegación superior
+  - **Dashboard/Privadas**: Sidebar lateral colapsable
 - **Sesión Persistente**: El estado de login se mantiene entre sesiones
+
+### Sidebar del Dashboard:
+- **Colapsable**: Se puede contraer para maximizar espacio de trabajo
+- **Navegación contextual**: Indica la página activa
+- **Información de usuario**: Muestra datos del usuario logueado
+- **Paleta INSECAP**: Diseño con gradientes corporativos
+- **Rutas disponibles**: Dashboard, Usuarios, Reportes, Configuración
+- **Logout integrado**: Cierre de sesión desde el sidebar
 
 ## 📋 Conventional Commits
 

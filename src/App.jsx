@@ -2,6 +2,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import { useAuthStore } from '@/store/authStore'
 import Layout from '@/components/Layout'
+import DashboardLayout from '@/components/DashboardLayout'
 import LandingPage from '@/components/LandingPage'
 import LoginPage from '@/components/LoginPage'
 import DashboardPage from '@/components/DashboardPage'
@@ -45,14 +46,14 @@ function App() {
           } 
         />
         
-        {/* Ruta privada - Dashboard (requiere autenticación) */}
+        {/* Ruta privada - Dashboard (requiere autenticación, usa DashboardLayout con Sidebar) */}
         <Route 
           path="/dashboard" 
           element={
             <PrivateRoute>
-              <Layout>
+              <DashboardLayout>
                 <DashboardPage />
-              </Layout>
+              </DashboardLayout>
             </PrivateRoute>
           } 
         />

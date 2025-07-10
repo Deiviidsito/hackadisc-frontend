@@ -67,9 +67,9 @@ export default function DashboardPage() {
   ]
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen p-6 lg:p-8">
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto space-y-8">
         <div className="space-y-8">
           
           {/* Welcome Section */}
@@ -179,7 +179,7 @@ export default function DashboardPage() {
             </CardContent>
           </Card>
         </div>
-      </main>
+      </div>
     </div>
   )
 }
