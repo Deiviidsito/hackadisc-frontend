@@ -26,3 +26,37 @@ export const authService = {
     return response.data
   }
 }
+
+// Servicios para el agente de IA Capi
+export const capiService = {
+  // Preguntar por texto
+  ask: async (question) => {
+    const response = await apiClient.post('/capi/ask', { question })
+    return response.data
+  },
+  
+  // Obtener información sobre Capi
+  about: async () => {
+    const response = await apiClient.get('/capi/about')
+    return response.data
+  },
+  
+  // Enviar audio y recibir respuesta por voz
+  voiceChat: async (audioBlob) => {
+    const formData = new FormData()
+    formData.append('audio', audioBlob)
+    
+    const response = await apiClient.post('/capi/voice/chat', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+    return response.data
+  },
+  
+  // Convertir texto a voz
+  textToSpeech: async (text) => {
+    const response = await apiClient.post('/capi/voice/text-to-speech', { text })
+    return response.data
+  }
+}

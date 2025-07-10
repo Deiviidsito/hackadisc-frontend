@@ -14,7 +14,8 @@ import {
   Settings,
   ChevronLeft,
   Menu,
-  Building2
+  Building2,
+  Bot
 } from 'lucide-react'
 import { useState } from 'react'
 
@@ -66,6 +67,12 @@ export default function Sidebar() {
       icon: <Settings className="w-5 h-5" />,
       label: "Configuración",
       path: "/dashboard/settings"
+    },
+    {
+      icon: <Bot className="w-5 h-5" />,
+      label: "Capi IA",
+      path: "/dashboard/capi",
+      highlight: true
     }
   ]
 
@@ -129,14 +136,27 @@ export default function Sidebar() {
             className={`flex items-center space-x-3 px-3 py-2.5 rounded-lg transition-all duration-200 group ${
               isActive(item.path) 
                 ? 'bg-[#00B2E3] text-white shadow-lg' 
-                : 'text-white/80 hover:bg-white/10 hover:text-white'
+                : item.highlight 
+                  ? 'bg-gradient-to-r from-[#0037FF]/40 to-[#00B2E3]/40 text-white/90 hover:bg-[#00B2E3]/50 shadow-md'
+                  : 'text-white/80 hover:bg-white/10 hover:text-white'
             }`}
           >
-            <div className={`${isActive(item.path) ? 'text-white' : 'text-white/80 group-hover:text-white'}`}>
+            <div className={`${
+              isActive(item.path) 
+                ? 'text-white' 
+                : item.highlight 
+                  ? 'text-white animate-pulse' 
+                  : 'text-white/80 group-hover:text-white'
+            }`}>
               {item.icon}
             </div>
             {!isCollapsed && (
               <span className="text-sm font-medium">{item.label}</span>
+            )}
+            {item.highlight && !isCollapsed && (
+              <span className="ml-2 text-xs bg-white text-[#003057] px-1.5 py-0.5 rounded-full">
+                Nuevo
+              </span>
             )}
           </Link>
         ))}

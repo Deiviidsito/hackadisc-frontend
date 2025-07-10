@@ -1,4 +1,5 @@
 import Sidebar from '@/components/Sidebar'
+import CapiFloatingButton from '@/components/CapiFloatingButton'
 
 export default function DashboardLayout({ children }) {
   return (
@@ -6,6 +7,7 @@ export default function DashboardLayout({ children }) {
       <Sidebar />
       <main className="flex-1 overflow-y-auto">
         {children}
+        <CapiFloatingButton />
       </main>
     </div>
   )
