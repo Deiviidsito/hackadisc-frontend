@@ -64,26 +64,78 @@ export const capiService = {
 // Servicios de estadísticas de pagos
 export const statisticsService = {
   // Obtener resumen global de estadísticas
-  getGlobalSummary: async () => {
-    const response = await apiClient.get('/resumen-estadisticas-pago')
+  getGlobalSummary: async (params = {}) => {
+    const queryParams = new URLSearchParams()
+    
+    // Agregar parámetros si existen
+    if (params.dateFrom) queryParams.append('fecha_desde', params.dateFrom)
+    if (params.dateTo) queryParams.append('fecha_hasta', params.dateTo)
+    if (params.clientType && params.clientType !== 'all') queryParams.append('tipo_cliente', params.clientType)
+    if (params.paymentStatus && params.paymentStatus !== 'all') queryParams.append('estado_pago', params.paymentStatus)
+    if (params.amountMin) queryParams.append('monto_minimo', params.amountMin)
+    if (params.amountMax) queryParams.append('monto_maximo', params.amountMax)
+    
+    const queryString = queryParams.toString()
+    const url = queryString ? `/resumen-estadisticas-pago?${queryString}` : '/resumen-estadisticas-pago'
+    
+    const response = await apiClient.get(url)
     return response.data
   },
   
   // Obtener estadísticas por cliente
   getClientStatistics: async (params = {}) => {
-    const response = await apiClient.get('/estadisticas-por-cliente')
+    const queryParams = new URLSearchParams()
+    
+    // Agregar parámetros si existen
+    if (params.page) queryParams.append('page', params.page)
+    if (params.limit) queryParams.append('limit', params.limit)
+    if (params.dateFrom) queryParams.append('fecha_desde', params.dateFrom)
+    if (params.dateTo) queryParams.append('fecha_hasta', params.dateTo)
+    if (params.clientType && params.clientType !== 'all') queryParams.append('tipo_cliente', params.clientType)
+    if (params.paymentStatus && params.paymentStatus !== 'all') queryParams.append('estado_pago', params.paymentStatus)
+    if (params.amountMin) queryParams.append('monto_minimo', params.amountMin)
+    if (params.amountMax) queryParams.append('monto_maximo', params.amountMax)
+    
+    const queryString = queryParams.toString()
+    const url = queryString ? `/estadisticas-por-cliente?${queryString}` : '/estadisticas-por-cliente'
+    
+    const response = await apiClient.get(url)
     return response.data
   },
   
   // Obtener tendencias temporales
   getTemporalTrends: async (params = {}) => {
-    const response = await apiClient.get('/tendencias-temporales')
+    const queryParams = new URLSearchParams()
+    
+    // Agregar parámetros si existen
+    if (params.dateFrom) queryParams.append('fecha_desde', params.dateFrom)
+    if (params.dateTo) queryParams.append('fecha_hasta', params.dateTo)
+    if (params.agrupacion) queryParams.append('agrupacion', params.agrupacion) // 'month', 'quarter', 'year'
+    if (params.año) queryParams.append('año', params.año)
+    if (params.clientType && params.clientType !== 'all') queryParams.append('tipo_cliente', params.clientType)
+    if (params.paymentStatus && params.paymentStatus !== 'all') queryParams.append('estado_pago', params.paymentStatus)
+    
+    const queryString = queryParams.toString()
+    const url = queryString ? `/tendencias-temporales?${queryString}` : '/tendencias-temporales'
+    
+    const response = await apiClient.get(url)
     return response.data
   },
   
   // Obtener distribución de pagos por rangos
-  getPaymentDistribution: async () => {
-    const response = await apiClient.get('/distribucion-pagos')
+  getPaymentDistribution: async (params = {}) => {
+    const queryParams = new URLSearchParams()
+    
+    // Agregar parámetros si existen
+    if (params.dateFrom) queryParams.append('fecha_desde', params.dateFrom)
+    if (params.dateTo) queryParams.append('fecha_hasta', params.dateTo)
+    if (params.clientType && params.clientType !== 'all') queryParams.append('tipo_cliente', params.clientType)
+    if (params.paymentStatus && params.paymentStatus !== 'all') queryParams.append('estado_pago', params.paymentStatus)
+    
+    const queryString = queryParams.toString()
+    const url = queryString ? `/distribucion-pagos?${queryString}` : '/distribucion-pagos'
+    
+    const response = await apiClient.get(url)
     return response.data
   },
   
@@ -115,8 +167,24 @@ export const statisticsService = {
 export const facturasService = {
   // Obtener todas las facturas pendientes
   getFacturasPendientes: async (params = {}) => {
-    const queryParams = new URLSearchParams(params)
-    const response = await apiClient.get(`/facturas-pendientes?${queryParams}`)
+    const queryParams = new URLSearchParams()
+    
+    // Agregar parámetros si existen
+    if (params.page) queryParams.append('page', params.page)
+    if (params.limit) queryParams.append('limit', params.limit)
+    if (params.ordenar_por) queryParams.append('ordenar_por', params.ordenar_por) // 'fecha_emision', 'fecha_vencimiento', 'monto'
+    if (params.orden) queryParams.append('orden', params.orden) // 'asc', 'desc'
+    if (params.cliente) queryParams.append('cliente', params.cliente)
+    if (params.estado) queryParams.append('estado', params.estado) // 'pendiente', 'vencida'
+    if (params.fecha_desde) queryParams.append('fecha_desde', params.fecha_desde)
+    if (params.fecha_hasta) queryParams.append('fecha_hasta', params.fecha_hasta)
+    if (params.monto_min) queryParams.append('monto_min', params.monto_min)
+    if (params.monto_max) queryParams.append('monto_max', params.monto_max)
+    
+    const queryString = queryParams.toString()
+    const url = queryString ? `/facturas-pendientes?${queryString}` : '/facturas-pendientes'
+    
+    const response = await apiClient.get(url)
     return response.data
   },
   
@@ -142,6 +210,20 @@ export const facturasService = {
   // Obtener estadísticas de facturas
   getFacturasStats: async () => {
     const response = await apiClient.get('/facturas/estadisticas')
+    return response.data
+  },
+  
+  // Marcar factura como pagada
+  marcarComoPagada: async (facturaId, fechaPago = null) => {
+    const response = await apiClient.patch(`/facturas/${facturaId}/pagar`, { 
+      fecha_pago: fechaPago || new Date().toISOString().split('T')[0] 
+    })
+    return response.data
+  },
+  
+  // Enviar recordatorio de pago
+  enviarRecordatorio: async (facturaId, tipo = 'email') => {
+    const response = await apiClient.post(`/facturas/${facturaId}/recordatorio`, { tipo })
     return response.data
   }
 }

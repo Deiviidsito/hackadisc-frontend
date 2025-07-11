@@ -6,8 +6,8 @@ export const useStatisticsStore = create(
   subscribeWithSelector((set, get) => ({
     // Estado de datos
     globalSummary: null,
-    clientStatistics: [],
-    temporalTrends: [],
+    clientStatistics: { data: [], pagination: null },
+    temporalTrends: null,
     paymentDistribution: null,
     comparativeAnalysis: null,
     
@@ -123,7 +123,10 @@ export const useStatisticsStore = create(
         const response = await statisticsService.getClientStatistics(finalParams)
         
         set(state => ({
-          clientStatistics: finalParams.offset === 0 ? response.data : [...state.clientStatistics, ...response.data],
+          clientStatistics: {
+            data: finalParams.offset === 0 ? response.data : [...(state.clientStatistics?.data || []), ...response.data],
+            pagination: response.pagination
+          },
           pagination: {
             ...state.pagination,
             clientStats: {
@@ -163,7 +166,7 @@ export const useStatisticsStore = create(
       
       try {
         const data = await statisticsService.getTemporalTrends(finalParams)
-        set({ temporalTrends: data.tendencias || [] })
+        set({ temporalTrends: data })
         return data
       } catch (error) {
         set(state => ({
@@ -231,8 +234,8 @@ export const useStatisticsStore = create(
     clearData: () => {
       set({
         globalSummary: null,
-        clientStatistics: [],
-        temporalTrends: [],
+        clientStatistics: { data: [], pagination: null },
+        temporalTrends: null,
         paymentDistribution: null,
         comparativeAnalysis: null
       })

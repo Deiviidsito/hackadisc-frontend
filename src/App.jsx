@@ -10,7 +10,6 @@ import CompaniesPage from '@/components/CompaniesPage'
 import CompanyAnalyticsPage from '@/components/CompanyAnalyticsPage'
 import ReportesPage from '@/components/ReportesPage'
 import CapiPage from '@/components/CapiPage'
-import VentasPage from '@/components/VentasPage'
 import './App.css'
 
 // Componente para proteger rutas privadas
@@ -70,18 +69,6 @@ function App() {
             <PrivateRoute>
               <DashboardLayout>
                 <CompaniesPage />
-              </DashboardLayout>
-            </PrivateRoute>
-          } 
-        />
-        
-        {/* Ruta privada - Ventas */}
-        <Route 
-          path="/dashboard/ventas" 
-          element={
-            <PrivateRoute>
-              <DashboardLayout>
-                <VentasPage />
               </DashboardLayout>
             </PrivateRoute>
           } 

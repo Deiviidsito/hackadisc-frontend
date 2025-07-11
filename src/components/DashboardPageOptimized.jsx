@@ -15,10 +15,10 @@ import DashboardCharts from './dashboard/DashboardCharts'
 
 // Tabs individuales
 import OverviewTab from './dashboard/tabs/OverviewTab'
+import TrendsTab from './dashboard/tabs/TrendsTab'
 import DistributionTab from './dashboard/tabs/DistributionTab'
 import ClientsTab from './dashboard/tabs/ClientsTab'
 import ComparativeTab from './dashboard/tabs/ComparativeTab'
-import TrendsTab from './dashboard/tabs/TrendsTab'
 
 const DashboardPage = () => {
   const [activeTab, setActiveTab] = useState('overview')
@@ -84,7 +84,7 @@ const DashboardPage = () => {
       case 'overview':
         return <OverviewTab {...commonProps} />
       case 'trends':
-        return <TrendsTab />
+        return <TrendsTab {...commonProps} />
       case 'distribution':
         return <DistributionTab {...commonProps} />
       case 'clients':
