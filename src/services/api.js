@@ -60,3 +60,53 @@ export const capiService = {
     return response.data
   }
 }
+
+// Servicios de estadísticas de pagos
+export const statisticsService = {
+  // Obtener resumen global de estadísticas
+  getGlobalSummary: async () => {
+    const response = await apiClient.get('/resumen-estadisticas-pago')
+    return response.data
+  },
+  
+  // Obtener estadísticas por cliente
+  getClientStatistics: async (params = {}) => {
+    const response = await apiClient.get('/estadisticas-por-cliente')
+    return response.data
+  },
+  
+  // Obtener tendencias temporales
+  getTemporalTrends: async (params = {}) => {
+    const response = await apiClient.get('/tendencias-temporales')
+    return response.data
+  },
+  
+  // Obtener distribución de pagos por rangos
+  getPaymentDistribution: async () => {
+    const response = await apiClient.get('/distribucion-pagos')
+    return response.data
+  },
+  
+  // Obtener análisis comparativo entre períodos
+  getComparativeAnalysis: async (params = {}) => {
+    // Si no hay parámetros, usar valores por defecto
+    const defaultParams = {
+      fechaInicioPeriodo1: '2024-01-01',
+      fechaFinPeriodo1: '2024-06-30',
+      fechaInicioPeriodo2: '2024-07-01', 
+      fechaFinPeriodo2: '2024-12-31'
+    }
+    
+    const finalParams = { ...defaultParams, ...params }
+    
+    const queryParams = new URLSearchParams({
+      fecha_inicio_periodo1: finalParams.fechaInicioPeriodo1,
+      fecha_fin_periodo1: finalParams.fechaFinPeriodo1,
+      fecha_inicio_periodo2: finalParams.fechaInicioPeriodo2,
+      fecha_fin_periodo2: finalParams.fechaFinPeriodo2
+    })
+    
+    const response = await apiClient.get(`/analisis-comparativo?${queryParams}`)
+    return response.data
+  }
+}

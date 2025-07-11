@@ -3,19 +3,19 @@ export default {
   hero: {
     badge: 'Hackathon INSECAP 2025',
     title: {
-      line1: 'Predice el tiempo de',
-      line2: 'pago de tus clientes con',
-      line3: 'Capin AI'
+      line1: 'Plataforma de análisis',
+      line2: 'predictivo empresarial con',
+      line3: 'IA integrada'
     },
-    subtitle: 'Solución de análisis predictivo que estima cuánto tiempo tardarán tus clientes en pagar desde la orden de compra. Optimiza tu flujo de caja y toma decisiones informadas.',
+    subtitle: 'Solución integral de analytics que optimiza la gestión de cobranzas mediante análisis predictivo avanzado. Toma decisiones informadas con insights en tiempo real.',
     cta: {
       primary: 'Ver Demo',
-      secondary: 'Conocer Capin AI'
+      secondary: 'Conocer Plataforma'
     },
     trustIndicators: {
-      noCard: 'Análisis en tiempo real',
-      trial: 'IA avanzada integrada',
-      cancel: 'Predicciones precisas'
+      noCard: 'Sin tarjeta de crédito',
+      trial: '14 días gratis',
+      cancel: 'Cancela cuando quieras'
     }
   },
   
@@ -24,41 +24,42 @@ export default {
     title: 'Capin Analytics',
     url: 'capin.insecap.cl',
     stats: {
-      totalOverview: 'Clientes analizados',
-      activeUsers: 'Órdenes procesadas',
-      revenue: 'Precisión promedio',
-      growth: 'Tiempo ahorrado'
+      totalOverview: 'Total Overview',
+      activeUsers: 'Usuarios Activos',
+      revenue: 'Ingresos',
+      growth: 'Crecimiento'
     },
     chart: {
-      title: 'Predicción de Tiempos de Pago',
+      title: 'Analytics Dashboard',
       badge: 'Tiempo Real'
     }
   },
   
   // Features Section
   features: {
-    title: 'Capacidades de Capin AI',
-    subtitle: 'Análisis predictivo avanzado para gestión de cobranzas empresariales',
+    title: 'Capacidades de la Plataforma',
+    subtitle: 'Análisis empresarial avanzado con inteligencia artificial integrada',
     items: {
       ai: {
-        title: 'Predicción Inteligente',
-        description: 'Algoritmos de ML que analizan patrones históricos de pago para predecir tiempos futuros.'
+        title: 'Análisis Predictivo',
+        description: 'Algoritmos de machine learning que procesan datos históricos para generar predicciones precisas de comportamiento empresarial.'
       },
       bigData: {
-        title: 'Análisis de Comportamiento',
-        description: 'Procesa grandes volúmenes de datos de órdenes y pagos para identificar patrones.'
+        title: 'Procesamiento de Datos',
+        description: 'Maneja grandes volúmenes de información empresarial para identificar patrones y tendencias críticas.'
       },
       automation: {
-        title: 'Alertas Automáticas',
-        description: 'Notificaciones proactivas sobre clientes con alto riesgo de retraso en pagos.'
+        title: 'Automatización Inteligente',
+        description: 'Sistemas automatizados que optimizan procesos empresariales y mejoran la eficiencia operacional.'
       }
     }
   },
 
   // Sección Capin AI
   capinAi: {
-    title: 'Conoce a Capin AI',
-    subtitle: 'El asistente oficial de IA de INSECAP combina aprendizaje automático avanzado con interacción amigable. Nuestra mascota aporta personalidad a la analítica predictiva mientras entrega pronósticos precisos de pago.',
+    title: 'Capin AI - INSECAP\'s Intelligent Assistant',
+    subtitle: 'Conoce a Capin AI',
+    description: 'El asistente oficial de IA de INSECAP combina aprendizaje automático avanzado con interacción amigable. Nuestra mascota aporta personalidad a la analítica predictiva mientras entrega pronósticos precisos de pago.',
     features: {
       learning: {
         title: 'Aprendizaje Continuo',
@@ -81,10 +82,10 @@ export default {
   
   // Stats Section
   stats: {
-    uptime: 'Precisión del modelo',
-    companies: 'Clientes analizados',
-    dataProcessed: 'Órdenes procesadas',
-    rating: 'Satisfacción usuarios'
+    uptime: 'Tiempo de actividad',
+    companies: 'Empresas activas',
+    dataProcessed: 'Datos procesados',
+    rating: 'Calificación'
   },
 
   // Analytics Section
@@ -96,17 +97,17 @@ export default {
   // Demo Cards
   demoCards: {
     interactive: {
-      title: 'Dashboard de Predicciones',
-      description: 'Visualiza en tiempo real las estimaciones de pago por cliente'
+      title: 'Dashboard Interactivo',
+      description: 'Visualiza métricas empresariales y KPIs en tiempo real con gráficos interactivos'
     },
     business: {
-      title: 'Análisis por Cliente', 
-      description: 'Métricas detalladas del comportamiento de pago histórico',
-      performanceLabel: 'Probabilidad de pago'
+      title: 'Análisis Empresarial', 
+      description: 'Métricas detalladas del rendimiento y comportamiento empresarial',
+      performanceLabel: 'Rendimiento general'
     },
     ai: {
       title: 'Capin AI Assistant',
-      description: 'Asistente inteligente que interpreta y explica las predicciones'
+      description: 'Asistente inteligente que interpreta datos y proporciona insights personalizados'
     }
   },
 
