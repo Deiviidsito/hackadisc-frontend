@@ -12,7 +12,7 @@ import {
   BarChart3,
   Users,
   FileText,
-  Settings,
+  ShoppingCart,
   ChevronLeft,
   Menu,
   Building2,
@@ -56,19 +56,14 @@ export default function Sidebar() {
       path: "/dashboard/companies"
     },
     {
-      icon: <Users className="w-5 h-5" />,
-      label: "Usuarios",
-      path: "/dashboard/users"
+      icon: <ShoppingCart className="w-5 h-5" />,
+      label: "Ventas",
+      path: "/dashboard/ventas"
     },
     {
       icon: <FileText className="w-5 h-5" />,
       label: t('common.navigation.reports'),
       path: "/dashboard/reports"
-    },
-    {
-      icon: <Settings className="w-5 h-5" />,
-      label: "Configuración",
-      path: "/dashboard/settings"
     },
     {
       icon: <Bot className="w-5 h-5" />,

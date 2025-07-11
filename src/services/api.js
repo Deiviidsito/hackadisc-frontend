@@ -110,3 +110,38 @@ export const statisticsService = {
     return response.data
   }
 }
+
+// Servicio de facturas
+export const facturasService = {
+  // Obtener todas las facturas pendientes
+  getFacturasPendientes: async (params = {}) => {
+    const queryParams = new URLSearchParams(params)
+    const response = await apiClient.get(`/facturas-pendientes?${queryParams}`)
+    return response.data
+  },
+  
+  // Obtener facturas por empresa
+  getFacturasByEmpresa: async (empresaId, params = {}) => {
+    const queryParams = new URLSearchParams(params)
+    const response = await apiClient.get(`/empresas/${empresaId}/facturas?${queryParams}`)
+    return response.data
+  },
+  
+  // Obtener detalle de una factura
+  getFacturaDetail: async (facturaId) => {
+    const response = await apiClient.get(`/facturas/${facturaId}`)
+    return response.data
+  },
+  
+  // Actualizar estado de una factura
+  updateFacturaEstado: async (facturaId, estado) => {
+    const response = await apiClient.patch(`/facturas/${facturaId}/estado`, { estado })
+    return response.data
+  },
+  
+  // Obtener estadísticas de facturas
+  getFacturasStats: async () => {
+    const response = await apiClient.get('/facturas/estadisticas')
+    return response.data
+  }
+}
