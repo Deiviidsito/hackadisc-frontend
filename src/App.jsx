@@ -11,6 +11,7 @@ import CompanyAnalyticsPage from '@/components/CompanyAnalyticsPage'
 import ReportesPage from '@/components/ReportesPage'
 import VentasPage from '@/components/VentasPage'
 import CapiPage from '@/components/CapiPage'
+import ImportPage from '@/components/ImportPage'
 import DashboardApiTest from '@/components/DashboardApiTest'
 import './App.css'
 
@@ -120,6 +121,16 @@ function App() {
               <DashboardLayout>
                 <CapiPage />
               </DashboardLayout>
+            </PrivateRoute>
+          } 
+        />
+        
+        {/* Ruta privada - Importación de Datos */}
+        <Route 
+          path="/import" 
+          element={
+            <PrivateRoute>
+              <ImportPage />
             </PrivateRoute>
           } 
         />

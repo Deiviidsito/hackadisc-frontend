@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import { AlertTriangle, TrendingUp, Clock, Users, BarChart3, Calendar } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
+import { AlertTriangle, TrendingUp, Clock, Users, BarChart3, Calendar, Database } from 'lucide-react'
 import { dashboardService } from '@/services/api'
 import { useAnalytics } from '@/hooks/useAnalytics'
 import { Button } from '@/components/ui/button'
@@ -8,6 +9,8 @@ import { Badge } from '@/components/ui/badge'
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts'
 
 const DashboardPage = () => {
+  const navigate = useNavigate()
+  
   // Estados para los datos de la API
   const [ventasPorMes, setVentasPorMes] = useState(null)
   const [tiempoPagoPromedio, setTiempoPagoPromedio] = useState(null)
@@ -305,6 +308,14 @@ const DashboardPage = () => {
         <div className="relative">
           {/* Botones en la esquina superior derecha */}
           <div className="absolute top-0 right-0 flex gap-2">
+            <Button 
+              onClick={() => navigate('/import')}
+              variant="outline"
+              className="border-[#00B2E3] text-[#00B2E3] hover:bg-[#00B2E3] hover:text-white"
+            >
+              <Database className="w-4 h-4 mr-2" />
+              Importar Datos
+            </Button>
             <Button 
               onClick={exportarDatos}
               className="bg-[#00B2E3] hover:bg-[#0037FF]"
