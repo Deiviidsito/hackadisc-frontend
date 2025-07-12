@@ -3,6 +3,9 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { CardContainer, CardBody, CardItem } from '@/components/ui/3d-card'
+import { Spotlight } from '@/components/ui/spotlight'
+import { TextGenerateEffect } from '@/components/ui/text-generate-effect'
+import { ContainerTextFlip } from '@/components/ui/container-text-flip'
 import { useTranslation } from '@/hooks/useTranslation'
 import { 
   BarChart3, 
@@ -33,295 +36,198 @@ export default function LandingPage() {
       <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#003057]/10 dark:bg-[#003057]/20 rounded-full blur-3xl"></div>
 
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 px-6">
-        <div className="max-w-7xl mx-auto text-center">
-          
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 bg-[#003057]/10 dark:bg-[#003057]/20 border border-[#00B2E3]/20 rounded-full px-4 py-2 mb-8">
-            <div className="w-2 h-2 bg-[#00B2E3] rounded-full animate-pulse"></div>
-            <span className="text-[#00B2E3] text-sm font-medium">{t('hero.badge')}</span>
+      <section className="relative pt-32 pb-20 px-6 overflow-hidden">
+        {/* Liquid Background Gradient - Más Opaco */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[#003057]/40 via-[#00B2E3]/30 to-cyan-400/20"></div>
+        <div className="absolute inset-0 bg-gradient-to-tr from-purple-600/15 via-blue-500/10 to-emerald-400/15"></div>
+        <div className="absolute inset-0 bg-gradient-to-bl from-transparent via-[#00B2E3]/10 to-[#003057]/20"></div>
+        
+        {/* Animated Liquid Blobs - Más Sutiles */}
+        <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-[#00B2E3]/15 to-cyan-400/10 rounded-full blur-3xl animate-pulse transform -translate-x-1/2 -translate-y-1/2"></div>
+        <div className="absolute top-1/3 right-0 w-80 h-80 bg-gradient-to-bl from-purple-500/10 to-[#003057]/15 rounded-full blur-2xl animate-pulse delay-1000 transform translate-x-1/2"></div>
+        <div className="absolute bottom-0 left-1/3 w-72 h-72 bg-gradient-to-tr from-emerald-400/10 to-[#00B2E3]/12 rounded-full blur-3xl animate-pulse delay-2000"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-gradient-to-tl from-cyan-300/8 to-purple-400/10 rounded-full blur-2xl animate-pulse delay-3000"></div>
+        
+        {/* Subtle Grid */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="h-full w-full" style={{
+            backgroundImage: `
+              linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)
+            `,
+            backgroundSize: '60px 60px'
+          }}></div>
+        </div>
+
+        {/* Floating Particles - Más Sutiles */}
+        <div className="absolute inset-0 overflow-hidden">
+          {[...Array(30)].map((_, i) => (
+            <div
+              key={i}
+              className="absolute w-1 h-1 bg-white/20 rounded-full animate-pulse"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+                animationDelay: `${Math.random() * 4}s`,
+                animationDuration: `${3 + Math.random() * 2}s`,
+              }}
+            />
+          ))}
+        </div>
+
+        <div className="relative z-10 max-w-6xl mx-auto text-center">
+          {/* Main Title */}
+          <div className="mb-8">
+            <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold text-white mb-6 leading-tight drop-shadow-lg">
+              <span className="block">La Plataforma</span>
+              <div className="flex items-center justify-center flex-wrap gap-4">
+                <ContainerTextFlip
+                  words={["Analytics", "分析", "アナリティクス", "Analytique", "Аналитика", "Análisis", "Analitica", "تحليلات"]}
+                  interval={2500}
+                  className=""
+                  textClassName="font-black text-[#003057] dark:text-white"
+                />
+                <span className="font-black text-[#00B2E3]">
+                  Empresarial
+                </span>
+              </div>
+            </h1>
+            <p className="text-xl md:text-2xl text-white/90 max-w-4xl mx-auto leading-relaxed drop-shadow-md">
+              Construida para hacer tu empresa extraordinariamente productiva. 
+              <span className="text-cyan-200 font-semibold"> INSECAP Analytics es la mejor manera de transformar datos en decisiones.</span>
+            </p>
           </div>
-
-          {/* Main Heading */}
-          <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold mb-6 tracking-tight">
-            <span className="text-gray-900 dark:text-white">{t('hero.title.line1')}</span>
-            <br />
-            <span className="text-gray-900 dark:text-white">{t('hero.title.line2')}</span>
-            <br />
-            <span className="bg-gradient-to-r from-[#00B2E3] via-[#00B2E3] to-[#003057] dark:to-white bg-clip-text text-transparent">
-              {t('hero.title.line3')}
-            </span>
-          </h1>
-
-          {/* Subtitle */}
-          <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto mb-12 leading-relaxed">
-            {t('hero.subtitle')}
-          </p>
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
             <Button 
               size="lg"
-              className="bg-[#003057] dark:bg-white text-white dark:text-black hover:bg-[#003057]/90 dark:hover:bg-gray-100 px-8 py-4 text-lg font-medium rounded-xl h-auto"
+              className="bg-white/90 hover:bg-white text-[#003057] px-8 py-4 text-lg font-semibold rounded-lg h-auto transition-all duration-300 hover:scale-105 shadow-xl backdrop-blur-sm"
               onClick={() => navigate('/login')}
             >
-              {t('hero.cta.primary')}
-              <ArrowRight className="w-5 h-5 ml-2" />
-            </Button>
-            <Button 
-              variant="outline"
-              size="lg"
-              className="border-[#003057] dark:border-white text-gray-900 dark:text-white hover:bg-[#003057]/10 dark:hover:bg-white/20 px-8 py-4 text-lg font-medium rounded-xl h-auto"
-            >
-              {t('hero.cta.secondary')}
+              <span className="flex items-center gap-3">
+                Acceder a Analytics
+                <ArrowRight className="w-5 h-5" />
+              </span>
             </Button>
           </div>
 
-          {/* Trust Indicators */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-8 text-sm text-gray-500 dark:text-gray-500">
-            <div className="flex items-center gap-2">
-              <CheckCircle className="w-4 h-4 text-[#00B2E3]" />
-              <span>{t('hero.trustIndicators.prediction')}</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <CheckCircle className="w-4 h-4 text-[#00B2E3]" />
-              <span>{t('hero.trustIndicators.realtime')}</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <CheckCircle className="w-4 h-4 text-[#00B2E3]" />
-              <span>{t('hero.trustIndicators.integration')}</span>
-            </div>
-          </div>
-        </div>
-      </section>
+          {/* Dashboard Preview */}
+          <div className="relative max-w-6xl mx-auto">
+            <div className="bg-gray-900/80 backdrop-blur-xl rounded-2xl border border-white/10 shadow-2xl overflow-hidden">
+              {/* Browser Header */}
+              <div className="flex items-center justify-between p-4 bg-gray-800/80 border-b border-gray-700/50">
+                <div className="flex items-center gap-3">
+                  <div className="flex gap-2">
+                    <div className="w-3 h-3 bg-red-400 rounded-full"></div>
+                    <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
+                    <div className="w-3 h-3 bg-green-400 rounded-full"></div>
+                  </div>
+                  <div className="flex items-center gap-2 text-gray-300">
+                    <BarChart3 className="w-4 h-4 text-[#00B2E3]" />
+                    <span className="text-sm font-medium">INSECAP Analytics Dashboard</span>
+                  </div>
+                </div>
+                <div className="text-xs text-gray-400">https://analytics.insecap.cr</div>
+              </div>
 
-      {/* Dashboard Preview */}
-      <section className="relative px-6 pb-20">
-        <div className="max-w-7xl mx-auto">
-          {/* Dashboard Preview Introduction */}
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-              Dashboard Inteligente en Acción
-            </h2>
-            <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-              Experimenta el poder de la analítica empresarial con nuestra interfaz revolucionaria. 
-              Datos en tiempo real, insights automáticos y control total de tu negocio.
-            </p>
-          </div>
+              {/* Dashboard Content */}
+              <div className="p-8 space-y-6">
+                {/* Stats Row */}
+                <div className="grid grid-cols-4 gap-6">
+                  {[
+                    { label: "Ingresos", value: "₡2.8M", change: "+12.5%", color: "text-emerald-300" },
+                    { label: "Clientes", value: "1,247", change: "+8.2%", color: "text-[#00B2E3]" },
+                    { label: "Conversión", value: "94.2%", change: "+2.1%", color: "text-purple-300" },
+                    { label: "Eficiencia", value: "97.8%", change: "+5.3%", color: "text-orange-300" }
+                  ].map((stat, i) => (
+                    <div key={i} className="bg-gray-800/40 rounded-lg p-4 border border-gray-600/30 backdrop-blur-sm">
+                      <div className="text-xs text-gray-400 uppercase tracking-wide mb-1">{stat.label}</div>
+                      <div className={`text-2xl font-bold ${stat.color} mb-1`}>{stat.value}</div>
+                      <div className="text-xs text-gray-500">{stat.change} este mes</div>
+                    </div>
+                  ))}
+                </div>
 
-          {/* 3D Dashboard Card */}
-          <div className="flex justify-center">
-            <CardContainer className="inter-var" containerClassName="py-10">
-              <CardBody className="bg-gradient-to-b from-white/90 dark:from-white/10 to-white/70 dark:to-white/5 relative group/card dark:hover:shadow-2xl dark:hover:shadow-[#00B2E3]/[0.1] border-gray-200 dark:border-white/[0.2] w-auto sm:w-[55rem] lg:w-[70rem] h-auto rounded-2xl p-1 border backdrop-blur-xl">
-                <CardItem translateZ="50" className="w-full">
-                  <div className="bg-gradient-to-b from-white/80 dark:from-white/5 to-transparent rounded-xl overflow-hidden">
-                    {/* Browser Header */}
-                    <CardItem translateZ="60">
-                      <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-white/10">
-                        <div className="flex items-center gap-3">
-                          <div className="flex gap-2">
-                            <div className="w-3 h-3 bg-red-400 rounded-full"></div>
-                            <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
-                            <div className="w-3 h-3 bg-green-400 rounded-full"></div>
-                          </div>
-                          <div className="flex items-center gap-2 text-gray-900 dark:text-white">
-                            <BarChart3 className="w-4 h-4 text-[#00B2E3]" />
-                            <span className="text-sm font-medium">{t('preview.title')}</span>
-                          </div>
-                        </div>
-                        <div className="text-xs text-gray-500 dark:text-gray-400">{t('preview.url')}</div>
+                {/* Main Chart Area */}
+                <div className="bg-gray-800/20 rounded-xl p-6 border border-gray-600/20 backdrop-blur-sm">
+                  <div className="flex items-center justify-between mb-6">
+                    <div>
+                      <h3 className="text-white font-semibold text-lg mb-1">Análisis de Rendimiento</h3>
+                      <p className="text-gray-300 text-sm">Tendencias y proyecciones en tiempo real</p>
+                    </div>
+                    <div className="flex gap-2">
+                      <div className="px-3 py-1 bg-[#00B2E3]/20 text-[#00B2E3] rounded-md text-xs font-medium backdrop-blur-sm border border-[#00B2E3]/30">
+                        En Vivo
                       </div>
-                    </CardItem>
+                      <div className="px-3 py-1 bg-emerald-500/20 text-emerald-300 rounded-md text-xs font-medium backdrop-blur-sm border border-emerald-500/30">
+                        +18.7% ↗
+                      </div>
+                    </div>
+                  </div>
 
-                    {/* Dashboard Content */}
-                    <CardItem translateZ="80" className="p-10 space-y-8">
-                      {/* Stats Cards */}
-                      <CardItem translateZ="100">
-                        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 max-w-5xl mx-auto">
-                          {[
-                            { label: "Total Facturas", value: "2,847", color: "text-[#00B2E3]", icon: <DollarSign className="w-5 h-5" /> },
-                            { label: "Pagos Completados", value: "2,156", color: "text-green-500", icon: <CheckCircle className="w-5 h-5" /> },
-                            { label: "Tiempo Promedio", value: "32 días", color: "text-amber-500", icon: <Clock className="w-5 h-5" /> },
-                            { label: "Facturas Pendientes", value: "691", color: "text-red-500", icon: <Users className="w-5 h-5" /> }
-                          ].map((stat, i) => (
-                            <div key={i} className="bg-gray-100/80 dark:bg-white/5 rounded-xl p-5 backdrop-blur-sm transform hover:scale-105 transition-transform duration-200 border border-gray-200/50 dark:border-white/10">
-                              <div className="flex items-center justify-between mb-3">
-                                <div className="text-xs text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wide">{stat.label}</div>
-                                <div className={`${stat.color} opacity-80`}>{stat.icon}</div>
-                              </div>
-                              <div className={`text-2xl font-bold ${stat.color} mb-2`}>{stat.value}</div>
-                              <div className="flex items-center">
-                                <div className="w-2 h-2 bg-current rounded-full opacity-60"></div>
-                                <div className="text-xs text-gray-500 dark:text-gray-400 ml-2 font-medium">Actualizado</div>
-                              </div>
-                            </div>
-                          ))}
+                  {/* Simplified Chart */}
+                  <div className="relative h-40">
+                    <div className="flex items-end justify-between gap-2 h-full">
+                      {[...Array(24)].map((_, i) => (
+                        <div
+                          key={i}
+                          className="flex-1 bg-gradient-to-t from-[#00B2E3]/80 to-cyan-300/60 rounded-t-sm opacity-80 hover:opacity-100 transition-all duration-300 cursor-pointer hover:scale-105"
+                          style={{
+                            height: `${30 + Math.random() * 70}%`
+                          }}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Code/Data Section */}
+                <div className="grid grid-cols-2 gap-6">
+                  <div className="bg-gray-800/20 rounded-xl p-6 border border-gray-600/20 backdrop-blur-sm">
+                    <h4 className="text-white font-medium mb-4 flex items-center gap-2">
+                      <Database className="w-4 h-4 text-[#00B2E3]" />
+                      Datos en Tiempo Real
+                    </h4>
+                    <div className="space-y-2 text-sm font-mono">
+                      <div className="text-gray-300">
+                        <span className="text-purple-300">SELECT</span> * <span className="text-purple-300">FROM</span> analytics
+                      </div>
+                      <div className="text-gray-300">
+                        <span className="text-purple-300">WHERE</span> date = <span className="text-emerald-300">'today'</span>
+                      </div>
+                      <div className="text-gray-300">
+                        <span className="text-purple-300">ORDER BY</span> performance <span className="text-purple-300">DESC</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-gray-800/20 rounded-xl p-6 border border-gray-600/20 backdrop-blur-sm">
+                    <h4 className="text-white font-medium mb-4 flex items-center gap-2">
+                      <Brain className="w-4 h-4 text-emerald-300" />
+                      AI Insights
+                    </h4>
+                    <div className="space-y-3">
+                      {[
+                        { text: "Incremento proyectado del 24%", confidence: "95%" },
+                        { text: "Nuevo segmento detectado", confidence: "87%" },
+                        { text: "Optimización sugerida", confidence: "92%" }
+                      ].map((insight, i) => (
+                        <div key={i} className="flex items-center justify-between text-sm">
+                          <span className="text-gray-200">{insight.text}</span>
+                          <span className="text-emerald-300 font-medium">{insight.confidence}</span>
                         </div>
-                      </CardItem>
-
-                      {/* Main Dashboard Area - 16:9 Layout */}
-                      <CardItem translateZ="120">
-                        <div className="bg-gray-100/80 dark:bg-white/5 rounded-xl p-10 backdrop-blur-sm border border-gray-200/50 dark:border-white/10 h-[28rem] max-w-6xl mx-auto">
-                          {/* Header */}
-                          <CardItem translateZ="140">
-                            <div className="flex items-center justify-between mb-8">
-                              <div className="flex-1">
-                                <h3 className="text-gray-900 dark:text-white font-semibold text-xl mb-2">Panel de Control Empresarial</h3>
-                                <p className="text-sm text-gray-500 dark:text-gray-400">Análisis integral de rendimiento y tendencias de negocio</p>
-                              </div>
-                              <div className="flex gap-3">
-                                <Badge className="bg-[#00B2E3]/20 text-[#00B2E3] border-[#00B2E3]/30 text-sm font-medium px-3 py-1">
-                                  En Tiempo Real
-                                </Badge>
-                                <Badge className="bg-green-500/20 text-green-600 border-green-500/30 text-sm font-medium px-3 py-1">
-                                  +12.4% Este Mes
-                                </Badge>
-                              </div>
-                            </div>
-                          </CardItem>
-                          
-                          {/* Content Grid */}
-                          <CardItem translateZ="150">
-                            <div className="grid grid-cols-3 gap-10 h-72">
-                              {/* Chart Section - Takes 2/3 of the width */}
-                              <div className="col-span-2 space-y-6">
-                                {/* Navigation Tabs */}
-                                <div className="flex gap-2 bg-gray-200/60 dark:bg-white/10 rounded-lg p-1.5">
-                                  {['Tendencias', 'Comparativo', 'Proyecciones', 'Análisis'].map((tab, i) => (
-                                    <div key={i} className={`flex-1 text-center px-4 py-2.5 rounded-md text-sm font-medium transition-all duration-200 ${
-                                      i === 0 
-                                        ? 'bg-white dark:bg-gray-800 text-[#00B2E3] shadow-sm' 
-                                        : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-white/5'
-                                    }`}>
-                                      {tab}
-                                    </div>
-                                  ))}
-                                </div>
-                                
-                                {/* Enhanced Chart */}
-                                <div className="relative h-48">
-                                  {/* Chart Background Grid */}
-                                  <div className="absolute inset-0 opacity-20">
-                                    <div className="h-full w-full" style={{
-                                      backgroundImage: `
-                                        linear-gradient(to right, #e5e7eb 1px, transparent 1px),
-                                        linear-gradient(to bottom, #e5e7eb 1px, transparent 1px)
-                                      `,
-                                      backgroundSize: '32px 28px'
-                                    }}></div>
-                                  </div>
-                                  
-                                  {/* Chart Bars */}
-                                  <div className="flex items-end justify-between gap-3 h-full relative z-10 px-6">
-                                    {[
-                                      { height: 45, value: '1.2K', month: 'Ene', trend: '+5%' },
-                                      { height: 65, value: '1.8K', month: 'Feb', trend: '+12%' },
-                                      { height: 55, value: '1.5K', month: 'Mar', trend: '-8%' },
-                                      { height: 80, value: '2.1K', month: 'Abr', trend: '+18%' },
-                                      { height: 70, value: '1.9K', month: 'May', trend: '+2%' },
-                                      { height: 85, value: '2.3K', month: 'Jun', trend: '+15%' },
-                                      { height: 95, value: '2.6K', month: 'Jul', trend: '+22%' },
-                                      { height: 75, value: '2.0K', month: 'Ago', trend: '-3%' },
-                                      { height: 90, value: '2.4K', month: 'Sep', trend: '+8%' },
-                                      { height: 85, value: '2.3K', month: 'Oct', trend: '+6%' },
-                                      { height: 100, value: '2.8K', month: 'Nov', trend: '+25%' },
-                                      { height: 92, value: '2.5K', month: 'Dic', trend: '+11%' }
-                                    ].map((bar, i) => (
-                                      <div key={i} className="flex flex-col items-center group cursor-pointer flex-1">
-                                        <div className="relative w-full max-w-8">
-                                          {/* Enhanced Tooltip */}
-                                          <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-xs px-3 py-2 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap z-20 shadow-lg">
-                                            <div className="font-bold">{bar.value} facturas</div>
-                                            <div className="text-xs opacity-75">{bar.trend} vs anterior</div>
-                                          </div>
-                                          {/* Bar with gradient */}
-                                          <div 
-                                            className="w-full bg-gradient-to-t from-[#00B2E3] via-[#00B2E3]/80 to-[#00B2E3]/60 rounded-t-md transform hover:scale-110 transition-all duration-300 shadow-sm hover:shadow-lg hover:shadow-[#00B2E3]/25" 
-                                            style={{ height: `${bar.height}%` }}
-                                          ></div>
-                                        </div>
-                                        <div className="text-sm text-gray-500 dark:text-gray-400 mt-2 font-medium">{bar.month}</div>
-                                      </div>
-                                    ))}
-                                  </div>
-                                  
-                                  {/* Chart Labels */}
-                                  <div className="absolute left-0 top-0 h-full flex flex-col justify-between text-sm text-gray-400 dark:text-gray-500 -ml-12">
-                                    <span>3K</span>
-                                    <span>2K</span>
-                                    <span>1K</span>
-                                    <span>0</span>
-                                  </div>
-                                </div>
-                              </div>
-
-                              {/* Sidebar - Analytics and KPIs */}
-                              <div className="col-span-1 space-y-4">
-                                <div className="space-y-4">
-                                  <h4 className="text-sm font-semibold text-gray-900 dark:text-white">Métricas Clave</h4>
-                                  
-                                  {/* KPI Cards */}
-                                  <div className="space-y-3">
-                                    {[
-                                      { label: "Crecimiento", value: "+24.8%", color: "text-green-500", bg: "bg-green-500/10" },
-                                      { label: "Eficiencia", value: "94.2%", color: "text-blue-500", bg: "bg-blue-500/10" },
-                                      { label: "Satisfacción", value: "4.8★", color: "text-yellow-500", bg: "bg-yellow-500/10" },
-                                      { label: "ROI", value: "3.2x", color: "text-purple-500", bg: "bg-purple-500/10" }
-                                    ].map((kpi, i) => (
-                                      <div key={i} className={`${kpi.bg} rounded-lg p-3 border border-gray-200/30 dark:border-white/10`}>
-                                        <div className="flex items-center justify-between">
-                                          <span className="text-xs text-gray-600 dark:text-gray-400">{kpi.label}</span>
-                                          <span className={`text-sm font-bold ${kpi.color}`}>{kpi.value}</span>
-                                        </div>
-                                      </div>
-                                    ))}
-                                  </div>
-
-                                  {/* Top Clients Preview */}
-                                  <div className="mt-6 pt-4 border-t border-gray-200/50 dark:border-white/10">
-                                    <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Top Clientes</h4>
-                                    <div className="space-y-2">
-                                      {[
-                                        { name: "TechCorp SA", amount: "₡2.4M", color: "bg-green-500" },
-                                        { name: "Innovaciones Ltd", amount: "₡1.8M", color: "bg-blue-500" },
-                                        { name: "Digital Solutions", amount: "₡1.2M", color: "bg-yellow-500" }
-                                      ].map((client, i) => (
-                                        <div key={i} className="flex items-center justify-between text-xs">
-                                          <div className="flex items-center gap-2">
-                                            <div className={`w-2 h-2 ${client.color} rounded-full`}></div>
-                                            <span className="text-gray-900 dark:text-white truncate">{client.name}</span>
-                                          </div>
-                                          <span className="font-medium text-gray-600 dark:text-gray-400">{client.amount}</span>
-                                        </div>
-                                      ))}
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </CardItem>
-                        </div>
-                      </CardItem>
-                    </CardItem>
+                      ))}
+                    </div>
                   </div>
-                </CardItem>
-
-                {/* Floating Elements with 3D Effect - Inside CardContainer */}
-                <CardItem translateZ="200" className="absolute -top-4 -right-4 z-10">
-                  <div className="bg-[#00B2E3] rounded-full p-3 shadow-lg shadow-[#00B2E3]/25 hover:shadow-2xl hover:shadow-[#00B2E3]/40 transition-all duration-300 hover:scale-110">
-                    <Activity className="w-5 h-5 text-white" />
-                  </div>
-                </CardItem>
-                
-                <CardItem translateZ="200" className="absolute -bottom-4 -left-4 z-10">
-                  <div className="bg-[#003057] rounded-full p-3 shadow-lg shadow-[#003057]/25 hover:shadow-2xl hover:shadow-[#003057]/40 transition-all duration-300 hover:scale-110">
-                    <TrendingUp className="w-5 h-5 text-[#00B2E3]" />
-                  </div>
-                </CardItem>
-              </CardBody>
-            </CardContainer>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
+
+        {/* Smooth Bottom Fade */}
+        <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-white dark:from-gray-900 via-white/80 dark:via-gray-900/80 to-transparent"></div>
       </section>
 
             {/* Capin AI Showcase */}

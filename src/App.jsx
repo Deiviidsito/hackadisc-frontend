@@ -11,6 +11,7 @@ import CompanyAnalyticsPage from '@/components/CompanyAnalyticsPage'
 import ReportesPage from '@/components/ReportesPage'
 import VentasPage from '@/components/VentasPage'
 import CapiPage from '@/components/CapiPage'
+import DashboardApiTest from '@/components/DashboardApiTest'
 import './App.css'
 
 // Componente para proteger rutas privadas
@@ -120,6 +121,16 @@ function App() {
                 <CapiPage />
               </DashboardLayout>
             </PrivateRoute>
+          } 
+        />
+        
+        {/* Ruta de prueba de API - Solo para desarrollo */}
+        <Route 
+          path="/api-test" 
+          element={
+            <Layout showNavigation={false}>
+              <DashboardApiTest />
+            </Layout>
           } 
         />
         

@@ -3,19 +3,24 @@ export default {
   hero: {
     badge: 'Hackathon INSECAP 2025',
     title: {
-      line1: 'Plataforma de análisis',
+      line1: 'Análisis Empresarial',
       line2: 'predictivo empresarial con',
-      line3: 'IA integrada'
+      line3: 'IA Avanzada'
     },
-    subtitle: 'Solución integral de analytics que optimiza la gestión de cobranzas mediante análisis predictivo avanzado. Toma decisiones informadas con insights en tiempo real.',
+    subtitle: 'Plataforma integral de analytics que optimiza la gestión empresarial mediante análisis predictivo con inteligencia artificial. Toma decisiones informadas con insights en tiempo real.',
     cta: {
-      primary: 'Ver Demo',
-      secondary: 'Conocer Plataforma'
+      primary: 'Comenzar Ahora',
+      secondary: 'Ver Demo'
     },
     trustIndicators: {
       noCard: 'Sin tarjeta de crédito',
       trial: '14 días gratis',
       cancel: 'Cancela cuando quieras'
+    },
+    cards: {
+      innovation: 'Innovación',
+      security: 'Seguridad',
+      analytics: 'Analytics IA'
     }
   },
   

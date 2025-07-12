@@ -265,64 +265,64 @@ const ReportesPage = () => {
     return (
       <div className="space-y-6">
         {/* KPIs principales mejorados */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
           <Card>
-            <CardContent className="p-4">
+            <CardContent className="p-3 sm:p-4">
               <div className="flex items-center space-x-2">
-                <Clock className="h-8 w-8 text-blue-600" />
-                <div>
-                  <div className="text-2xl font-bold text-blue-600">{formatDays(promedioGeneral)}</div>
-                  <p className="text-sm text-gray-600">Tiempo promedio global</p>
+                <Clock className="h-6 w-6 sm:h-8 sm:w-8 text-blue-600 flex-shrink-0" />
+                <div className="min-w-0">
+                  <div className="text-lg sm:text-2xl font-bold text-blue-600 truncate">{formatDays(promedioGeneral)}</div>
+                  <p className="text-xs sm:text-sm text-gray-600 truncate">Tiempo promedio global</p>
                 </div>
               </div>
             </CardContent>
           </Card>
           
           <Card>
-            <CardContent className="p-4">
+            <CardContent className="p-3 sm:p-4">
               <div className="flex items-center space-x-2">
-                <Users className="h-8 w-8 text-purple-600" />
-                <div>
-                  <div className="text-2xl font-bold text-purple-600">{totalClientes.toLocaleString()}</div>
-                  <p className="text-sm text-gray-600">Total clientes</p>
+                <Users className="h-6 w-6 sm:h-8 sm:w-8 text-purple-600 flex-shrink-0" />
+                <div className="min-w-0">
+                  <div className="text-lg sm:text-2xl font-bold text-purple-600 truncate">{totalClientes.toLocaleString()}</div>
+                  <p className="text-xs sm:text-sm text-gray-600 truncate">Total clientes</p>
                 </div>
               </div>
             </CardContent>
           </Card>
           
           <Card>
-            <CardContent className="p-4">
+            <CardContent className="p-3 sm:p-4">
               <div className="flex items-center space-x-2">
-                <AlertTriangle className="h-8 w-8 text-red-600" />
-                <div>
-                  <div className="text-2xl font-bold text-red-600">{clientesAltoRiesgo}</div>
-                  <p className="text-sm text-gray-600">Clientes alto riesgo</p>
+                <AlertTriangle className="h-6 w-6 sm:h-8 sm:w-8 text-red-600 flex-shrink-0" />
+                <div className="min-w-0">
+                  <div className="text-lg sm:text-2xl font-bold text-red-600 truncate">{clientesAltoRiesgo}</div>
+                  <p className="text-xs sm:text-sm text-gray-600 truncate">Clientes alto riesgo</p>
                 </div>
               </div>
             </CardContent>
           </Card>
           
           <Card>
-            <CardContent className="p-4">
+            <CardContent className="p-3 sm:p-4">
               <div className="flex items-center space-x-2">
-                <DollarSign className="h-8 w-8 text-green-600" />
-                <div>
-                  <div className="text-xl font-bold text-green-600">{formatCurrency(montoTotalGestionado)}</div>
-                  <p className="text-sm text-gray-600">Monto total gestionado</p>
+                <DollarSign className="h-6 w-6 sm:h-8 sm:w-8 text-green-600 flex-shrink-0" />
+                <div className="min-w-0">
+                  <div className="text-base sm:text-xl font-bold text-green-600 truncate">{formatCurrency(montoTotalGestionado)}</div>
+                  <p className="text-xs sm:text-sm text-gray-600 truncate">Monto total gestionado</p>
                 </div>
               </div>
             </CardContent>
           </Card>
           
           <Card>
-            <CardContent className="p-4">
+            <CardContent className="p-3 sm:p-4">
               <div className="flex items-center space-x-2">
-                <TrendingUp className="h-8 w-8 text-yellow-600" />
-                <div>
-                  <div className="text-2xl font-bold text-yellow-600">
+                <TrendingUp className="h-6 w-6 sm:h-8 sm:w-8 text-yellow-600 flex-shrink-0" />
+                <div className="min-w-0">
+                  <div className="text-lg sm:text-2xl font-bold text-yellow-600 truncate">
                     {((totalClientes - clientesAltoRiesgo) / totalClientes * 100).toFixed(1)}%
                   </div>
-                  <p className="text-sm text-gray-600">Tasa de confiabilidad</p>
+                  <p className="text-xs sm:text-sm text-gray-600 truncate">Tasa de confiabilidad</p>
                 </div>
               </div>
             </CardContent>
@@ -336,7 +336,7 @@ const ReportesPage = () => {
             <CardDescription>Evolución del tiempo promedio de pago en los últimos 7 meses</CardDescription>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
+            <ResponsiveContainer width="100%" height={250}>
               <LineChart data={tendenciaTiempos}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="mes" />
@@ -350,14 +350,14 @@ const ReportesPage = () => {
         </Card>
 
         {/* Distribución de riesgo y estadísticas por etapa */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6">
           <Card>
             <CardHeader>
               <CardTitle>Distribución por Categoría de Riesgo</CardTitle>
               <CardDescription>Clasificación de {totalClientes.toLocaleString()} clientes</CardDescription>
             </CardHeader>
             <CardContent>
-              <ResponsiveContainer width="100%" height={250}>
+              <ResponsiveContainer width="100%" height={200}>
                 <PieChart>
                   <Pie
                     data={distribucionRiesgo}
@@ -383,7 +383,7 @@ const ReportesPage = () => {
               <CardDescription>Tiempo promedio y volumen procesado por fase</CardDescription>
             </CardHeader>
             <CardContent>
-              <ResponsiveContainer width="100%" height={250}>
+              <ResponsiveContainer width="100%" height={200}>
                 <BarChart data={tiemposPorEtapa}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="etapa" angle={-20} textAnchor="end" height={80} />
@@ -410,8 +410,9 @@ const ReportesPage = () => {
             <CardDescription>Estadísticas detalladas del proceso completo con {totalClientes.toLocaleString()} clientes</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
+            <div className="overflow-x-auto -mx-3 sm:-mx-6">
+              <div className="inline-block min-w-full align-middle">
+                <table className="min-w-full text-xs sm:text-sm">
                 <thead>
                   <tr className="border-b">
                     <th className="text-left p-3">Etapa del Proceso</th>
@@ -445,6 +446,7 @@ const ReportesPage = () => {
                   })}
                 </tbody>
               </table>
+              </div>
             </div>
           </CardContent>
         </Card>
@@ -872,20 +874,20 @@ const ReportesPage = () => {
   )
 
   return (
-    <div className="space-y-6">
+    <div className="w-full max-w-none mx-auto space-y-4 sm:space-y-6 lg:pl-4 xl:pl-6 lg:pr-8 xl:pr-12 p-4 sm:p-6 lg:p-6 xl:p-8">
       {/* Header con controles de filtrado */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 lg:gap-0">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Reportes de Análisis de Pagos</h1>
-          <p className="text-muted-foreground">
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">Reportes de Análisis de Pagos</h1>
+          <p className="text-muted-foreground text-sm sm:text-base">
             Análisis integral de tiempos de pago y comportamiento de clientes
           </p>
         </div>
-        <div className="flex space-x-2">
+        <div className="flex flex-wrap gap-2 w-full lg:w-auto">
           <select 
             value={selectedClients} 
             onChange={(e) => setSelectedClients(Number(e.target.value))}
-            className="px-3 py-2 border rounded-md text-sm"
+            className="px-2 sm:px-3 py-2 border rounded-md text-xs sm:text-sm min-w-0 flex-1 sm:flex-initial"
           >
             <option value={10}>Top 10 Clientes</option>
             <option value={25}>Top 25 Clientes</option>
@@ -896,7 +898,7 @@ const ReportesPage = () => {
           <select 
             value={sortBy} 
             onChange={(e) => setSortBy(e.target.value)}
-            className="px-3 py-2 border rounded-md text-sm"
+            className="px-2 sm:px-3 py-2 border rounded-md text-xs sm:text-sm min-w-0 flex-1 sm:flex-initial"
           >
             <option value="promedio">Ordenar por Tiempo Promedio</option>
             <option value="ventas">Ordenar por Ventas</option>
@@ -907,7 +909,7 @@ const ReportesPage = () => {
           <select 
             value={selectedPeriod} 
             onChange={(e) => setSelectedPeriod(e.target.value)}
-            className="px-3 py-2 border rounded-md text-sm"
+            className="px-2 sm:px-3 py-2 border rounded-md text-xs sm:text-sm min-w-0 flex-1 sm:flex-initial"
           >
             <option value="last3months">Últimos 3 meses</option>
             <option value="last6months">Últimos 6 meses</option>
@@ -915,34 +917,34 @@ const ReportesPage = () => {
             <option value="all">Todo el período</option>
           </select>
 
-          <Button variant="outline" size="sm">
-            <Filter className="h-4 w-4 mr-2" />
-            Filtros
+          <Button variant="outline" size="sm" className="text-xs sm:text-sm">
+            <Filter className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+            <span className="hidden sm:inline">Filtros</span>
           </Button>
-          <Button variant="outline" size="sm">
-            <Download className="h-4 w-4 mr-2" />
-            Exportar
+          <Button variant="outline" size="sm" className="text-xs sm:text-sm">
+            <Download className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+            <span className="hidden sm:inline">Exportar</span>
           </Button>
         </div>
       </div>
 
       {/* Tabs */}
       <div className="border-b">
-        <div className="flex space-x-8 overflow-x-auto">
+        <div className="flex space-x-4 sm:space-x-8 overflow-x-auto pb-2">
           {tabs.map((tab) => {
             const Icon = tab.icon
             return (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center space-x-2 py-2 px-1 border-b-2 font-medium text-sm whitespace-nowrap ${
+                className={`flex items-center space-x-1 sm:space-x-2 py-2 px-1 sm:px-2 border-b-2 font-medium text-xs sm:text-sm whitespace-nowrap ${
                   activeTab === tab.id
                     ? 'border-blue-500 text-blue-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                 }`}
               >
-                <Icon className="h-4 w-4" />
-                <span>{tab.label}</span>
+                <Icon className="h-3 w-3 sm:h-4 sm:w-4" />
+                <span className="hidden sm:inline lg:hidden xl:inline">{tab.label}</span>
               </button>
             )
           })}

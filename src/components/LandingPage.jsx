@@ -3,6 +3,9 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Spotlight } from '@/components/ui/spotlight'
+import { BackgroundBeams } from '@/components/ui/background-beams'
+import { GlowingStarsBackgroundCard, GlowingStarsTitle, GlowingStarsDescription } from '@/components/ui/glowing-stars'
+import { AnimatedLogo } from '@/components/ui/animated-logo'
 import { useTranslation } from '@/hooks/useTranslation'
 import { 
   BarChart3, 
@@ -16,7 +19,10 @@ import {
   Zap,
   LineChart,
   Building2,
-  Target
+  Target,
+  Sparkles,
+  Rocket,
+  Shield
 } from 'lucide-react'
 
 export default function LandingPage() {
@@ -80,7 +86,10 @@ export default function LandingPage() {
       <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#003057]/20 rounded-full blur-3xl"></div>
 
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 px-6 overflow-hidden">
+      <section className="relative h-screen flex items-center justify-center px-6 overflow-hidden">
+        {/* Background Beams */}
+        <BackgroundBeams className="opacity-40" />
+        
         {/* Spotlight Effects */}
         <Spotlight
           className="-top-40 left-0 md:-top-20 md:left-60"
@@ -90,69 +99,148 @@ export default function LandingPage() {
           className="-top-10 left-full md:-top-5 md:left-80"
           fill="#00B2E3"
         />
-        <Spotlight
-          className="top-28 left-20 md:top-40 md:left-40"
-          fill="#003057"
-        />
         
-        <div className="max-w-7xl mx-auto text-center relative z-10">
-          
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 bg-[#003057]/20 border border-[#00B2E3]/20 rounded-full px-4 py-2 mb-8">
-            <div className="w-2 h-2 bg-[#00B2E3] rounded-full animate-pulse"></div>
-            <span className="text-[#00B2E3] text-sm font-medium">{t('landing.hero.badge')}</span>
-          </div>
-
-          {/* Main Heading */}
-          <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold mb-6 tracking-tight">
-            <span className="text-white">{t('landing.hero.title.line1')}</span>
-            <br />
-            <span className="text-white">{t('landing.hero.title.line2')}</span>
-            <br />
-            <span className="bg-gradient-to-r from-[#00B2E3] via-[#00B2E3] to-white bg-clip-text text-transparent">
-              {t('landing.hero.title.line3')}
-            </span>
-          </h1>
-
-          {/* Subtitle */}
-          <p className="text-xl text-gray-400 max-w-3xl mx-auto mb-12 leading-relaxed">
-            {t('landing.hero.subtitle')}
-          </p>
-
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
-            <Button 
-              size="lg"
-              className="bg-white text-black hover:bg-gray-100 px-8 py-4 text-lg font-medium rounded-xl h-auto"
-              onClick={() => navigate('/login')}
-            >
-              {t('landing.hero.cta.primary')}
-              <ArrowRight className="w-5 h-5 ml-2" />
-            </Button>
-            <Button 
-              variant="outline"
-              size="lg"
-              className="border-[#003057] text-white hover:bg-[#003057]/20 px-8 py-4 text-lg font-medium rounded-xl h-auto"
-            >
-              {t('landing.hero.cta.secondary')}
-            </Button>
-          </div>
-
-          {/* Trust Indicators */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-8 text-sm text-gray-500">
-            <div className="flex items-center gap-2">
-              <CheckCircle className="w-4 h-4 text-[#00B2E3]" />
-              <span>{t('landing.hero.trustIndicators.noCard')}</span>
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            
+            {/* Left Side - Logo and Interactive Elements */}
+            <div className="space-y-8">
+              {/* Main Logo with Animation */}
+              <div className="flex justify-center lg:justify-start">
+                <AnimatedLogo className="w-48 h-48" />
+              </div>
+              
+              {/* Interactive Cards */}
+              <div className="grid grid-cols-2 gap-4">
+                <GlowingStarsBackgroundCard className="h-32">
+                  <div className="flex flex-col h-full justify-between">
+                    <Rocket className="w-6 h-6 text-[#00B2E3]" />
+                    <div>
+                      <GlowingStarsTitle className="text-sm">
+                        {t('landing.hero.cards.innovation')}
+                      </GlowingStarsTitle>
+                      <GlowingStarsDescription className="text-xs text-white/70">
+                        IA Avanzada
+                      </GlowingStarsDescription>
+                    </div>
+                  </div>
+                </GlowingStarsBackgroundCard>
+                
+                <GlowingStarsBackgroundCard className="h-32">
+                  <div className="flex flex-col h-full justify-between">
+                    <Shield className="w-6 h-6 text-[#00B2E3]" />
+                    <div>
+                      <GlowingStarsTitle className="text-sm">
+                        {t('landing.hero.cards.security')}
+                      </GlowingStarsTitle>
+                      <GlowingStarsDescription className="text-xs text-white/70">
+                        Datos Seguros
+                      </GlowingStarsDescription>
+                    </div>
+                  </div>
+                </GlowingStarsBackgroundCard>
+                
+                <GlowingStarsBackgroundCard className="h-32 col-span-2">
+                  <div className="flex items-center justify-between h-full">
+                    <div className="flex items-center space-x-3">
+                      <Sparkles className="w-6 h-6 text-[#00B2E3]" />
+                      <div>
+                        <GlowingStarsTitle className="text-sm">
+                          {t('landing.hero.cards.analytics')}
+                        </GlowingStarsTitle>
+                        <GlowingStarsDescription className="text-xs text-white/70">
+                          Análisis en Tiempo Real
+                        </GlowingStarsDescription>
+                      </div>
+                    </div>
+                    <div className="flex space-x-1">
+                      {[30, 60, 45, 80, 70].map((height, i) => (
+                        <div 
+                          key={i} 
+                          className="w-2 bg-gradient-to-t from-[#00B2E3] to-[#003057] rounded-t animate-pulse" 
+                          style={{ 
+                            height: `${height * 0.4}px`,
+                            animationDelay: `${i * 200}ms`
+                          }}
+                        ></div>
+                      ))}
+                    </div>
+                  </div>
+                </GlowingStarsBackgroundCard>
+              </div>
             </div>
-            <div className="flex items-center gap-2">
-              <CheckCircle className="w-4 h-4 text-[#00B2E3]" />
-              <span>{t('landing.hero.trustIndicators.trial')}</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <CheckCircle className="w-4 h-4 text-[#00B2E3]" />
-              <span>{t('landing.hero.trustIndicators.cancel')}</span>
+
+            {/* Right Side - Text and CTA */}
+            <div className="space-y-8 text-center lg:text-left">
+              {/* Badge */}
+              <div className="inline-flex items-center gap-2 bg-[#003057]/20 border border-[#00B2E3]/20 rounded-full px-4 py-2">
+                <div className="w-2 h-2 bg-[#00B2E3] rounded-full animate-pulse"></div>
+                <span className="text-[#00B2E3] text-sm font-medium">{t('landing.hero.badge')}</span>
+              </div>
+
+              {/* Main Heading */}
+              <div className="space-y-4">
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
+                  <span className="text-white">{t('landing.hero.title.line1')}</span>
+                  <br />
+                  <span className="bg-gradient-to-r from-[#00B2E3] via-[#00B2E3] to-white bg-clip-text text-transparent">
+                    {t('landing.hero.title.line3')}
+                  </span>
+                </h1>
+              </div>
+
+              {/* Subtitle */}
+              <p className="text-lg text-gray-400 max-w-xl leading-relaxed">
+                {t('landing.hero.subtitle')}
+              </p>
+
+              {/* CTA Buttons */}
+              <div className="flex flex-col sm:flex-row items-center gap-4">
+                <Button 
+                  size="lg"
+                  className="bg-gradient-to-r from-[#00B2E3] to-[#003057] hover:from-[#00B2E3]/90 hover:to-[#003057]/90 text-white px-8 py-4 text-lg font-medium rounded-xl h-auto shadow-lg shadow-[#00B2E3]/25 transform hover:scale-105 transition-all duration-200"
+                  onClick={() => navigate('/login')}
+                >
+                  {t('landing.hero.cta.primary')}
+                  <ArrowRight className="w-5 h-5 ml-2" />
+                </Button>
+                <Button 
+                  variant="outline"
+                  size="lg"
+                  className="border-[#00B2E3]/30 text-white hover:bg-[#00B2E3]/10 hover:border-[#00B2E3] px-8 py-4 text-lg font-medium rounded-xl h-auto backdrop-blur-sm"
+                >
+                  {t('landing.hero.cta.secondary')}
+                </Button>
+              </div>
+
+              {/* Trust Indicators */}
+              <div className="flex flex-col sm:flex-row items-center gap-6 text-sm text-gray-400 pt-4">
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="w-4 h-4 text-[#00B2E3]" />
+                  <span>{t('landing.hero.trustIndicators.noCard')}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="w-4 h-4 text-[#00B2E3]" />
+                  <span>{t('landing.hero.trustIndicators.trial')}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="w-4 h-4 text-[#00B2E3]" />
+                  <span>{t('landing.hero.trustIndicators.cancel')}</span>
+                </div>
+              </div>
             </div>
           </div>
+        </div>
+
+        {/* Floating Elements */}
+        <div className="absolute top-20 right-20 bg-[#00B2E3]/20 rounded-full p-4 shadow-lg shadow-[#00B2E3]/25 animate-float">
+          <Activity className="w-6 h-6 text-[#00B2E3]" />
+        </div>
+        <div className="absolute bottom-40 left-20 bg-[#003057]/30 rounded-full p-4 shadow-lg shadow-[#003057]/25 animate-float-delayed">
+          <TrendingUp className="w-6 h-6 text-[#00B2E3]" />
+        </div>
+        <div className="absolute top-1/2 right-10 bg-gradient-to-r from-[#00B2E3]/20 to-[#003057]/20 rounded-full p-3 shadow-lg animate-pulse">
+          <Brain className="w-5 h-5 text-white" />
         </div>
       </section>
 

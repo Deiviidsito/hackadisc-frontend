@@ -27,6 +27,167 @@ export const authService = {
   }
 }
 
+// ============ NUEVOS SERVICIOS PARA TU API DE DASHBOARD ============
+
+// Servicios principales del dashboard (datos completos)
+export const dashboardService = {
+  // Dashboard completo - Retorna TODOS los datos en una sola llamada
+  getCompleto: async () => {
+    const response = await apiClient.get('/dashboard/completo')
+    return response.data
+  },
+
+  // Ventas por mes (todos los años disponibles)
+  getVentasMes: async () => {
+    const response = await apiClient.get('/dashboard/ventas-mes')
+    return response.data
+  },
+
+  // Resumen anual (todos los años disponibles)
+  getResumenAnual: async () => {
+    const response = await apiClient.get('/dashboard/resumen-anual')
+    return response.data
+  },
+
+  // Análisis de tiempos de pago
+  getTiempoPagoPromedio: async () => {
+    const response = await apiClient.get('/dashboard/tiempo-pago-promedio')
+    return response.data
+  },
+
+  getDistribucionPagos: async () => {
+    const response = await apiClient.get('/dashboard/distribucion-pagos')
+    return response.data
+  },
+
+  getMorosidadClientes: async () => {
+    const response = await apiClient.get('/dashboard/morosidad-clientes')
+    return response.data
+  },
+
+  // Análisis de etapas de venta
+  getTiempoEtapas: async () => {
+    const response = await apiClient.get('/dashboard/tiempo-etapas')
+    return response.data
+  },
+
+  getEtapasPorCliente: async () => {
+    const response = await apiClient.get('/dashboard/etapas-por-cliente')
+    return response.data
+  },
+
+  getDistribucionEtapas: async () => {
+    const response = await apiClient.get('/dashboard/distribucion-etapas')
+    return response.data
+  },
+
+  // Análisis de facturación
+  getTiempoFacturacion: async () => {
+    const response = await apiClient.get('/dashboard/tiempo-facturacion')
+    return response.data
+  },
+
+  getFacturacionPorCliente: async () => {
+    const response = await apiClient.get('/dashboard/facturacion-por-cliente')
+    return response.data
+  },
+
+  getDistribucionFacturacion: async () => {
+    const response = await apiClient.get('/dashboard/distribucion-facturacion')
+    return response.data
+  },
+
+  // Análisis de tipos de flujo
+  getTiposFlujo: async () => {
+    const response = await apiClient.get('/dashboard/tipos-flujo')
+    return response.data
+  },
+
+  getPreferenciasFlujo: async () => {
+    const response = await apiClient.get('/dashboard/preferencias-flujo')
+    return response.data
+  },
+
+  getEficienciaFlujo: async () => {
+    const response = await apiClient.get('/dashboard/eficiencia-flujo')
+    return response.data
+  },
+
+  // Tiempo de pago completo
+  getPagoTiempoCompleto: async () => {
+    const response = await apiClient.get('/dashboard/pago-tiempo-completo')
+    return response.data
+  }
+}
+
+// ============ NUEVOS SERVICIOS PARA ANALÍTICAS POR CLIENTE ============
+
+// Servicios de clientes - analíticas personalizadas
+export const clientesService = {
+  // Lista de todos los clientes con estadísticas básicas
+  listar: async () => {
+    const response = await apiClient.get('/clientes/listar')
+    return response.data
+  },
+
+  // Lista simplificada para dashboard
+  listarSimple: async () => {
+    const response = await apiClient.get('/dashboard/clientes-lista')
+    return response.data
+  },
+
+  // Analíticas completas de un cliente específico
+  getAnalytics: async (clienteId) => {
+    const response = await apiClient.get(`/clientes/${clienteId}/analytics`)
+    return response.data
+  },
+
+  // Comparar dos clientes
+  comparar: async (cliente1Id, cliente2Id) => {
+    const response = await apiClient.get(`/clientes/${cliente1Id}/comparar?cliente_comparacion=${cliente2Id}`)
+    return response.data
+  }
+}
+
+// Servicios con parámetros personalizables
+export const dashboardCustomService = {
+  // Ventas por mes con filtros
+  getVentasMesCustom: async (params = {}) => {
+    const response = await apiClient.get('/dashboard/ventas-mes-custom', { params })
+    return response.data
+  },
+
+  // Tiempo de pago con filtros
+  getTiempoPagoCustom: async (params = {}) => {
+    const response = await apiClient.get('/dashboard/tiempo-pago-custom', { params })
+    return response.data
+  },
+
+  // Morosidad con filtros
+  getMorosidadCustom: async (params = {}) => {
+    const response = await apiClient.get('/dashboard/morosidad-custom', { params })
+    return response.data
+  },
+
+  // Etapas con filtros
+  getEtapasCustom: async (params = {}) => {
+    const response = await apiClient.get('/dashboard/etapas-custom', { params })
+    return response.data
+  },
+
+  // Facturación con filtros
+  getFacturacionCustom: async (params = {}) => {
+    const response = await apiClient.get('/dashboard/facturacion-custom', { params })
+    return response.data
+  },
+
+  // Tipos de flujo con filtros
+  getTiposFlujoCust: async (params = {}) => {
+    const response = await apiClient.get('/dashboard/tipos-flujo-custom', { params })
+    return response.data
+  }
+}
+
 // Servicios para el agente de IA Capi
 export const capiService = {
   // Preguntar por texto
@@ -61,169 +222,41 @@ export const capiService = {
   }
 }
 
-// Servicios de estadísticas de pagos
+// Mantener compatibilidad con el store actual - mapear a los nuevos endpoints
 export const statisticsService = {
-  // Obtener resumen global de estadísticas
+  // Mapear los métodos antiguos a los nuevos endpoints
   getGlobalSummary: async (params = {}) => {
-    const queryParams = new URLSearchParams()
-    
-    // Agregar parámetros si existen
-    if (params.dateFrom) queryParams.append('fecha_desde', params.dateFrom)
-    if (params.dateTo) queryParams.append('fecha_hasta', params.dateTo)
-    if (params.clientType && params.clientType !== 'all') queryParams.append('tipo_cliente', params.clientType)
-    if (params.paymentStatus && params.paymentStatus !== 'all') queryParams.append('estado_pago', params.paymentStatus)
-    if (params.amountMin) queryParams.append('monto_minimo', params.amountMin)
-    if (params.amountMax) queryParams.append('monto_maximo', params.amountMax)
-    
-    const queryString = queryParams.toString()
-    const url = queryString ? `/resumen-estadisticas-pago?${queryString}` : '/resumen-estadisticas-pago'
-    
-    const response = await apiClient.get(url)
-    return response.data
-  },
-  
-  // Obtener estadísticas por cliente
-  getClientStatistics: async (params = {}) => {
-    const queryParams = new URLSearchParams()
-    
-    // Agregar parámetros si existen
-    if (params.page) queryParams.append('page', params.page)
-    if (params.limit) queryParams.append('limit', params.limit)
-    if (params.dateFrom) queryParams.append('fecha_desde', params.dateFrom)
-    if (params.dateTo) queryParams.append('fecha_hasta', params.dateTo)
-    if (params.clientType && params.clientType !== 'all') queryParams.append('tipo_cliente', params.clientType)
-    if (params.paymentStatus && params.paymentStatus !== 'all') queryParams.append('estado_pago', params.paymentStatus)
-    if (params.amountMin) queryParams.append('monto_minimo', params.amountMin)
-    if (params.amountMax) queryParams.append('monto_maximo', params.amountMax)
-    
-    const queryString = queryParams.toString()
-    const url = queryString ? `/estadisticas-por-cliente?${queryString}` : '/estadisticas-por-cliente'
-    
-    const response = await apiClient.get(url)
-    return response.data
-  },
-  
-  // Obtener tendencias temporales
-  getTemporalTrends: async (params = {}) => {
-    const queryParams = new URLSearchParams()
-    
-    // Agregar parámetros si existen
-    if (params.dateFrom) queryParams.append('fecha_desde', params.dateFrom)
-    if (params.dateTo) queryParams.append('fecha_hasta', params.dateTo)
-    if (params.agrupacion) queryParams.append('agrupacion', params.agrupacion) // 'month', 'quarter', 'year'
-    if (params.año) queryParams.append('año', params.año)
-    if (params.clientType && params.clientType !== 'all') queryParams.append('tipo_cliente', params.clientType)
-    if (params.paymentStatus && params.paymentStatus !== 'all') queryParams.append('estado_pago', params.paymentStatus)
-    
-    const queryString = queryParams.toString()
-    const url = queryString ? `/tendencias-temporales?${queryString}` : '/tendencias-temporales'
-    
-    const response = await apiClient.get(url)
-    return response.data
-  },
-  
-  // Obtener distribución de pagos por rangos
-  getPaymentDistribution: async (params = {}) => {
-    const queryParams = new URLSearchParams()
-    
-    // Agregar parámetros si existen
-    if (params.dateFrom) queryParams.append('fecha_desde', params.dateFrom)
-    if (params.dateTo) queryParams.append('fecha_hasta', params.dateTo)
-    if (params.clientType && params.clientType !== 'all') queryParams.append('tipo_cliente', params.clientType)
-    if (params.paymentStatus && params.paymentStatus !== 'all') queryParams.append('estado_pago', params.paymentStatus)
-    
-    const queryString = queryParams.toString()
-    const url = queryString ? `/distribucion-pagos?${queryString}` : '/distribucion-pagos'
-    
-    const response = await apiClient.get(url)
-    return response.data
-  },
-  
-  // Obtener análisis comparativo entre períodos
-  getComparativeAnalysis: async (params = {}) => {
-    // Si no hay parámetros, usar valores por defecto
-    const defaultParams = {
-      fechaInicioPeriodo1: '2024-01-01',
-      fechaFinPeriodo1: '2024-06-30',
-      fechaInicioPeriodo2: '2024-07-01', 
-      fechaFinPeriodo2: '2024-12-31'
+    // Usar el endpoint completo o resumen anual según los parámetros
+    if (params && Object.keys(params).length > 0) {
+      // Si hay filtros, usar endpoints custom
+      return dashboardCustomService.getVentasMesCustom(params)
     }
-    
-    const finalParams = { ...defaultParams, ...params }
-    
-    const queryParams = new URLSearchParams({
-      fecha_inicio_periodo1: finalParams.fechaInicioPeriodo1,
-      fecha_fin_periodo1: finalParams.fechaFinPeriodo1,
-      fecha_inicio_periodo2: finalParams.fechaInicioPeriodo2,
-      fecha_fin_periodo2: finalParams.fechaFinPeriodo2
-    })
-    
-    const response = await apiClient.get(`/analisis-comparativo?${queryParams}`)
-    return response.data
-  }
-}
+    return dashboardService.getResumenAnual()
+  },
 
-// Servicio de facturas
-export const facturasService = {
-  // Obtener todas las facturas pendientes
-  getFacturasPendientes: async (params = {}) => {
-    const queryParams = new URLSearchParams()
-    
-    // Agregar parámetros si existen
-    if (params.page) queryParams.append('page', params.page)
-    if (params.limit) queryParams.append('limit', params.limit)
-    if (params.ordenar_por) queryParams.append('ordenar_por', params.ordenar_por) // 'fecha_emision', 'fecha_vencimiento', 'monto'
-    if (params.orden) queryParams.append('orden', params.orden) // 'asc', 'desc'
-    if (params.cliente) queryParams.append('cliente', params.cliente)
-    if (params.estado) queryParams.append('estado', params.estado) // 'pendiente', 'vencida'
-    if (params.fecha_desde) queryParams.append('fecha_desde', params.fecha_desde)
-    if (params.fecha_hasta) queryParams.append('fecha_hasta', params.fecha_hasta)
-    if (params.monto_min) queryParams.append('monto_min', params.monto_min)
-    if (params.monto_max) queryParams.append('monto_max', params.monto_max)
-    
-    const queryString = queryParams.toString()
-    const url = queryString ? `/facturas-pendientes?${queryString}` : '/facturas-pendientes'
-    
-    const response = await apiClient.get(url)
-    return response.data
+  getClientStatistics: async (params = {}) => {
+    // Usar morosidad de clientes como estadísticas de clientes
+    if (params && Object.keys(params).length > 0) {
+      return dashboardCustomService.getMorosidadCustom(params)
+    }
+    return dashboardService.getMorosidadClientes()
   },
-  
-  // Obtener facturas por empresa
-  getFacturasByEmpresa: async (empresaId, params = {}) => {
-    const queryParams = new URLSearchParams(params)
-    const response = await apiClient.get(`/empresas/${empresaId}/facturas?${queryParams}`)
-    return response.data
+
+  getTemporalTrends: async (params = {}) => {
+    // Usar ventas por mes para tendencias temporales
+    if (params && Object.keys(params).length > 0) {
+      return dashboardCustomService.getVentasMesCustom(params)
+    }
+    return dashboardService.getVentasMes()
   },
-  
-  // Obtener detalle de una factura
-  getFacturaDetail: async (facturaId) => {
-    const response = await apiClient.get(`/facturas/${facturaId}`)
-    return response.data
+
+  getPaymentDistribution: async () => {
+    // Usar distribución de pagos
+    return dashboardService.getDistribucionPagos()
   },
-  
-  // Actualizar estado de una factura
-  updateFacturaEstado: async (facturaId, estado) => {
-    const response = await apiClient.patch(`/facturas/${facturaId}/estado`, { estado })
-    return response.data
-  },
-  
-  // Obtener estadísticas de facturas
-  getFacturasStats: async () => {
-    const response = await apiClient.get('/facturas/estadisticas')
-    return response.data
-  },
-  
-  // Marcar factura como pagada
-  marcarComoPagada: async (facturaId, fechaPago = null) => {
-    const response = await apiClient.patch(`/facturas/${facturaId}/pagar`, { 
-      fecha_pago: fechaPago || new Date().toISOString().split('T')[0] 
-    })
-    return response.data
-  },
-  
-  // Enviar recordatorio de pago
-  enviarRecordatorio: async (facturaId, tipo = 'email') => {
-    const response = await apiClient.post(`/facturas/${facturaId}/recordatorio`, { tipo })
-    return response.data
+
+  getComparativeAnalysis: async () => {
+    // Usar análisis de eficiencia de flujo para comparativas
+    return dashboardService.getEficienciaFlujo()
   }
 }
