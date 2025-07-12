@@ -58,7 +58,7 @@ export default function Sidebar() {
     {
       icon: <ShoppingCart className="w-5 h-5" />,
       label: "Ventas",
-      path: "/dashboard/ventas"
+      path: "/dashboard/sales"
     },
     {
       icon: <FileText className="w-5 h-5" />,

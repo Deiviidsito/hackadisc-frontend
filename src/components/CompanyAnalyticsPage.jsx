@@ -1,8 +1,8 @@
 import { useParams, useNavigate } from 'react-router-dom'
+import { useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { useChartTheme, getChartProps } from '@/utils/chartTheme'
 import { 
   ArrowLeft, 
   Building2, 
@@ -23,14 +23,12 @@ import {
 } from 'lucide-react'
 import { 
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
-  ScatterChart, Scatter, AreaChart, Area, BarChart, Bar
+  AreaChart, Area, BarChart, Bar, PieChart, Pie, Cell
 } from 'recharts'
 
 export default function CompanyAnalyticsPage() {
   const { companyId } = useParams()
   const navigate = useNavigate()
-  const { isDark } = useChartTheme()
-  const chartProps = getChartProps(isDark)
 
   // Mock data - en un caso real vendría de la API
   const company = {
@@ -42,35 +40,379 @@ export default function CompanyAnalyticsPage() {
     logo: "/company-logos/techcorp.png"
   }
 
-  // Métricas principales de comercialización
+  // Datos del historial de comercializaciones para análisis predictivo (basado en estructura real)
+  const historialComercializaciones = [
+    { 
+      id: 10278, 
+      codigo: 'ANT192182-1', 
+      fechaInicio: '2024-01-02', 
+      fechaFacturacion: '2024-02-03', 
+      fechaPago: '2024-03-03', 
+      cliente: 'CONSTRUCTORA PEHUENCHE LTDA',
+      monto: 357000, 
+      diasPago: 28, 
+      trimestre: 'Q1',
+      estadoComercializacion: 3, // Completada
+      estadoFactura: 3 // Pagada
+    },
+    { 
+      id: 9611, 
+      codigo: 'ANT192206-1', 
+      fechaInicio: '2024-01-12', 
+      fechaFacturacion: '2024-02-08', 
+      fechaPago: '2024-02-20', 
+      cliente: 'KOMATSU CHILE S.A',
+      monto: 451000, 
+      diasPago: 12, 
+      trimestre: 'Q1',
+      estadoComercializacion: 3,
+      estadoFactura: 3
+    },
+    { 
+      id: 10456, 
+      codigo: 'ANT192289-1', 
+      fechaInicio: '2024-02-15', 
+      fechaFacturacion: '2024-03-10', 
+      fechaPago: '2024-03-28', 
+      cliente: 'MINERA LOS PELAMBRES',
+      monto: 678000, 
+      diasPago: 18, 
+      trimestre: 'Q1',
+      estadoComercializacion: 3,
+      estadoFactura: 3
+    },
+    { 
+      id: 10789, 
+      codigo: 'ANT192345-1', 
+      fechaInicio: '2024-03-05', 
+      fechaFacturacion: '2024-04-02', 
+      fechaPago: '2024-04-25', 
+      cliente: 'CODELCO CHILE',
+      monto: 892000, 
+      diasPago: 23, 
+      trimestre: 'Q2',
+      estadoComercializacion: 3,
+      estadoFactura: 3
+    },
+    { 
+      id: 11023, 
+      codigo: 'ANT192398-1', 
+      fechaInicio: '2024-04-18', 
+      fechaFacturacion: '2024-05-15', 
+      fechaPago: '2024-06-08', 
+      cliente: 'BANCO DE CHILE',
+      monto: 324000, 
+      diasPago: 24, 
+      trimestre: 'Q2',
+      estadoComercializacion: 3,
+      estadoFactura: 3
+    },
+    { 
+      id: 11234, 
+      codigo: 'ANT192445-1', 
+      fechaInicio: '2024-05-22', 
+      fechaFacturacion: '2024-06-18', 
+      fechaPago: '2024-07-05', 
+      cliente: 'ENTEL S.A',
+      monto: 567000, 
+      diasPago: 17, 
+      trimestre: 'Q2',
+      estadoComercializacion: 3,
+      estadoFactura: 3
+    },
+    { 
+      id: 11567, 
+      codigo: 'ANT192512-1', 
+      fechaInicio: '2024-06-10', 
+      fechaFacturacion: '2024-07-08', 
+      fechaPago: '2024-07-30', 
+      cliente: 'FALABELLA S.A',
+      monto: 445000, 
+      diasPago: 22, 
+      trimestre: 'Q3',
+      estadoComercializacion: 3,
+      estadoFactura: 3
+    },
+    { 
+      id: 11890, 
+      codigo: 'ANT192578-1', 
+      fechaInicio: '2024-07-25', 
+      fechaFacturacion: '2024-08-20', 
+      fechaPago: '2024-09-12', 
+      cliente: 'CONSTRUCTORA PEHUENCHE LTDA',
+      monto: 398000, 
+      diasPago: 23, 
+      trimestre: 'Q3',
+      estadoComercializacion: 3,
+      estadoFactura: 3
+    },
+    { 
+      id: 12156, 
+      codigo: 'ANT192634-1', 
+      fechaInicio: '2024-08-12', 
+      fechaFacturacion: '2024-09-08', 
+      fechaPago: '2024-09-25', 
+      cliente: 'SODIMAC S.A',
+      monto: 623000, 
+      diasPago: 17, 
+      trimestre: 'Q3',
+      estadoComercializacion: 3,
+      estadoFactura: 3
+    },
+    { 
+      id: 12445, 
+      codigo: 'ANT192701-1', 
+      fechaInicio: '2024-09-18', 
+      fechaFacturacion: '2024-10-15', 
+      fechaPago: '2024-11-02', 
+      cliente: 'METRO S.A',
+      monto: 734000, 
+      diasPago: 18, 
+      trimestre: 'Q4',
+      estadoComercializacion: 3,
+      estadoFactura: 3
+    },
+    { 
+      id: 12678, 
+      codigo: 'ANT192789-1', 
+      fechaInicio: '2024-10-05', 
+      fechaFacturacion: '2024-11-01', 
+      fechaPago: '2024-11-20', 
+      cliente: 'KOMATSU CHILE S.A',
+      monto: 512000, 
+      diasPago: 19, 
+      trimestre: 'Q4',
+      estadoComercializacion: 3,
+      estadoFactura: 3
+    },
+    { 
+      id: 12890, 
+      codigo: 'ANT192834-1', 
+      fechaInicio: '2024-11-15', 
+      fechaFacturacion: '2024-12-10', 
+      fechaPago: '2024-12-28', 
+      cliente: 'BANCO SANTANDER',
+      monto: 456000, 
+      diasPago: 18, 
+      trimestre: 'Q4',
+      estadoComercializacion: 3,
+      estadoFactura: 3
+    }
+  ]
+
+  // Funciones de análisis para el hackathon
+  const calcularEstadisticasPago = () => {
+    const diasPago = historialComercializaciones.map(f => f.diasPago)
+    const montos = historialComercializaciones.map(f => f.monto)
+    
+    const promedioDias = diasPago.reduce((sum, dias) => sum + dias, 0) / diasPago.length
+    const medianaDias = [...diasPago].sort((a, b) => a - b)[Math.floor(diasPago.length / 2)]
+    const minDias = Math.min(...diasPago)
+    const maxDias = Math.max(...diasPago)
+    const promedioMonto = montos.reduce((sum, monto) => sum + monto, 0) / montos.length
+    
+    // Desviación estándar
+    const varianza = diasPago.reduce((sum, dias) => sum + Math.pow(dias - promedioDias, 2), 0) / diasPago.length
+    const desviacionEstandar = Math.sqrt(varianza)
+    
+    return {
+      promedioDias: Math.round(promedioDias * 10) / 10,
+      medianaDias,
+      minDias,
+      maxDias,
+      desviacionEstandar: Math.round(desviacionEstandar * 10) / 10,
+      promedioMonto: Math.round(promedioMonto),
+      totalFacturas: historialComercializaciones.length,
+      confiabilidad: Math.round((1 - (desviacionEstandar / promedioDias)) * 100)
+    }
+  }
+
+  const calcularMetricasEtapas = () => {
+    // Análisis de tiempos entre etapas del proceso de venta
+    let tiempoProcesoTermino = 0
+    let tiempoFacturaPago = 0
+    let contadorEtapas = 0
+
+    historialComercializaciones.forEach(comercializacion => {
+      if (comercializacion.fechaInicio && comercializacion.fechaFacturacion && comercializacion.fechaPago) {
+        const fechaInicio = new Date(comercializacion.fechaInicio)
+        const fechaFacturacion = new Date(comercializacion.fechaFacturacion)
+        const fechaPago = new Date(comercializacion.fechaPago)
+        
+        // Días desde inicio hasta facturación (proceso completo)
+        const diasProcesoCompleto = Math.floor((fechaFacturacion - fechaInicio) / (1000 * 60 * 60 * 24))
+        // Días desde facturación hasta pago
+        const diasFacturaPago = Math.floor((fechaPago - fechaFacturacion) / (1000 * 60 * 60 * 24))
+        
+        tiempoProcesoTermino += diasProcesoCompleto
+        tiempoFacturaPago += diasFacturaPago
+        contadorEtapas++
+      }
+    })
+
+    return {
+      promedioProcesoCompleto: contadorEtapas > 0 ? Math.round((tiempoProcesoTermino / contadorEtapas) * 10) / 10 : 0,
+      promedioFacturaPago: contadorEtapas > 0 ? Math.round((tiempoFacturaPago / contadorEtapas) * 10) / 10 : 0,
+      cicloTotalPromedio: contadorEtapas > 0 ? Math.round(((tiempoProcesoTermino + tiempoFacturaPago) / contadorEtapas) * 10) / 10 : 0
+    }
+  }
+
+  // Análisis de riesgo del cliente
+  const calcularPerfilRiesgo = () => {
+    const estadisticas = calcularEstadisticasPago()
+    
+    // Factores de riesgo
+    let puntajeRiesgo = 0
+    let alertas = []
+    
+    // Factor 1: Promedio de días de pago alto
+    if (estadisticas.promedioDias > 25) {
+      puntajeRiesgo += 30
+      alertas.push("⚠️ Histórico de pagos lentos (>25 días)")
+    } else if (estadisticas.promedioDias > 20) {
+      puntajeRiesgo += 15
+      alertas.push("🟡 Pagos moderadamente lentos")
+    }
+    
+    // Factor 2: Alta variabilidad en pagos
+    if (estadisticas.desviacionEstandar > 8) {
+      puntajeRiesgo += 25
+      alertas.push("📊 Alta variabilidad en tiempos de pago")
+    }
+    
+    // Factor 3: Tendencia reciente (últimas 3 comercializaciones)
+    const ultimasComercializaciones = historialComercializaciones.slice(-3)
+    const promedioReciente = ultimasComercializaciones.reduce((sum, c) => sum + c.diasPago, 0) / ultimasComercializaciones.length
+    
+    if (promedioReciente > estadisticas.promedioDias * 1.2) {
+      puntajeRiesgo += 20
+      alertas.push("📈 Tendencia al alza en días de pago")
+    }
+    
+    // Factor 4: Montos altos vs tiempo de pago
+    const montosAltos = historialComercializaciones.filter(c => c.monto > 500000)
+    if (montosAltos.length > 0) {
+      const promedioMontosAltos = montosAltos.reduce((sum, c) => sum + c.diasPago, 0) / montosAltos.length
+      if (promedioMontosAltos > estadisticas.promedioDias * 1.15) {
+        puntajeRiesgo += 15
+        alertas.push("💰 Montos altos generan más demora")
+      }
+    }
+    
+    // Determinar categoría de riesgo
+    let categoria = "BAJO"
+    let color = "text-green-600"
+    let bgColor = "bg-green-100"
+    let emoji = "✅"
+    
+    if (puntajeRiesgo >= 60) {
+      categoria = "ALTO"
+      color = "text-red-600"
+      bgColor = "bg-red-100"
+      emoji = "🚨"
+    } else if (puntajeRiesgo >= 35) {
+      categoria = "MEDIO"
+      color = "text-yellow-600"
+      bgColor = "bg-yellow-100"
+      emoji = "⚠️"
+    }
+    
+    return {
+      puntaje: puntajeRiesgo,
+      categoria,
+      color,
+      bgColor,
+      emoji,
+      alertas,
+      recomendaciones: generarRecomendaciones(puntajeRiesgo)
+    }
+  }
+
+  // Generar recomendaciones basadas en el análisis
+  const generarRecomendaciones = (puntajeRiesgo) => {
+    const recomendaciones = []
+    
+    if (puntajeRiesgo >= 60) {
+      recomendaciones.push("📋 Implementar seguimiento semanal de facturas pendientes")
+      recomendaciones.push("📞 Contacto telefónico previo a vencimiento")
+      recomendaciones.push("💳 Ofrecer descuentos por pronto pago")
+    } else if (puntajeRiesgo >= 35) {
+      recomendaciones.push("📅 Recordatorios automáticos 5 días antes del vencimiento")
+      recomendaciones.push("📧 Comunicación proactiva sobre estado de facturas")
+    } else {
+      recomendaciones.push("✨ Cliente confiable - proceso estándar")
+      recomendaciones.push("🎯 Considerar condiciones preferenciales")
+    }
+    
+    return recomendaciones
+  }
+
+  // Proyección de flujo de caja
+  const calcularProyeccionFlujo = () => {
+    // Simular ventas futuras basadas en histórico
+    const ventasPorMes = 12 // Promedio mensual del cliente
+    const montoPromedio = historialComercializaciones.reduce((sum, c) => sum + c.monto, 0) / historialComercializaciones.length
+    const estadisticas = calcularEstadisticasPago()
+    
+    const proyeccion = []
+    const fechaActual = new Date()
+    
+    for (let i = 1; i <= 6; i++) {
+      const fechaMes = new Date(fechaActual.getFullYear(), fechaActual.getMonth() + i, 1)
+      const ventasEstimadas = ventasPorMes
+      const facturacionEstimada = ventasEstimadas * montoPromedio
+      
+      // Fecha esperada de cobro
+      const fechaCobro = new Date(fechaMes)
+      fechaCobro.setDate(fechaCobro.getDate() + estadisticas.promedioDias)
+      
+      proyeccion.push({
+        mes: fechaMes.toLocaleDateString('es-CL', { month: 'short', year: '2-digit' }),
+        ventasEstimadas,
+        facturacionEstimada: Math.round(facturacionEstimada),
+        fechaCobroEsperada: fechaCobro.toLocaleDateString('es-CL', { day: '2-digit', month: 'short' }),
+        confianza: Math.max(65, 100 - (estadisticas.desviacionEstandar * 3))
+      })
+    }
+    
+    return proyeccion
+  }
+
+  // Calcular métricas necesarias
+  const estadisticasPago = calcularEstadisticasPago()
+  const metricasEtapas = calcularMetricasEtapas()
+  const perfilRiesgo = calcularPerfilRiesgo()
+  const proyeccionFlujo = calcularProyeccionFlujo()
+
+  // Métricas principales de comercialización (calculadas dinámicamente)
   const metrics = [
     {
-      title: "Ventas Totales",
-      value: "143",
+      title: "Comercializaciones Totales",
+      value: historialComercializaciones.length.toString(),
       change: "+15%",
       icon: <Package className="w-6 h-6" />,
       color: "text-[#00B2E3]",
       bgColor: "bg-[#00B2E3]/10"
     },
     {
-      title: "Días Proceso → Término",
-      value: "12.5",
+      title: "Días Proceso → Factura",
+      value: metricasEtapas.promedioProcesoCompleto.toString(),
       change: "-2.3",
       icon: <Clock className="w-6 h-6" />,
       color: "text-[#003057]",
       bgColor: "bg-[#003057]/10"
     },
     {
-      title: "% Facturado",
-      value: "87.2%",
-      change: "+5.4%",
+      title: "Días Factura → Pago",
+      value: metricasEtapas.promedioFacturaPago.toString(),
+      change: "+1.2",
       icon: <Receipt className="w-6 h-6" />,
       color: "text-green-600",
       bgColor: "bg-green-100"
     },
     {
-      title: "Días a Pago",
-      value: "15.3",
+      title: "Ciclo Total Promedio",
+      value: `${metricasEtapas.cicloTotalPromedio} días`,
       change: "-4.1",
       icon: <Wallet className="w-6 h-6" />,
       color: "text-[#0037FF]",
@@ -78,131 +420,109 @@ export default function CompanyAnalyticsPage() {
     }
   ]
   
-  // Métricas secundarias
-  const secondaryMetrics = [
-    {
-      title: "% Facturas con Monto 0",
-      value: "4.7%",
-      change: "-0.8%",
-      icon: <AlertCircle className="w-6 h-6" />,
-      color: "text-amber-600",
-      bgColor: "bg-amber-100"
-    },
-    {
-      title: "Ventas Canceladas",
-      value: "12",
-      change: "-3",
-      icon: <Ban className="w-6 h-6" />,
-      color: "text-red-600",
-      bgColor: "bg-red-100"
-    },
-    {
-      title: "Ingresos Mensuales",
-      value: "$45.2K",
-      change: "+15.3%",
-      icon: <DollarSign className="w-6 h-6" />,
-      color: "text-emerald-600",
-      bgColor: "bg-emerald-100"
-    },
-    {
-      title: "Tickets Resueltos",
-      value: "28/32",
-      change: "87.5%",
-      icon: <Target className="w-6 h-6" />,
-      color: "text-[#0037FF]",
-      bgColor: "bg-[#0037FF]/10"
-    }
-  ]
-
-  // Datos de actividades recientes
-  const recentActivities = [
-    {
-      id: 1,
-      action: "Nueva comercialización #C-2876",
-      user: "Depto. Comercial",
-      time: "Hace 2 horas",
-      type: "achievement"
-    },
-    {
-      id: 2,
-      action: "Factura emitida #F-5412",
-      user: "Depto. Finanzas",
-      time: "Hace 5 horas",
-      type: "report"
-    },
-    {
-      id: 3,
-      action: "Pago recibido #P-1845",
-      user: "Depto. Contabilidad",
-      time: "Hace 1 día",
-      type: "achievement"
-    },
-    {
-      id: 4,
-      action: "Cambio de estado: En Proceso → Terminada",
-      user: "Gestión de Proyectos",
-      time: "Hace 2 días",
-      type: "user"
-    }
-  ]
-
   // Datos para gráficos
+  const trendData = [
+    { month: 'Ene', ventas: 8, facturacion: 28000 },
+    { month: 'Feb', ventas: 12, facturacion: 35000 },
+    { month: 'Mar', ventas: 15, facturacion: 42000 },
+    { month: 'Abr', ventas: 10, facturacion: 38000 },
+    { month: 'May', ventas: 18, facturacion: 48000 },
+    { month: 'Jun', ventas: 14, facturacion: 41000 }
+  ]
+
+  // Distribución por estado de comercialización (basado en datos reales)
+  const distributionData = [
+    { name: 'Completadas', value: 68, color: '#22c55e' },
+    { name: 'En Proceso', value: 22, color: '#00B2E3' },
+    { name: 'Pendientes', value: 7, color: '#f59e0b' },
+    { name: 'Canceladas', value: 3, color: '#ef4444' }
+  ]
   
-  // Timeline de estados por comercialización
-  const timelineData = [
-    { id: "COM-001", inicio: "2025-03-01", enProceso: "2025-03-03", terminado: "2025-03-15", facturacion: "2025-03-18", pago: "2025-04-02", monto: 4500 },
-    { id: "COM-002", inicio: "2025-03-10", enProceso: "2025-03-12", terminado: "2025-03-28", facturacion: "2025-04-05", pago: "2025-04-20", monto: 7800 },
-    { id: "COM-003", inicio: "2025-03-15", enProceso: "2025-03-16", terminado: "2025-03-30", facturacion: "2025-04-10", pago: "2025-04-25", monto: 5200 },
-    { id: "COM-004", inicio: "2025-04-01", enProceso: "2025-04-02", terminado: "2025-04-14", facturacion: "2025-04-18", pago: "2025-05-03", monto: 6300 },
-    { id: "COM-005", inicio: "2025-04-08", enProceso: "2025-04-10", terminado: "2025-04-22", facturacion: "2025-04-25", pago: "2025-05-10", monto: 8500 }
-  ]
-
-  // Datos para gráfico de dispersión: días de conversión vs monto
-  const scatterData = [
-    { diasConversion: 12, monto: 4500, id: "COM-001" },
-    { diasConversion: 16, monto: 7800, id: "COM-002" },
-    { diasConversion: 14, monto: 5200, id: "COM-003" },
-    { diasConversion: 12, monto: 6300, id: "COM-004" },
-    { diasConversion: 12, monto: 8500, id: "COM-005" },
-    { diasConversion: 18, monto: 3200, id: "COM-006" },
-    { diasConversion: 10, monto: 9200, id: "COM-007" },
-    { diasConversion: 22, monto: 4100, id: "COM-008" },
-    { diasConversion: 8, monto: 7400, id: "COM-009" },
-    { diasConversion: 15, monto: 6700, id: "COM-010" },
-    { diasConversion: 14, monto: 5600, id: "COM-011" },
-    { diasConversion: 11, monto: 8100, id: "COM-012" }
-  ]
-
-  // Datos para heatmap mensual (simplificado como gráfico de barras)
-  const monthlyData = [
-    { month: "Ene", ventas: 8, diasPromedioPago: 18 },
-    { month: "Feb", ventas: 12, diasPromedioPago: 16 },
-    { month: "Mar", ventas: 15, diasPromedioPago: 14 },
-    { month: "Abr", ventas: 10, diasPromedioPago: 15 },
-    { month: "May", ventas: 18, diasPromedioPago: 12 },
-    { month: "Jun", ventas: 14, diasPromedioPago: 13 },
-    { month: "Jul", ventas: 22, diasPromedioPago: 11 },
-    { month: "Ago", ventas: 17, diasPromedioPago: 12 },
-    { month: "Sep", ventas: 16, diasPromedioPago: 14 },
-    { month: "Oct", ventas: 21, diasPromedioPago: 13 },
-    { month: "Nov", ventas: 19, diasPromedioPago: 15 },
-    { month: "Dic", ventas: 13, diasPromedioPago: 17 }
-  ]
-
-  const getActivityIcon = (type) => {
-    switch (type) {
-      case 'user':
-        return <Users className="w-4 h-4 text-[#00B2E3]" />
-      case 'achievement':
-        return <Award className="w-4 h-4 text-yellow-600" />
-      case 'report':
-        return <Activity className="w-4 h-4 text-[#003057]" />
-      case 'training':
-        return <Target className="w-4 h-4 text-green-600" />
-      default:
-        return <Activity className="w-4 h-4 text-gray-600" />
+  // Función para predicciones (antes del state)
+  const predecirTiempoPago = (montoNuevaVenta, fechaVenta = new Date()) => {
+    // Análisis de correlación entre monto y días de pago
+    const mesVenta = fechaVenta.getMonth() + 1 // 1-12
+    const trimestre = Math.ceil(mesVenta / 3)
+    
+    // Encontrar comercializaciones similares (±20% del monto)
+    const rangoMin = montoNuevaVenta * 0.8
+    const rangoMax = montoNuevaVenta * 1.2
+    const comercializacionesSimilares = historialComercializaciones.filter(f => f.monto >= rangoMin && f.monto <= rangoMax)
+    
+    // Análisis estacional - ajustar según el mes
+    let factorEstacional = 1.0
+    if (mesVenta === 12 || mesVenta === 1) { // Diciembre/Enero - más lento por fiestas
+      factorEstacional = 1.3
+    } else if (mesVenta >= 6 && mesVenta <= 8) { // Junio-Agosto - más rápido en invierno
+      factorEstacional = 0.9
+    } else if (mesVenta === 3 || mesVenta === 9) { // Fin de trimestre - variabilidad
+      factorEstacional = 1.1
+    }
+    
+    if (comercializacionesSimilares.length > 0) {
+      const promedioSimilares = comercializacionesSimilares.reduce((sum, f) => sum + f.diasPago, 0) / comercializacionesSimilares.length
+      const diasAjustados = promedioSimilares * factorEstacional
+      const confianza = Math.min(95, (comercializacionesSimilares.length / historialComercializaciones.length) * 100 + 60)
+      
+      // Calcular fecha exacta de pago esperado
+      const fechaPagoEstimada = new Date(fechaVenta)
+      fechaPagoEstimada.setDate(fechaPagoEstimada.getDate() + Math.round(diasAjustados))
+      
+      return {
+        diasEstimados: Math.round(diasAjustados),
+        rangoMin: Math.round(diasAjustados - 4),
+        rangoMax: Math.round(diasAjustados + 6),
+        confianza: Math.round(confianza),
+        facturasSimilares: comercializacionesSimilares.length,
+        fechaEstimadaPago: fechaPagoEstimada.toLocaleDateString('es-CL', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        }),
+        factorEstacional: factorEstacional,
+        trimestre: `Q${trimestre}`,
+        observacionEstacional: mesVenta === 12 || mesVenta === 1 ? 'Época navideña - pagos más lentos' :
+                               mesVenta >= 6 && mesVenta <= 8 ? 'Período invernal - pagos más rápidos' :
+                               mesVenta === 3 || mesVenta === 9 ? 'Fin de trimestre - variabilidad alta' :
+                               'Período normal',
+        fechaVenta: fechaVenta.toLocaleDateString('es-CL')
+      }
+    } else {
+      // Si no hay comercializaciones similares, usar promedio general
+      const estadisticas = estadisticasPago
+      const diasAjustados = estadisticas.promedioDias * factorEstacional
+      
+      const fechaPagoEstimada = new Date(fechaVenta)
+      fechaPagoEstimada.setDate(fechaPagoEstimada.getDate() + Math.round(diasAjustados))
+      
+      return {
+        diasEstimados: Math.round(diasAjustados),
+        rangoMin: Math.round(diasAjustados - 6),
+        rangoMax: Math.round(diasAjustados + 8),
+        confianza: 65,
+        facturasSimilares: 0,
+        fechaEstimadaPago: fechaPagoEstimada.toLocaleDateString('es-CL', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        }),
+        factorEstacional: factorEstacional,
+        trimestre: `Q${trimestre}`,
+        observacionEstacional: mesVenta === 12 || mesVenta === 1 ? 'Época navideña - pagos más lentos' :
+                               mesVenta >= 6 && mesVenta <= 8 ? 'Período invernal - pagos más rápidos' :
+                               mesVenta === 3 || mesVenta === 9 ? 'Fin de trimestre - variabilidad alta' :
+                               'Período normal',
+        fechaVenta: fechaVenta.toLocaleDateString('es-CL')
+      }
     }
   }
+
+  // Estado para simulación
+  const [montoSimulacion, setMontoSimulacion] = useState(500000)
+  const [fechaVentaSimulacion, setFechaVentaSimulacion] = useState(new Date().toISOString().split('T')[0])
+  const prediccionSimulacion = predecirTiempoPago(montoSimulacion, new Date(fechaVentaSimulacion))
+
+
 
   return (
     <div className="min-h-screen p-6 lg:p-8 bg-gray-50 dark:bg-gray-900 transition-colors">
@@ -277,395 +597,477 @@ export default function CompanyAnalyticsPage() {
             </Card>
           ))}
         </div>
-        
-        {/* Métricas Secundarias */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {secondaryMetrics.map((metric, index) => (
-            <Card 
-              key={index}
-              className="border-[#00B2E3]/10 dark:border-gray-700 hover:border-[#00B2E3]/30 dark:hover:border-[#00B2E3]/50 transition-all duration-300 hover:shadow-md dark:hover:shadow-gray-900/50 bg-white dark:bg-gray-800 shadow-sm dark:shadow-gray-900/30"
-            >
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <div className={`w-10 h-10 ${metric.bgColor} dark:bg-opacity-20 rounded-lg flex items-center justify-center`}>
-                    <div className={metric.color}>
-                      {metric.icon}
-                    </div>
-                  </div>
-                  <span className={`text-xs font-medium ${
-                    metric.change.startsWith('+') ? 'text-green-600 dark:text-green-400' : 
-                    metric.change.startsWith('-') ? 'text-red-600 dark:text-red-400' : 
-                    'text-blue-600 dark:text-blue-400'
-                  }`}>
-                    {metric.change}
-                  </span>
-                </div>
-                <div className="space-y-1">
-                  <h3 className="text-xl font-bold text-[#003057] dark:text-white">
-                    {metric.value}
-                  </h3>
-                  <p className="text-xs text-[#003057]/70 dark:text-gray-300">
-                    {metric.title}
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
 
-        {/* Analytics Overview */}
+        {/* Análisis de Comercializaciones y Predicción de Pagos */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          
-          {/* Línea de Tiempo por Comercialización */}
+          {/* Tendencia de Ventas */}
           <Card className="border-[#00B2E3]/20 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-lg dark:shadow-gray-900/50">
             <CardHeader className="border-b border-[#00B2E3]/10 dark:border-gray-700">
               <CardTitle className="text-[#003057] dark:text-white flex items-center gap-2">
-                <Clock className="w-5 h-5 text-[#00B2E3]" />
-                Línea de Tiempo por Comercialización
+                <TrendingUp className="w-5 h-5 text-[#0037FF]" />
+                Tendencia de Ventas (6 meses)
               </CardTitle>
             </CardHeader>
             <CardContent className="pt-4">
               <div className="h-64">
                 <ResponsiveContainer width="100%" height="100%">
-                  <LineChart
-                    data={timelineData.map(item => ({
-                      id: item.id,
-                      inicio: new Date(item.inicio).getTime(),
-                      enProceso: new Date(item.enProceso).getTime(),
-                      terminado: new Date(item.terminado).getTime(),
-                      facturacion: new Date(item.facturacion).getTime(),
-                      pago: new Date(item.pago).getTime(),
-                      name: item.id
-                    }))}
-                    margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-                  >
-                    <CartesianGrid {...chartProps.cartesianGrid} />
-                    <XAxis 
-                      dataKey="name" 
-                      {...chartProps.xAxis}
-                    />
-                    <YAxis 
-                      {...chartProps.yAxis}
-                      domain={['auto', 'auto']}
-                      tickFormatter={(value) => {
-                        const date = new Date(value);
-                        return date.toLocaleDateString('es-ES', {month: 'short', day: 'numeric'});
-                      }}
-                    />
+                  <AreaChart data={trendData}>
+                    <defs>
+                      <linearGradient id="colorVentas" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#00B2E3" stopOpacity={0.3} />
+                        <stop offset="95%" stopColor="#00B2E3" stopOpacity={0} />
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                    <XAxis dataKey="month" tick={{ fill: '#003057', fontSize: 12 }} />
+                    <YAxis tick={{ fill: '#003057', fontSize: 12 }} />
                     <Tooltip 
-                      {...chartProps.tooltip}
-                      formatter={(value) => {
-                        const date = new Date(value);
-                        return date.toLocaleDateString('es-ES', {year: 'numeric', month: 'short', day: 'numeric'});
+                      formatter={(value, name) => {
+                        if (name === 'ventas') return [`${value} ventas`, 'Ventas'];
+                        return [`$${value.toLocaleString()}`, 'Facturación'];
                       }}
-                      labelStyle={{ color: '#003057', fontWeight: 'bold' }}
                       contentStyle={{ 
                         backgroundColor: 'white', 
                         borderRadius: '8px', 
                         border: '1px solid #00B2E3' 
                       }}
                     />
-                    <Legend />
-                    <Line type="monotone" dataKey="inicio" stroke="#003057" name="Inicio" dot={{ r: 4 }} activeDot={{ r: 6 }} />
-                    <Line type="monotone" dataKey="enProceso" stroke="#00B2E3" name="En Proceso" dot={{ r: 4 }} activeDot={{ r: 6 }} />
-                    <Line type="monotone" dataKey="terminado" stroke="#0037FF" name="Terminado" dot={{ r: 4 }} activeDot={{ r: 6 }} />
-                    <Line type="monotone" dataKey="facturacion" stroke="#22c55e" name="Facturación" dot={{ r: 4 }} activeDot={{ r: 6 }} />
-                    <Line type="monotone" dataKey="pago" stroke="#6366f1" name="Pago" dot={{ r: 4 }} activeDot={{ r: 6 }} />
-                  </LineChart>
+                    <Area 
+                      type="monotone" 
+                      dataKey="ventas" 
+                      stroke="#00B2E3" 
+                      fillOpacity={1} 
+                      fill="url(#colorVentas)" 
+                      strokeWidth={2}
+                    />
+                  </AreaChart>
                 </ResponsiveContainer>
               </div>
-            </CardContent>
-          </Card>
-
-          {/* Recent Activity */}
-          <Card className="border-[#00B2E3]/20 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-lg dark:shadow-gray-900/50">
-            <CardHeader className="border-b border-[#00B2E3]/10 dark:border-gray-700">
-              <CardTitle className="text-[#003057] dark:text-white flex items-center gap-2">
-                <Activity className="w-5 h-5 text-[#00B2E3]" />
-                Actividad Reciente
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="pt-4">
-              <div className="space-y-4">
-                {recentActivities.map((activity) => (
-                  <div
-                    key={activity.id}
-                    className="flex items-start space-x-3 p-3 bg-gradient-to-r from-[#00B2E3]/5 to-transparent dark:from-[#00B2E3]/10 dark:to-transparent rounded-lg hover:shadow-sm transition-all"
-                  >
-                    <div className="w-8 h-8 bg-white dark:bg-gray-700 rounded-full flex items-center justify-center shadow-sm dark:shadow-gray-900/30">
-                      {getActivityIcon(activity.type)}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-[#003057] dark:text-white">
-                        {activity.action}
-                      </p>
-                      <p className="text-xs text-[#003057]/60 dark:text-gray-400">
-                        {activity.user}
-                      </p>
-                      <p className="text-xs text-[#003057]/50 mt-1">
-                        {activity.time}
-                      </p>
-                    </div>
-                  </div>
-                ))}
+              <div className="grid grid-cols-3 gap-4 mt-4">
+                <div className="text-center">
+                  <p className="text-sm text-[#003057]/70 dark:text-gray-300">Total Comercializaciones</p>
+                  <p className="text-xl font-bold text-[#003057] dark:text-white">143</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-sm text-[#00B2E3]">Promedio Mensual</p>
+                  <p className="text-xl font-bold text-[#00B2E3]">12.9</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-sm text-green-700 dark:text-green-400">Crecimiento</p>
+                  <p className="text-xl font-bold text-green-700 dark:text-green-400">+23%</p>
+                </div>
               </div>
             </CardContent>
           </Card>
-        </div>
 
-        {/* Visualizaciones adicionales */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Gráfico de Dispersión: Días de Conversión vs Monto */}
-          <Card className="border-[#00B2E3]/20 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-lg dark:shadow-gray-900/50">
-            <CardHeader className="border-b border-[#00B2E3]/10 dark:border-gray-700">
-              <CardTitle className="text-[#003057] dark:text-white flex items-center gap-2">
-                <TrendingUp className="w-5 h-5 text-[#0037FF]" />
-                Días de Conversión vs Monto
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="pt-4">
-              <div className="h-64">
-                <ResponsiveContainer width="100%" height="100%">
-                  <ScatterChart
-                    margin={{ top: 5, right: 20, bottom: 20, left: 30 }}
-                  >
-                    <CartesianGrid {...chartProps.cartesianGrid} />
-                    <XAxis 
-                      type="number" 
-                      dataKey="diasConversion" 
-                      name="Días" 
-                      unit=" días"
-                      domain={[5, 25]} 
-                      label={{ 
-                        value: 'Días de Proceso', 
-                        position: 'bottom', 
-                        offset: 0,
-                        style: { fill: isDark ? '#D1D5DB' : '#003057', fontSize: 12 }
-                      }}
-                      {...chartProps.xAxis}
-                    />
-                    <YAxis 
-                      type="number" 
-                      dataKey="monto" 
-                      name="Monto" 
-                      unit="$" 
-                      domain={[0, 10000]}
-                      label={{ 
-                        value: 'Monto ($)', 
-                        angle: -90, 
-                        position: 'left',
-                        style: { fill: isDark ? '#D1D5DB' : '#003057', fontSize: 12 }
-                      }}
-                      {...chartProps.yAxis}
-                    />
-                    <Tooltip 
-                      cursor={{ strokeDasharray: '3 3' }}
-                      formatter={(value, name) => {
-                        if (name === 'Días') return `${value} días`;
-                        if (name === 'Monto') return `$${value.toLocaleString()}`;
-                        return value;
-                      }}
-                      labelFormatter={(value) => `ID: ${value}`}
-                      {...chartProps.tooltip}
-                      contentStyle={{
-                        borderRadius: '8px',
-                        border: '1px solid #00B2E3'
-                      }}
-                    />
-                    <Scatter 
-                      name="Comercializaciones" 
-                      data={scatterData} 
-                      fill="#00B2E3"
-                      legendType="circle"
-                      shape="circle"
-                    />
-                  </ScatterChart>
-                </ResponsiveContainer>
-              </div>
-              <p className="text-xs text-[#003057]/70 dark:text-gray-300 mt-2 text-center">
-                Cada punto representa una comercialización. Correlación entre tiempo de proceso y monto.
-              </p>
-            </CardContent>
-          </Card>
-
-          {/* Heatmap mensual (visualizado como barras) */}
+          {/* Distribución por Tipo de Servicio */}
           <Card className="border-[#00B2E3]/20 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-lg dark:shadow-gray-900/50">
             <CardHeader className="border-b border-[#00B2E3]/10 dark:border-gray-700">
               <CardTitle className="text-[#003057] dark:text-white flex items-center gap-2">
                 <BarChart3 className="w-5 h-5 text-[#00B2E3]" />
-                Tendencias Mensuales
+                Estado de Comercializaciones
               </CardTitle>
             </CardHeader>
             <CardContent className="pt-4">
               <div className="h-64">
                 <ResponsiveContainer width="100%" height="100%">
-                  <BarChart
-                    data={monthlyData}
-                    margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-                  >
-                    <CartesianGrid {...chartProps.cartesianGrid} vertical={false} />
-                    <XAxis 
-                      dataKey="month" 
-                      {...chartProps.xAxis}
-                    />
-                    <YAxis 
-                      yAxisId="left"
-                      orientation="left"
-                      {...chartProps.yAxis}
-                      label={{ 
-                        value: 'Ventas', 
-                        angle: -90, 
-                        position: 'left',
-                        style: { fill: isDark ? '#D1D5DB' : '#003057', fontSize: 12, textAnchor: 'middle' }
-                      }}
-                    />
-                    <YAxis 
-                      yAxisId="right"
-                      orientation="right"
-                      tick={{ fill: isDark ? '#60A5FA' : '#0037FF', fontSize: 12 }}
-                      label={{ 
-                        value: 'Días a Pago', 
-                        angle: 90, 
-                        position: 'right',
-                        style: { fill: isDark ? '#60A5FA' : '#0037FF', fontSize: 12, textAnchor: 'middle' }
-                      }}
-                    />
+                  <PieChart>
+                    <Pie
+                      data={distributionData}
+                      cx="50%"
+                      cy="50%"
+                      outerRadius={80}
+                      dataKey="value"
+                      label={({ name, value }) => `${name}: ${value}%`}
+                      labelLine={false}
+                    >
+                      {distributionData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      ))}
+                    </Pie>
                     <Tooltip 
-                      formatter={(value, name) => {
-                        if (name === 'Ventas') return [`${value} ventas`, name];
-                        if (name === 'Días a Pago') return [`${value} días`, name];
-                        return [value, name];
+                      formatter={(value) => [`${value}%`, 'Porcentaje']}
+                      contentStyle={{ 
+                        backgroundColor: 'white', 
+                        borderRadius: '8px', 
+                        border: '1px solid #00B2E3' 
                       }}
-                      {...chartProps.tooltip}
                     />
-                    <Legend />
-                    <Bar 
-                      yAxisId="left" 
-                      dataKey="ventas" 
-                      name="Ventas" 
-                      fill="#00B2E3" 
-                      radius={[4, 4, 0, 0]}
-                    />
-                    <Line 
-                      yAxisId="right" 
-                      type="monotone" 
-                      dataKey="diasPromedioPago" 
-                      name="Días a Pago" 
-                      stroke="#0037FF" 
-                      strokeWidth={2}
-                      dot={{ fill: '#0037FF', r: 4 }}
-                      activeDot={{ r: 6 }}
-                    />
-                  </BarChart>
+                  </PieChart>
                 </ResponsiveContainer>
               </div>
-              <p className="text-xs text-[#003057]/70 dark:text-gray-300 mt-2 text-center">
-                Relación entre ventas mensuales (barras) y tiempo promedio de pago (línea)
-              </p>
+              <div className="grid grid-cols-2 gap-4 mt-4">
+                <div className="text-center">
+                  <p className="text-sm text-[#0037FF] dark:text-blue-400">Días a Pago</p>
+                  <p className="text-xl font-bold text-[#0037FF] dark:text-blue-400">15.3</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-sm text-emerald-700 dark:text-emerald-400">Eficiencia</p>
+                  <p className="text-xl font-bold text-emerald-700 dark:text-emerald-400">92.1%</p>
+                </div>
+              </div>
             </CardContent>
           </Card>
         </div>
 
-        {/* Evolución del Cliente */}
+        {/* Análisis de Riesgo y Perfil del Cliente */}
         <Card className="border-[#00B2E3]/20 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-lg dark:shadow-gray-900/50">
           <CardHeader className="border-b border-[#00B2E3]/10 dark:border-gray-700">
             <CardTitle className="text-[#003057] dark:text-white flex items-center gap-2">
-              <Calendar className="w-5 h-5 text-[#003057]" />
-              Evolución del Cliente
+              <AlertCircle className="w-5 h-5 text-[#003057]" />
+              Análisis de Riesgo Crediticio
             </CardTitle>
           </CardHeader>
-          <CardContent className="pt-4">
-            <div className="h-72">
-              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart
-                  data={[
-                    { month: 'Ene', comercializaciones: 5, facturacion: 20000, pagos: 18000 },
-                    { month: 'Feb', comercializaciones: 7, facturacion: 28000, pagos: 20000 },
-                    { month: 'Mar', comercializaciones: 8, facturacion: 32000, pagos: 30000 },
-                    { month: 'Abr', comercializaciones: 6, facturacion: 24000, pagos: 23000 },
-                    { month: 'May', comercializaciones: 9, facturacion: 36000, pagos: 33000 },
-                    { month: 'Jun', comercializaciones: 8, facturacion: 32000, pagos: 31000 },
-                    { month: 'Jul', comercializaciones: 12, facturacion: 48000, pagos: 45000 },
-                    { month: 'Ago', comercializaciones: 11, facturacion: 44000, pagos: 42000 },
-                    { month: 'Sep', comercializaciones: 10, facturacion: 40000, pagos: 39000 },
-                    { month: 'Oct', comercializaciones: 13, facturacion: 52000, pagos: 50000 },
-                    { month: 'Nov', comercializaciones: 11, facturacion: 44000, pagos: 43000 },
-                    { month: 'Dic', comercializaciones: 7, facturacion: 28000, pagos: 27000 }
-                  ]}
-                  margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
-                >
-                  <defs>
-                    <linearGradient id="colorCom" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#003057" stopOpacity={0.1} />
-                      <stop offset="95%" stopColor="#003057" stopOpacity={0} />
-                    </linearGradient>
-                    <linearGradient id="colorFact" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#00B2E3" stopOpacity={0.2} />
-                      <stop offset="95%" stopColor="#00B2E3" stopOpacity={0} />
-                    </linearGradient>
-                    <linearGradient id="colorPag" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#0037FF" stopOpacity={0.1} />
-                      <stop offset="95%" stopColor="#0037FF" stopOpacity={0} />
-                    </linearGradient>
-                  </defs>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                  <XAxis dataKey="month" tick={{ fill: '#003057' }} />
-                  <YAxis tick={{ fill: '#003057' }} />
-                  <Tooltip 
-                    formatter={(value, name) => {
-                      if (name === 'Comercializaciones') return [`${value} unidades`, name];
-                      return [`$${value.toLocaleString()}`, name];
-                    }}
-                    contentStyle={{ 
-                      backgroundColor: 'white', 
-                      borderRadius: '8px', 
-                      border: '1px solid #00B2E3' 
-                    }}
-                  />
-                  <Legend />
-                  <Area 
-                    type="monotone" 
-                    dataKey="comercializaciones" 
-                    name="Comercializaciones" 
-                    stroke="#003057" 
-                    fillOpacity={1} 
-                    fill="url(#colorCom)" 
-                  />
-                  <Area 
-                    type="monotone" 
-                    dataKey="facturacion" 
-                    name="Facturación" 
-                    stroke="#00B2E3" 
-                    fillOpacity={1} 
-                    fill="url(#colorFact)" 
-                  />
-                  <Area 
-                    type="monotone" 
-                    dataKey="pagos" 
-                    name="Pagos" 
-                    stroke="#0037FF" 
-                    fillOpacity={1} 
-                    fill="url(#colorPag)" 
-                  />
-                </AreaChart>
-              </ResponsiveContainer>
-            </div>
-            <div className="flex justify-between items-center mt-4">
-              <div className="text-center">
-                <h4 className="text-sm font-medium text-[#003057] dark:text-white">Comercializaciones YTD</h4>
-                <p className="text-xl font-bold text-[#003057] dark:text-white">106</p>
+          <CardContent className="pt-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              {/* Perfil de Riesgo */}
+              <div className="lg:col-span-1">
+                <div className={`text-center p-6 ${perfilRiesgo.bgColor} dark:bg-opacity-20 rounded-lg border border-gray-200 dark:border-gray-600`}>
+                  <div className="text-4xl mb-2">{perfilRiesgo.emoji}</div>
+                  <h3 className={`text-xl font-bold ${perfilRiesgo.color} dark:text-white mb-2`}>
+                    RIESGO {perfilRiesgo.categoria}
+                  </h3>
+                  <p className="text-3xl font-bold text-gray-700 dark:text-gray-300 mb-2">
+                    {perfilRiesgo.puntaje}/100
+                  </p>
+                  <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3">
+                    <div 
+                      className={`h-3 rounded-full transition-all duration-500 ${
+                        perfilRiesgo.categoria === 'ALTO' ? 'bg-red-500' :
+                        perfilRiesgo.categoria === 'MEDIO' ? 'bg-yellow-500' : 'bg-green-500'
+                      }`}
+                      style={{ width: `${perfilRiesgo.puntaje}%` }}
+                    ></div>
+                  </div>
+                </div>
               </div>
-              <div className="text-center">
-                <h4 className="text-sm font-medium text-[#00B2E3]">Facturación Anual</h4>
-                <p className="text-xl font-bold text-[#00B2E3]">$428,000</p>
+
+              {/* Alertas y Factores de Riesgo */}
+              <div className="lg:col-span-1">
+                <h4 className="font-semibold text-[#003057] dark:text-white mb-3">🚨 Factores de Riesgo</h4>
+                <div className="space-y-2">
+                  {perfilRiesgo.alertas.length > 0 ? (
+                    perfilRiesgo.alertas.map((alerta, index) => (
+                      <div key={index} className="p-2 bg-yellow-50 dark:bg-yellow-900/20 rounded text-sm text-yellow-800 dark:text-yellow-300">
+                        {alerta}
+                      </div>
+                    ))
+                  ) : (
+                    <div className="p-3 bg-green-50 dark:bg-green-900/20 rounded text-sm text-green-800 dark:text-green-300">
+                      ✅ No se detectaron factores de riesgo significativos
+                    </div>
+                  )}
+                </div>
               </div>
-              <div className="text-center">
-                <h4 className="text-sm font-medium text-[#0037FF] dark:text-blue-400">Pagos Recibidos</h4>
-                <p className="text-xl font-bold text-[#0037FF] dark:text-blue-400">$401,000</p>
+
+              {/* Recomendaciones */}
+              <div className="lg:col-span-1">
+                <h4 className="font-semibold text-[#003057] dark:text-white mb-3">💡 Recomendaciones</h4>
+                <div className="space-y-2">
+                  {perfilRiesgo.recomendaciones.map((recomendacion, index) => (
+                    <div key={index} className="p-2 bg-blue-50 dark:bg-blue-900/20 rounded text-sm text-blue-800 dark:text-blue-300">
+                      {recomendacion}
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </CardContent>
         </Card>
+
+        {/* Proyección de Flujo de Caja */}
+        <Card className="border-[#00B2E3]/20 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-lg dark:shadow-gray-900/50">
+          <CardHeader className="border-b border-[#00B2E3]/10 dark:border-gray-700">
+            <CardTitle className="text-[#003057] dark:text-white flex items-center gap-2">
+              <TrendingUp className="w-5 h-5 text-[#00B2E3]" />
+              Proyección de Flujo de Caja (6 meses)
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="pt-6">
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="border-b border-gray-200 dark:border-gray-700">
+                    <th className="text-left p-3 text-[#003057] dark:text-white">Mes</th>
+                    <th className="text-center p-3 text-[#003057] dark:text-white">Ventas Est.</th>
+                    <th className="text-center p-3 text-[#003057] dark:text-white">Facturación</th>
+                    <th className="text-center p-3 text-[#003057] dark:text-white">Cobro Esperado</th>
+                    <th className="text-center p-3 text-[#003057] dark:text-white">Confianza</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {proyeccionFlujo.map((item, index) => (
+                    <tr key={index} className="border-b border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700/50">
+                      <td className="p-3 font-medium text-[#003057] dark:text-white">{item.mes}</td>
+                      <td className="p-3 text-center text-[#00B2E3]">{item.ventasEstimadas}</td>
+                      <td className="p-3 text-center text-green-600 dark:text-green-400">
+                        ${item.facturacionEstimada.toLocaleString()}
+                      </td>
+                      <td className="p-3 text-center text-[#0037FF] dark:text-blue-400">{item.fechaCobroEsperada}</td>
+                      <td className="p-3 text-center">
+                        <div className="flex items-center justify-center gap-2">
+                          <div className="w-8 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                            <div 
+                              className="bg-[#00B2E3] h-2 rounded-full" 
+                              style={{ width: `${item.confianza}%` }}
+                            ></div>
+                          </div>
+                          <span className="text-xs text-[#003057] dark:text-gray-300">{item.confianza}%</span>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div className="mt-4 p-4 bg-gradient-to-r from-[#00B2E3]/5 to-[#003057]/5 rounded-lg">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                <div>
+                  <p className="text-sm text-[#003057]/70 dark:text-gray-300">Facturación Proyectada (6M)</p>
+                  <p className="text-xl font-bold text-[#00B2E3]">
+                    ${(proyeccionFlujo.reduce((sum, item) => sum + item.facturacionEstimada, 0)).toLocaleString()}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm text-[#003057]/70 dark:text-gray-300">Cobro Esperado Promedio</p>
+                  <p className="text-xl font-bold text-[#003057] dark:text-white">
+                    {estadisticasPago.promedioDias} días
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm text-[#003057]/70 dark:text-gray-300">Confianza Promedio</p>
+                  <p className="text-xl font-bold text-green-600 dark:text-green-400">
+                    {Math.round(proyeccionFlujo.reduce((sum, item) => sum + item.confianza, 0) / proyeccionFlujo.length)}%
+                  </p>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Evolución del Cliente - Simplificado */}
+        <Card className="border-[#00B2E3]/20 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-lg dark:shadow-gray-900/50">
+          <CardHeader className="border-b border-[#00B2E3]/10 dark:border-gray-700">
+            <CardTitle className="text-[#003057] dark:text-white flex items-center gap-2">
+              <Calendar className="w-5 h-5 text-[#003057]" />
+              Resumen Anual del Cliente
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="pt-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="text-center p-6 bg-gradient-to-br from-[#003057]/10 to-[#00B2E3]/5 rounded-lg border border-[#003057]/20">
+                <h4 className="text-sm font-medium text-[#003057] dark:text-white mb-2">Comercializaciones YTD</h4>
+                <p className="text-3xl font-bold text-[#003057] dark:text-white">106</p>
+                <p className="text-xs text-[#003057]/70 dark:text-gray-300 mt-1">Total del año</p>
+              </div>
+              <div className="text-center p-6 bg-gradient-to-br from-[#00B2E3]/10 to-[#003057]/5 rounded-lg border border-[#00B2E3]/20">
+                <h4 className="text-sm font-medium text-[#00B2E3] mb-2">Facturación Anual</h4>
+                <p className="text-3xl font-bold text-[#00B2E3]">$428,000</p>
+                <p className="text-xs text-[#00B2E3]/70 mt-1">Ingresos totales</p>
+              </div>
+              <div className="text-center p-6 bg-gradient-to-br from-[#0037FF]/10 to-blue-50 dark:from-blue-900/20 dark:to-blue-800/10 rounded-lg border border-[#0037FF]/20">
+                <h4 className="text-sm font-medium text-[#0037FF] dark:text-blue-400 mb-2">Pagos Recibidos</h4>
+                <p className="text-3xl font-bold text-[#0037FF] dark:text-blue-400">$401,000</p>
+                <p className="text-xs text-[#0037FF]/70 dark:text-blue-300 mt-1">93.7% cobrado</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Análisis Predictivo de Pagos */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Estadísticas Históricas de Pago */}
+          <Card className="border-[#00B2E3]/20 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-lg dark:shadow-gray-900/50">
+            <CardHeader className="border-b border-[#00B2E3]/10 dark:border-gray-700">
+              <CardTitle className="text-[#003057] dark:text-white flex items-center gap-2">
+                <Clock className="w-5 h-5 text-[#003057]" />
+                Análisis Histórico de Pagos
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="pt-6">
+              {/* Métricas principales en una fila */}
+              <div className="grid grid-cols-2 gap-4 mb-6">
+                <div className="text-center p-4 bg-gradient-to-br from-[#003057]/10 to-[#00B2E3]/5 rounded-lg">
+                  <h4 className="text-sm font-medium text-[#003057] dark:text-gray-300">Promedio de Pago</h4>
+                  <p className="text-2xl font-bold text-[#003057] dark:text-white">{estadisticasPago.promedioDias} días</p>
+                </div>
+                <div className="text-center p-4 bg-gradient-to-br from-[#00B2E3]/10 to-[#003057]/5 rounded-lg">
+                  <h4 className="text-sm font-medium text-[#00B2E3]">Mediana</h4>
+                  <p className="text-2xl font-bold text-[#00B2E3]">{estadisticasPago.medianaDias} días</p>
+                </div>
+              </div>
+              
+              {/* Métricas secundarias en una fila */}
+              <div className="grid grid-cols-2 gap-4 mb-6">
+                <div className="text-center p-4 bg-gradient-to-br from-green-100 to-green-50 dark:from-green-900/20 dark:to-green-800/10 rounded-lg">
+                  <h4 className="text-sm font-medium text-green-700 dark:text-green-400">Más Rápido</h4>
+                  <p className="text-2xl font-bold text-green-700 dark:text-green-400">{estadisticasPago.minDias} días</p>
+                </div>
+                <div className="text-center p-4 bg-gradient-to-br from-red-100 to-red-50 dark:from-red-900/20 dark:to-red-800/10 rounded-lg">
+                  <h4 className="text-sm font-medium text-red-700 dark:text-red-400">Más Lento</h4>
+                  <p className="text-2xl font-bold text-red-700 dark:text-red-400">{estadisticasPago.maxDias} días</p>
+                </div>
+              </div>
+              
+              {/* Información adicional compacta */}
+              <div className="bg-gradient-to-r from-[#00B2E3]/5 to-[#003057]/5 rounded-lg p-4">                  <div className="grid grid-cols-1 gap-3">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-[#003057]/70 dark:text-gray-300">Confiabilidad del Cliente</span>
+                    <span className="font-semibold text-[#003057] dark:text-white">{estadisticasPago.confiabilidad}%</span>
+                  </div>
+                  <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                    <div 
+                      className="bg-gradient-to-r from-[#003057] to-[#00B2E3] h-2 rounded-full transition-all duration-500" 
+                      style={{ width: `${estadisticasPago.confiabilidad}%` }}
+                    ></div>
+                  </div>
+                  
+                  <div className="grid grid-cols-2 gap-4 mt-2">
+                    <div className="flex justify-between items-center">
+                      <span className="text-xs text-[#003057]/70 dark:text-gray-300">Comercializaciones Analizadas</span>
+                      <span className="font-semibold text-sm text-[#003057] dark:text-white">{estadisticasPago.totalFacturas}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-xs text-[#003057]/70 dark:text-gray-300">Desviación Estándar</span>
+                      <span className="font-semibold text-sm text-[#003057] dark:text-white">±{estadisticasPago.desviacionEstandar} días</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Simulador de Nueva Venta */}
+          <Card className="border-[#00B2E3]/20 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-lg dark:shadow-gray-900/50">
+            <CardHeader className="border-b border-[#00B2E3]/10 dark:border-gray-700">
+              <CardTitle className="text-[#003057] dark:text-white flex items-center gap-2">
+                <TrendingUp className="w-5 h-5 text-[#00B2E3]" />
+                Simulador de Nueva Comercialización
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="pt-6">
+              <div className="space-y-4 mb-6">
+                <div>
+                  <label className="block text-sm font-medium text-[#003057] dark:text-gray-300 mb-2">
+                    Fecha de la Venta
+                  </label>
+                  <input
+                    type="date"
+                    value={fechaVentaSimulacion}
+                    onChange={(e) => setFechaVentaSimulacion(e.target.value)}
+                    className="w-full px-3 py-2 border border-[#00B2E3]/30 rounded-md focus:ring-2 focus:ring-[#00B2E3] focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                  />
+                  <p className="text-xs text-[#003057]/60 dark:text-gray-400 mt-1">
+                    Simulación basada en histórico real del cliente - ¿Cuándo llegará el pago?
+                  </p>
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-[#003057] dark:text-gray-300 mb-2">
+                    Monto de la Nueva Venta
+                  </label>
+                  <div className="flex items-center space-x-2">
+                    <span className="text-[#003057] dark:text-gray-300">$</span>
+                    <input
+                      type="number"
+                      value={montoSimulacion}
+                      onChange={(e) => setMontoSimulacion(Number(e.target.value))}
+                      className="flex-1 px-3 py-2 border border-[#00B2E3]/30 rounded-md focus:ring-2 focus:ring-[#00B2E3] focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                      min="100000"
+                      max="2000000"
+                      step="50000"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Resultado de la Predicción Mejorado */}
+              <div className="bg-gradient-to-br from-[#00B2E3]/10 to-[#003057]/5 rounded-lg p-4 border border-[#00B2E3]/20">
+                <h4 className="font-semibold text-[#003057] dark:text-white mb-3 flex items-center gap-2">
+                  💰 Predicción de Cobro
+                  <Badge className="bg-[#00B2E3]/20 text-[#00B2E3] text-xs">
+                    {prediccionSimulacion.trimestre}
+                  </Badge>
+                </h4>
+                
+                {/* Información Principal */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                  <div className="text-center p-3 bg-white dark:bg-gray-700 rounded-lg border border-[#00B2E3]/20">
+                    <p className="text-sm text-[#003057]/70 dark:text-gray-300">💸 Dinero llega en</p>
+                    <p className="text-2xl font-bold text-[#003057] dark:text-white">{prediccionSimulacion.diasEstimados} días</p>
+                    <p className="text-xs text-[#00B2E3] font-medium">{prediccionSimulacion.fechaEstimadaPago}</p>
+                  </div>
+                  <div className="text-center p-3 bg-white dark:bg-gray-700 rounded-lg border border-[#00B2E3]/20">
+                    <p className="text-sm text-[#003057]/70 dark:text-gray-300">🎯 Confianza</p>
+                    <p className="text-2xl font-bold text-[#00B2E3]">{prediccionSimulacion.confianza}%</p>
+                    <div className="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-1.5 mt-1">
+                      <div 
+                        className="bg-[#00B2E3] h-1.5 rounded-full transition-all duration-500" 
+                        style={{ width: `${prediccionSimulacion.confianza}%` }}
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Información Detallada */}
+                <div className="space-y-3 text-sm">
+                  <div className="bg-white dark:bg-gray-700 rounded-lg p-3 border border-[#00B2E3]/10">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="text-[#003057]/70 dark:text-gray-300">📅 Fecha de Venta:</span>
+                      <span className="font-medium text-[#003057] dark:text-white">{prediccionSimulacion.fechaVenta}</span>
+                    </div>
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="text-[#003057]/70 dark:text-gray-300">⏰ Rango Estimado:</span>
+                      <span className="font-medium text-[#003057] dark:text-white">
+                        {prediccionSimulacion.rangoMin} - {prediccionSimulacion.rangoMax} días
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="text-[#003057]/70 dark:text-gray-300">🔍 Comercializaciones Similares:</span>
+                      <span className="font-medium text-[#00B2E3]">{prediccionSimulacion.facturasSimilares} registros</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-[#003057]/70 dark:text-gray-300">📊 Factor Estacional:</span>
+                      <span className={`font-medium ${
+                        prediccionSimulacion.factorEstacional > 1.1 ? 'text-red-600 dark:text-red-400' :
+                        prediccionSimulacion.factorEstacional < 0.95 ? 'text-green-600 dark:text-green-400' :
+                        'text-[#003057] dark:text-white'
+                      }`}>
+                        {(prediccionSimulacion.factorEstacional * 100 - 100).toFixed(0)}%
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Observación Estacional */}
+                  <div className={`p-3 rounded-lg text-xs ${
+                    prediccionSimulacion.factorEstacional > 1.1 
+                      ? 'bg-red-100 dark:bg-red-900/20 text-red-800 dark:text-red-300' 
+                      : prediccionSimulacion.factorEstacional < 0.95
+                      ? 'bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300'
+                      : 'bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300'
+                  }`}>
+                    <div className="flex items-center gap-2">
+                      <span>
+                        {prediccionSimulacion.factorEstacional > 1.1 ? '⚠️' : 
+                         prediccionSimulacion.factorEstacional < 0.95 ? '🚀' : 'ℹ️'}
+                      </span>
+                      <span className="font-medium">{prediccionSimulacion.observacionEstacional}</span>
+                    </div>
+                  </div>
+
+                  {prediccionSimulacion.facturasSimilares === 0 && (
+                    <div className="p-3 bg-yellow-100 dark:bg-yellow-900/20 rounded-lg text-xs text-yellow-800 dark:text-yellow-300">
+                      <div className="flex items-center gap-2">
+                        <span>⚠️</span>
+                        <span>Predicción basada en promedio general (sin comercializaciones de monto similar)</span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
 
       </div>
     </div>

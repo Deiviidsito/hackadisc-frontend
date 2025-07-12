@@ -9,6 +9,7 @@ import DashboardPage from '@/components/DashboardPage'
 import CompaniesPage from '@/components/CompaniesPage'
 import CompanyAnalyticsPage from '@/components/CompanyAnalyticsPage'
 import ReportesPage from '@/components/ReportesPage'
+import VentasPage from '@/components/VentasPage'
 import CapiPage from '@/components/CapiPage'
 import './App.css'
 
@@ -93,6 +94,18 @@ function App() {
             <PrivateRoute>
               <DashboardLayout>
                 <ReportesPage />
+              </DashboardLayout>
+            </PrivateRoute>
+          } 
+        />
+        
+        {/* Ruta privada - Ventas */}
+        <Route 
+          path="/dashboard/sales" 
+          element={
+            <PrivateRoute>
+              <DashboardLayout>
+                <VentasPage />
               </DashboardLayout>
             </PrivateRoute>
           } 
