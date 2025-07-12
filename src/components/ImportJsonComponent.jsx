@@ -54,6 +54,20 @@ export default function ImportJsonComponent() {
       return
     }
 
+    // Validar tamaño del archivo (máximo 50MB para evitar error 413)
+    const maxSize = 50 * 1024 * 1024 // 50MB
+    if (file.size > maxSize) {
+      setResults(prev => ({
+        ...prev,
+        [type]: { 
+          success: false, 
+          message: `El archivo es muy grande (${(file.size / 1024 / 1024).toFixed(1)}MB). Máximo permitido: 50MB`,
+          error: 'Archivo excede el límite de tamaño'
+        }
+      }))
+      return
+    }
+
     // Validar que el archivo contenga JSON válido
     try {
       const fileText = await file.text()
@@ -149,12 +163,28 @@ export default function ImportJsonComponent() {
       }
     } catch (error) {
       console.error(`Error importing ${type}:`, error)
+      
+      // Determinar el tipo de error específico
+      let errorMessage = `Error de conexión al importar ${type}`
+      let errorDetails = error.message
+
+      if (error.message.includes('CORS')) {
+        errorMessage = 'Error de CORS: El servidor no permite requests desde este dominio'
+        errorDetails = 'Problema de configuración del servidor. Contacta al administrador.'
+      } else if (error.message.includes('Failed to fetch')) {
+        errorMessage = 'Error de red: No se puede conectar con el servidor'
+        errorDetails = 'Verifica tu conexión a internet y que el servidor esté funcionando.'
+      } else if (error.message.includes('413') || error.message.includes('Content Too Large')) {
+        errorMessage = 'Archivo muy grande: El servidor no puede procesar archivos de este tamaño'
+        errorDetails = 'Reduce el tamaño del archivo o divídelo en partes más pequeñas.'
+      }
+
       setResults(prev => ({
         ...prev,
         [type]: {
           success: false,
-          message: `Error de conexión al importar ${type}`,
-          error: error.message
+          message: errorMessage,
+          error: errorDetails
         }
       }))
     } finally {
@@ -334,9 +364,11 @@ export default function ImportJsonComponent() {
               <p className="font-medium mb-2">Instrucciones de uso:</p>
               <ul className="space-y-1 list-disc list-inside">
                 <li>Los archivos deben estar en formato JSON válido</li>
+                <li><strong>Tamaño máximo:</strong> 50MB por archivo</li>
                 <li>Asegúrate de tener permisos de administrador</li>
                 <li>Los datos se procesarán e insertarán en la base de datos de producción</li>
                 <li>Se mostrarán estadísticas detalladas del proceso de importación</li>
+                <li>Si el archivo es muy grande, divídelo en partes más pequeñas</li>
               </ul>
             </div>
           </div>
@@ -370,6 +402,32 @@ export default function ImportJsonComponent() {
           </CardContent>
         </Card>
       )}
+
+      {/* Troubleshooting para errores comunes */}
+      <Card className="bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800">
+        <CardContent className="pt-6">
+          <div className="flex items-start gap-3">
+            <AlertTriangle className="w-5 h-5 text-red-600 mt-0.5" />
+            <div className="text-sm text-red-800 dark:text-red-200">
+              <p className="font-medium mb-2">🚨 Solución a errores comunes:</p>
+              <div className="space-y-2">
+                <div>
+                  <strong>Error CORS:</strong> Problema de configuración del servidor. Contacta al administrador del backend.
+                </div>
+                <div>
+                  <strong>Error 413 (Content Too Large):</strong> Archivo muy grande. Divide tu JSON en archivos más pequeños (&lt;50MB).
+                </div>
+                <div>
+                  <strong>Failed to fetch:</strong> Verifica tu conexión a internet y que el servidor esté funcionando.
+                </div>
+                <div>
+                  <strong>Error 401/403:</strong> Problema de autenticación. Cierra sesión y vuelve a iniciar sesión.
+                </div>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   )
 }
