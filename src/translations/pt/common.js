@@ -9,7 +9,8 @@ export default {
     companies: 'Empresas',
     reports: 'Relatórios',
     analytics: 'Analíticas',
-    capi: 'Capi IA'
+    capi: 'Capi IA',
+    import: 'Importar Dados'
   },
   
   // Botões comuns

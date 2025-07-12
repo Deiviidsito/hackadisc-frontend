@@ -16,7 +16,8 @@ import {
   ChevronLeft,
   Menu,
   Building2,
-  Bot
+  Bot,
+  Database
 } from 'lucide-react'
 import { useState } from 'react'
 
@@ -64,6 +65,13 @@ export default function Sidebar() {
       icon: <FileText className="w-5 h-5" />,
       label: t('common.navigation.reports'),
       path: "/dashboard/reports"
+    },
+    {
+      icon: <Database className="w-5 h-5" />,
+      label: t('common.navigation.import'),
+      path: "/import",
+      highlight: true,
+      highlightColor: "orange"
     },
     {
       icon: <Bot className="w-5 h-5" />,
@@ -126,37 +134,57 @@ export default function Sidebar() {
 
       {/* Navegación */}
       <nav className="flex-1 p-4 space-y-2">
-        {navigationItems.map((item, index) => (
-          <Link 
-            key={index}
-            to={item.path}
-            className={`flex items-center space-x-3 px-3 py-2.5 rounded-lg transition-all duration-200 group ${
-              isActive(item.path) 
-                ? 'bg-[#00B2E3] text-white shadow-lg' 
-                : item.highlight 
-                  ? 'bg-gradient-to-r from-[#0037FF]/40 to-[#00B2E3]/40 text-white/90 hover:bg-[#00B2E3]/50 shadow-md'
-                  : 'text-white/80 hover:bg-white/10 hover:text-white'
-            }`}
-          >
-            <div className={`${
-              isActive(item.path) 
-                ? 'text-white' 
-                : item.highlight 
-                  ? 'text-white animate-pulse' 
-                  : 'text-white/80 group-hover:text-white'
-            }`}>
-              {item.icon}
-            </div>
-            {!isCollapsed && (
-              <span className="text-sm font-medium">{item.label}</span>
-            )}
-            {item.highlight && !isCollapsed && (
-              <span className="ml-2 text-xs bg-white text-[#003057] px-1.5 py-0.5 rounded-full">
-                {t('common.status.new')}
-              </span>
-            )}
-          </Link>
-        ))}
+        {navigationItems.map((item, index) => {
+          const getHighlightStyle = () => {
+            if (!item.highlight) return ''
+            if (item.highlightColor === 'orange') {
+              return 'bg-gradient-to-r from-orange-500/40 to-amber-500/40 text-white/90 hover:bg-orange-500/50 shadow-md'
+            }
+            return 'bg-gradient-to-r from-[#0037FF]/40 to-[#00B2E3]/40 text-white/90 hover:bg-[#00B2E3]/50 shadow-md'
+          }
+
+          const getHighlightIconStyle = () => {
+            if (!item.highlight) return 'text-white/80 group-hover:text-white'
+            return 'text-white animate-pulse'
+          }
+
+          const getHighlightBadgeStyle = () => {
+            if (item.highlightColor === 'orange') {
+              return 'bg-orange-100 text-orange-800'
+            }
+            return 'bg-white text-[#003057]'
+          }
+
+          return (
+            <Link 
+              key={index}
+              to={item.path}
+              className={`flex items-center space-x-3 px-3 py-2.5 rounded-lg transition-all duration-200 group ${
+                isActive(item.path) 
+                  ? 'bg-[#00B2E3] text-white shadow-lg' 
+                  : item.highlight 
+                    ? getHighlightStyle()
+                    : 'text-white/80 hover:bg-white/10 hover:text-white'
+              }`}
+            >
+              <div className={`${
+                isActive(item.path) 
+                  ? 'text-white' 
+                  : getHighlightIconStyle()
+              }`}>
+                {item.icon}
+              </div>
+              {!isCollapsed && (
+                <span className="text-sm font-medium">{item.label}</span>
+              )}
+              {item.highlight && !isCollapsed && (
+                <span className={`ml-2 text-xs px-1.5 py-0.5 rounded-full ${getHighlightBadgeStyle()}`}>
+                  {item.highlightColor === 'orange' ? 'Admin' : t('common.status.new')}
+                </span>
+              )}
+            </Link>
+          )
+        })}
       </nav>
 
       {/* Footer del Sidebar */}
